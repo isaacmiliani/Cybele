@@ -65,6 +65,7 @@
 using namespace std;
 using namespace CGAL;
 
+
 struct Texture
 {
 	QString m_name;

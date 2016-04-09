@@ -11,7 +11,7 @@
 
 // for typeFuncOpenSave
 #include <QString>
-class Viewer;
+class ViewerQGL;
 // for typeFuncOpenSave
 
 #include <CGAL/Simple_cartesian.h>
@@ -77,6 +77,6 @@ typedef CGAL::Aff_transformation_3<Enriched_kernel> Affine_transformation;
 
 typedef boost::shared_ptr<Polyhedron> PolyhedronPtr;
 
-typedef int(*typeFuncOpenSave)(PolyhedronPtr, QString, Viewer*);
+typedef int(*typeFuncOpenSave)(PolyhedronPtr, QString, ViewerQGL*);
 
 #endif
