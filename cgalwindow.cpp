@@ -27,7 +27,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <stdexcept>
-//#include "Scene_polyhedron_item.h"
+#include "Scene_polyhedron_item.h"
 
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptValue>
@@ -100,7 +100,7 @@ QScriptValue myPrintFunction(QScriptContext *context, QScriptEngine *engine)
 }
 
 CGALWindow::CGALWindow(QWidget *parent) :
-    QMainWindow(parent),
+    CGAL::Qt::DemosMainWindow(parent),
     ui(new Ui::CGALWindow),
     maxNumRecentFiles(10)
 {
@@ -167,6 +167,18 @@ CGALWindow::CGALWindow(QWidget *parent) :
 
   // Load plugins, and re-enable actions that need it.
   loadPlugins();
+
+#ifdef QT_SCRIPT_LIB
+	  // evaluate_script("print(plugins);");
+	  Q_FOREACH(QAction* action, findChildren<QAction*>()) {
+	  if (action->objectName() != "") {
+		  QScriptValue objectValue = script_engine->newQObject(action);
+		  script_engine->globalObject().setProperty(action->objectName(),
+			  objectValue);
+	  }
+  }
+  // debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+#endif
 }
 
 CGALWindow::~CGALWindow()
@@ -543,10 +555,10 @@ void CGALWindow::loadPlugins()
 	}
 
 	QList<QDir> plugins_directories;
-	QString asdf = "C:\\Program Files\\CGAL-4.7\\build\\demo\\Polyhedron\\Debug";
+	QString asdf = "C:\\Users\\Isaac\\Source\\Repos\\Cybele\\plugins";
 
 	QString asd = qApp->applicationDirPath();
-	plugins_directories << asdf; //qApp->applicationDirPath();
+	plugins_directories << qApp->applicationDirPath();
 	QString env_path = qgetenv("POLYHEDRON_DEMO_PLUGINS_PATH");
 	if (!env_path.isEmpty()) {
 		Q_FOREACH(QString pluginsDir,

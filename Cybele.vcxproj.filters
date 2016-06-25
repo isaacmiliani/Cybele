@@ -59,50 +59,47 @@
     <ClCompile Include="openglviewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ply.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rply.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_viewer.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_viewer.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\viewer.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_Scene_item.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_Scene_item.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mainwindow.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_mdiarea.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_Scene.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mdiarea.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_Scene.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mdiarea.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_mepp_action.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_Viewer_interface.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mepp_action.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_Viewer_interface.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Viewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Viewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Viewer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,19 +109,28 @@
     <CustomBuild Include="..\..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\File_loader_dialog.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mainwindow.ui">
+    <CustomBuild Include="cgalwindow.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\viewer.hxx">
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Preferences.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mainwindow.hxx">
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mdiarea.hxx">
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\mepp_action.hxx">
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo\Viewer_interface.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Viewer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -135,31 +141,16 @@
     <ClInclude Include="openglviewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ply.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="rply.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GeneratedFiles\ui_Preferences.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\Polyhedron\polyhedron_enriched_polyhedron.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\Polyhedron\polyhedron_shared_items.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\kaptain eesikord\Documents\MEPP-master\src\mepp\Polyhedron\X3D_IFS_old.h">
+    <ClInclude Include="..\..\..\..\..\Program Files\CGAL\include\CGAL\Polyhedron_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,20 +3,26 @@
 #ifdef QT_SCRIPT_LIB
 #  include  <QScriptEngine>
 #endif
-
+#include <CGAL/Qt/DemosMainWindow.h>
 #include <QMainWindow>
 //QT
 #include <QTreeView>
 #include <QSortFilterProxyModel>
 //CGAL
-#include <Messages_interface.h>
-#include <Scene.h>
-#include <Viewer.h>
-#include <Scene_item.h>
+#include "Messages_interface.h"
 #include <File_loader_dialog.h>
+#include <Scene.h>
 #include <Polyhedron_demo_io_plugin_interface.h>
 #include <Polyhedron_demo_plugin_interface.h>
 
+class Scene;
+class Viewer;
+class QTreeView;
+class QMenu;
+class Polyhedron_demo_io_plugin_interface;
+class Polyhedron_demo_plugin_interface;
+class Scene_item;
+class QSortFilterProxyModel;
 
 #include <QGLViewer/manipulatedCameraFrame.h>
 #include <QGLViewer/manipulatedFrame.h>
@@ -25,7 +31,8 @@ namespace Ui {
 class CGALWindow;
 }
 
-class CGALWindow : public QMainWindow,
+class CGALWindow:
+	public CGAL::Qt::DemosMainWindow,
 	public Messages_interface
 {
     Q_OBJECT
@@ -34,8 +41,16 @@ class CGALWindow : public QMainWindow,
 public:
     explicit CGALWindow(QWidget *parent = 0);
     ~CGALWindow();
-    Scene_item* load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_interface* loader);
-    Polyhedron_demo_io_plugin_interface* find_loader(const QString& loader_name) const;
+	/// Find an IO plugin.
+	/// @throws `std::invalid_argument` if no loader with that argument can be found
+	/// @returns the IO plugin associated with `loader_name`
+	Polyhedron_demo_io_plugin_interface* find_loader(const QString& loader_name) const;
+
+	/// Load an item with a given loader.
+	///
+	/// @throws `std::logic_error` if loading does not succeed or
+	/// `std::invalid_argument` if `fileinfo` specifies an invalid file
+	Scene_item* load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_interface*);
     unsigned int maxNumberOfRecentFiles() const ;
 protected:
     QVector<QAction*> recentFileActs;
