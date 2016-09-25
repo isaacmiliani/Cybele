@@ -7,32 +7,22 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Polyhedron_type.h \
-    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Polyhedron_type_fwd.h \
-    ../3DModel_Loaders/cgalwindow.h \
-    ../3DModel_Loaders/Color_map.h \
-    ../3DModel_Loaders/Correct_CGAL_Structure.h \
-    ../3DModel_Loaders/Kernel_type.h \
-    ../3DModel_Loaders/mesh.h \
-    ../3DModel_Loaders/ply.h \
-    ../3DModel_Loaders/polyhedron.h \
-    ../3DModel_Loaders/Polyhedron_ASSIMP_CGALImporter.h \
-    ../3DModel_Loaders/Polyhedron_Builder.h \
-    ../3DModel_Loaders/Polyhedron_Copy.h \
-    ../3DModel_Loaders/polyhedron_enriched_polyhedron.h \
-    ../3DModel_Loaders/Polyhedron_OBJ_CGALImporter.h \
-    ../3DModel_Loaders/Polyhedron_OFF_CGALImporter.h \
-    ../3DModel_Loaders/Polyhedron_PLY_CGALImporter.h \
-    ../3DModel_Loaders/polyhedron_shared_items.h \
-    ../3DModel_Loaders/Polyhedron_SMF_CGALImporter.h \
-    ../3DModel_Loaders/Polyhedron_X3D_CGALImporter.h \
-    ../3DModel_Loaders/rply.h \
-    ../3DModel_Loaders/ui_cgalwindow.h \
-    ../3DModel_Loaders/X3D_old.h
-SOURCES += ../3DModel_Loaders/cgalwindow.cpp \
-    ../3DModel_Loaders/main.cpp \
-    ../3DModel_Loaders/mesh.cpp \
-    ../3DModel_Loaders/ply.cpp \
-    ../3DModel_Loaders/rply.c \
-    ../3DModel_Loaders/X3D_old.cpp
-FORMS += ../3DModel_Loaders/cgalwindow.ui
+HEADERS += ../../../../../Program Files/CGAL/include/CGAL/Polyhedron_3.h \
+    ./resource.h \
+    ./openglviewer.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/MainWindow.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Scene_item.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Scene.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/CGAL_demo/Viewer_interface.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Viewer.h \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/File_loader_dialog.h
+SOURCES += ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/MainWindow.cpp \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Scene.cpp \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Scene_item.cpp \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Viewer.cpp \
+    ./main.cpp \
+    ./openglviewer.cpp
+FORMS += ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/FileLoaderDialog.ui \
+    ./cgalwindow.ui \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/MainWindow.ui \
+    ../../../../../Program Files/CGAL-4.7/demo/Polyhedron/Preferences.ui

@@ -90,6 +90,7 @@ public:
     QAction *actionSelect_all_items;
     QAction *actionLoad_Script;
     QAction *actionPreferences;
+    QAction *actionCircumference;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
     Viewer *viewer;
@@ -253,6 +254,8 @@ public:
         actionLoad_Script->setObjectName(QStringLiteral("actionLoad_Script"));
         actionPreferences = new QAction(MainWindow);
         actionPreferences->setObjectName(QStringLiteral("actionPreferences"));
+        actionCircumference = new QAction(MainWindow);
+        actionCircumference->setObjectName(QStringLiteral("actionCircumference"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
@@ -381,7 +384,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 534, 174));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 536, 174));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         infoLabel = new QLabel(scrollAreaWidgetContents);
@@ -539,6 +542,7 @@ public:
         actionSelect_all_items->setShortcut(QApplication::translate("MainWindow", "Ctrl+A", 0));
         actionLoad_Script->setText(QApplication::translate("MainWindow", "Load &script", 0));
         actionPreferences->setText(QApplication::translate("MainWindow", "&Preferences", 0));
+        actionCircumference->setText(QApplication::translate("MainWindow", "Circumference", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "&Edit", 0));
         menuOperations->setTitle(QApplication::translate("MainWindow", "&Operations", 0));

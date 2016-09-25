@@ -45,27 +45,29 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_File_loader_dialog.cpp">
+    <ClCompile Include="GeneratedFiles\qrc_qml.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_piechart.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_File_loader_dialog.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="openglviewer.cpp">
+    <ClCompile Include="piechart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_piechart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Scene_item.cpp">
@@ -74,7 +76,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Scene_item.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Scene.cpp">
@@ -83,8 +85,11 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Scene.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Viewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Viewer.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Viewer_interface.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -92,22 +97,28 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Viewer_interface.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_Viewer.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_Viewer.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Viewer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_File_loader_dialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_File_loader_dialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="cybele.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_cybele.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_cybele.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\FileLoaderDialog.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\File_loader_dialog.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="cgalwindow.ui">
       <Filter>Form Files</Filter>
@@ -118,28 +129,37 @@
     <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\Daph\qml.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.h">
+    <CustomBuild Include="piechart.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo\Viewer_interface.h">
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Viewer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo\Viewer_interface.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\File_loader_dialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="cybele.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="cybele.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_FileLoaderDialog.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="openglviewer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
       <Filter>Generated Files</Filter>
@@ -153,8 +173,62 @@
     <ClInclude Include="..\..\..\..\..\Program Files\CGAL\include\CGAL\Polyhedron_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_cybele.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Cybele.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\main.qml">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\glcode.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="js2.bin" />
+    <None Include="js3.bin" />
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodels.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodelsbasic.qml">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\pallet.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\rock.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\woodbox.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gl-matrix.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\ThreeJSLoader.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\chart.qml">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\pallet.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\rock.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\woodbox.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
