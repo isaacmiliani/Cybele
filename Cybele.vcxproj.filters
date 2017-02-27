@@ -115,6 +115,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_cybele.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_Polyhedron_3.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_formextractor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_formextractor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="formextractor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\FileLoaderDialog.ui">
@@ -156,6 +168,15 @@
     <CustomBuild Include="cybele.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Polyhedron_3.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="formextractor.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="formextractor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_FileLoaderDialog.h">
@@ -174,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_cybele.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_formextractor.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -216,6 +240,39 @@
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\chart.qml">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resources\cgal_logo.xpm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\about.html">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_light.v">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_light.f">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_without_light.f">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_without_light.v">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_texture.f">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_textured_edges.f">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_textured_edges.v">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_with_texture.v">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\shader_instanced.v">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.jpg">
@@ -228,6 +285,42 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\woodbox.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\boolean-union.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\kernel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\boolean-diff.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\boolean-intersection.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\convex-hull.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\simplification.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\editcopy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\check-on.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\plus.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\check-off.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\minus.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\kaptain eesikord\Pictures\brazo_izquierdo.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

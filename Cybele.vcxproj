@@ -76,7 +76,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;Qt5Widgetsd.lib;Qt5OpenGLd.lib;Qt5Cored.lib;Qt5Guid.lib;QVTKWidgetPlugin.lib;Qt5Scriptd.lib;Qt5ScriptToolsd.lib;Qt5Qmld.lib;Qt5Quick.lib;Qt5Quickd.lib;CGAL_Core-vc120-mt-gd-4.7.lib;CGAL_Qt5-vc120-mt-gd-4.7.lib;CGAL-vc120-mt-gd-4.7.lib;QGLViewerd2.lib;vtkRenderingVolumeOpenGL-6.2.lib;vtkCommonCore-6.2.lib;vtkGUISupportQt-6.2.lib;vtkRenderingCore-6.2.lib;vtkGUISupportQtOpenGL-6.2.lib;vtkCommonMath-6.2.lib;vtkIOImage-6.2.lib;vtkParallelCore-6.2.lib;vtkCommonDataModel-6.2.lib;vtkFiltersParallel-6.2.lib;vtkInteractionStyle-6.2.lib;vtkRenderingFreeTypeOpenGL-6.2.lib;vtkRenderingOpenGL-6.2.lib;vtkRenderingFreeType-6.2.lib;assimpd.lib;advancing_front_plugin.lib;camera_positions_plugin.lib;convex_hull_plugin.lib;corefinement_plugin.lib;cut_plugin.lib;demo_framework.lib;edit_polyhedron_plugin.lib;fairing_plugin.lib;features_detection_plugin.lib;gl_splat.lib;gocad_plugin.lib;hole_filling_plugin.lib;hole_filling_polyline_plugin.lib;inside_out_plugin.lib;intersection_plugin.lib;io_implicit_function_plugin.lib;jet_fitting_plugin.lib;join_and_split_polyhedra_plugin.lib;kernel_plugin.lib;mean_curvature_flow_skeleton_plugin.lib;mesh_3_plugin.lib;mesh_segmentation_plugin.lib;mesh_simplification_plugin.lib;nef_io_plugin.lib;nef_plugin.lib;normal_estimation_plugin.lib;off_plugin.lib;off_to_nef_plugin.lib;off_to_xyz_plugin.lib;orient_soup_plugin.lib;parameterization_plugin.lib;pca_plugin.lib;point_dialog.lib;point_inside_polyhedron_plugin.lib;point_set_average_spacing_plugin.lib;point_set_bilateral_smoothing_plugin.lib;point_set_outliers_removal_plugin.lib;point_set_selection_plugin.lib;point_set_shape_detection_plugin.lib;point_set_simplification_plugin.lib;point_set_smoothing_plugin.lib;point_set_upsampling_plugin.lib;point_set_wlop_plugin.lib;poisson_plugin.lib;polyhedron_slicer_plugin.lib;polyhedron_stitching_plugin.lib;polylines_io_plugin.lib;remeshing_plugin.lib;scale_space_reconstruction_plugin.lib;scene_basic_objects.lib;scene_c2t3_item.lib;scene_combinatorial_map_item.lib;scene_edit_polyhedron_item.lib;scene_implicit_function_item.lib;scene_nef_polyhedron_item.lib;scene_points_with_normal_item.lib;scene_polygon_soup_item.lib;scene_polyhedron_item.lib;scene_polyhedron_item_decorator.lib;scene_polyhedron_item_k_ring_selection.lib;scene_polyhedron_selection_item.lib;scene_polyhedron_shortest_path_item.lib;scene_polyhedron_transform_item.lib;scene_polylines_item.lib;scene_textured_polyhedron_item.lib;selection_io_plugin.lib;selection_plugin.lib;self_intersection_plugin.lib;shortest_path_plugin.lib;stl_plugin.lib;subdivision_methods_plugin.lib;transform_polyhedron_plugin.lib;triangulate_facets_plugin.lib;trivial_plugin.lib;vcm_normal_estimation_plugin.lib;xyz_plugin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;Qt5Widgetsd.lib;Qt5OpenGLd.lib;Qt5Cored.lib;Qt5Guid.lib;QVTKWidgetPlugin.lib;Qt5Scriptd.lib;Qt5ScriptToolsd.lib;Qt5Qmld.lib;Qt5Quick.lib;Qt5Quickd.lib;CGAL_Core-vc120-mt-gd-4.7.lib;CGAL_Qt5-vc120-mt-gd-4.7.lib;CGAL-vc120-mt-gd-4.7.lib;QGLViewerd2.lib;vtkRenderingVolumeOpenGL-6.2.lib;vtkCommonCore-6.2.lib;vtkGUISupportQt-6.2.lib;vtkRenderingCore-6.2.lib;vtkGUISupportQtOpenGL-6.2.lib;vtkCommonMath-6.2.lib;vtkIOImage-6.2.lib;vtkParallelCore-6.2.lib;vtkCommonDataModel-6.2.lib;vtkFiltersParallel-6.2.lib;vtkInteractionStyle-6.2.lib;vtkRenderingFreeTypeOpenGL-6.2.lib;vtkRenderingOpenGL-6.2.lib;vtkRenderingFreeType-6.2.lib;assimpd.lib;advancing_front_plugin.lib;camera_positions_plugin.lib;convex_hull_plugin.lib;corefinement_plugin.lib;cut_plugin.lib;demo_framework.lib;edit_polyhedron_plugin.lib;fairing_plugin.lib;features_detection_plugin.lib;gl_splat.lib;gocad_plugin.lib;hole_filling_plugin.lib;hole_filling_polyline_plugin.lib;inside_out_plugin.lib;intersection_plugin.lib;io_implicit_function_plugin.lib;jet_fitting_plugin.lib;join_and_split_polyhedra_plugin.lib;kernel_plugin.lib;mean_curvature_flow_skeleton_plugin.lib;mesh_3_plugin.lib;mesh_segmentation_plugin.lib;mesh_simplification_plugin.lib;nef_io_plugin.lib;nef_plugin.lib;normal_estimation_plugin.lib;off_plugin.lib;off_to_nef_plugin.lib;off_to_xyz_plugin.lib;orient_soup_plugin.lib;parameterization_plugin.lib;pca_plugin.lib;point_dialog.lib;point_inside_polyhedron_plugin.lib;point_set_average_spacing_plugin.lib;point_set_bilateral_smoothing_plugin.lib;point_set_outliers_removal_plugin.lib;point_set_selection_plugin.lib;point_set_shape_detection_plugin.lib;point_set_simplification_plugin.lib;point_set_smoothing_plugin.lib;point_set_upsampling_plugin.lib;point_set_wlop_plugin.lib;poisson_plugin.lib;polyhedron_slicer_plugin.lib;polyhedron_stitching_plugin.lib;polylines_io_plugin.lib;remeshing_plugin.lib;scale_space_reconstruction_plugin.lib;scene_basic_objects.lib;scene_c2t3_item.lib;scene_combinatorial_map_item.lib;scene_edit_polyhedron_item.lib;scene_implicit_function_item.lib;scene_nef_polyhedron_item.lib;scene_points_with_normal_item.lib;scene_polygon_soup_item.lib;scene_polyhedron_item.lib;scene_polyhedron_item_decorator.lib;scene_polyhedron_item_k_ring_selection.lib;scene_polyhedron_selection_item.lib;scene_polyhedron_shortest_path_item.lib;scene_polyhedron_transform_item.lib;scene_polylines_item.lib;scene_textured_polyhedron_item.lib;selection_io_plugin.lib;selection_plugin.lib;self_intersection_plugin.lib;shortest_path_plugin.lib;stl_plugin.lib;subdivision_methods_plugin.lib;transform_polyhedron_plugin.lib;triangulate_facets_plugin.lib;trivial_plugin.lib;vcm_normal_estimation_plugin.lib;xyz_plugin.lib;libgmp-10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Qt\5.5\msvc2013_64\lib;C:\Program Files\CGAL-4.7\auxiliary\gmp\lib;C:\Program Files\CGAL-4.7\build\demo\Polyhedron\Debug;C:\Program Files\CGAL\lib;C:\Program Files\PCL 1.7.2\3rdParty\Boost\lib;C:\VTK-6.2.0\build\lib\Release;C:\Users\kaptain eesikord\Libraries\glew-1.13.0\lib\Release\x64;C:\Users\kaptain eesikord\Libraries\freeglut\lib\x64;C:\Program Files\Assimp\lib;C:\libQGLViewer-2.6.3\QGLViewer;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -142,10 +142,14 @@
     <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_item.cpp" />
     <ClCompile Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Viewer.cpp" />
     <ClCompile Include="cybele.cpp" />
+    <ClCompile Include="formextractor.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_cybele.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_File_loader_dialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_formextractor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_piechart.cpp">
@@ -163,6 +167,12 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_Viewer_interface.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_Polyhedron_3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_qml.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeader>
@@ -173,6 +183,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_File_loader_dialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_formextractor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_piechart.cpp">
@@ -255,7 +268,18 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_EXPORTS -Dscene_item_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron\Debug" "-IC:\Program Files\CGAL\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\auxiliary\gmp\include" "-IC:\Program Files\CGAL-4.7\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Users\kaptain eesikord\Libraries\glew-1.13.0\include" "-IC:\Users\kaptain eesikord\Libraries\freeglut\include" "-IC:\Program Files\Assimp\include" "-IC:\libQGLViewer-2.6.3" "-IC:\Qt\5.5\msvc2013_64\include" "-IC:\Qt\5.5\msvc2013_64\include\QtOpenGL" "-IC:\Qt\5.5\msvc2013_64\include\QtWidgets" "-IC:\Qt\5.5\msvc2013_64\include\QtGui" "-IC:\Qt\5.5\msvc2013_64\include\QtANGLE" "-IC:\Qt\5.5\msvc2013_64\include\QtScript" "-IC:\Qt\5.5\msvc2013_64\include\QtScriptTools" "-IC:\Qt\5.5\msvc2013_64\include\QtXml" "-IC:\Qt\5.5\msvc2013_64\include\QtCore" "-IC:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013" "-I.\GeneratedFiles" "-I$(NOINHERIT)\."</Command>
     </CustomBuild>
+    <CustomBuild Include="formextractor.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing formextractor.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_item_EXPORTS -Dscene_EXPORTS -Dviewerqgl_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DUSE_FORWARD_DECL -DWITH_ASSIMP -DQML -DQUICK "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtScriptTools" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtQuick" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtQml" "-I$(QTDIR)\include\QtOpenGL" "-IC:\Program Files\CGAL\include" "-IC:\Program Files\CGAL-4.7\include" "-IC:\Program Files\CGAL-4.7\auxiliary\gmp\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Users\kaptain eesikord\Libraries\glew-1.13.0\include" "-IC:\Users\kaptain eesikord\Libraries\freeglut\include" "-IC:\libQGLViewer-2.6.3" "-IC:\Program Files\Assimp\include" "-I.\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing formextractor.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_EXPORTS -Dscene_item_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron\Debug" "-IC:\Program Files\CGAL\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\auxiliary\gmp\include" "-IC:\Program Files\CGAL-4.7\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Users\kaptain eesikord\Libraries\glew-1.13.0\include" "-IC:\Users\kaptain eesikord\Libraries\freeglut\include" "-IC:\Program Files\Assimp\include" "-IC:\libQGLViewer-2.6.3" "-IC:\Qt\5.5\msvc2013_64\include" "-IC:\Qt\5.5\msvc2013_64\include\QtOpenGL" "-IC:\Qt\5.5\msvc2013_64\include\QtWidgets" "-IC:\Qt\5.5\msvc2013_64\include\QtGui" "-IC:\Qt\5.5\msvc2013_64\include\QtANGLE" "-IC:\Qt\5.5\msvc2013_64\include\QtScript" "-IC:\Qt\5.5\msvc2013_64\include\QtScriptTools" "-IC:\Qt\5.5\msvc2013_64\include\QtXml" "-IC:\Qt\5.5\msvc2013_64\include\QtCore" "-IC:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013" "-I.\GeneratedFiles" "-I$(NOINHERIT)\."</Command>
+    </CustomBuild>
     <ClInclude Include="GeneratedFiles\ui_cybele.h" />
+    <ClInclude Include="GeneratedFiles\ui_formextractor.h" />
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h" />
     <ClInclude Include="GeneratedFiles\ui_Preferences.h" />
     <CustomBuild Include="piechart.h">
@@ -365,14 +389,123 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <SubType>Designer</SubType>
     </CustomBuild>
+    <CustomBuild Include="formextractor.ui">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+    </CustomBuild>
     <None Include="js2.bin" />
     <None Include="js3.bin" />
+    <CustomBuild Include="Polyhedron_3.qrc">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath);.\resources\cgal_logo.xpm;.\resources\boolean-union.png;.\resources\kernel.png;.\resources\boolean-diff.png;.\resources\boolean-intersection.png;.\resources\convex-hull.png;.\resources\simplification.png;.\resources\editcopy.png;.\resources\check-on.png;.\resources\plus.png;.\resources\check-off.png;.\resources\minus.png;.\resources\about.html;.\resources\shader_with_light.v;.\resources\shader_with_light.f;.\resources\shader_without_light.f;.\resources\shader_without_light.v;.\resources\shader_with_texture.f;.\resources\shader_with_textured_edges.f;.\resources\shader_with_textured_edges.v;.\resources\shader_with_texture.v;.\resources\shader_instanced.v;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath);.\resources\cgal_logo.xpm;.\resources\boolean-union.png;.\resources\kernel.png;.\resources\boolean-diff.png;.\resources\boolean-intersection.png;.\resources\convex-hull.png;.\resources\simplification.png;.\resources\editcopy.png;.\resources\check-on.png;.\resources\plus.png;.\resources\check-off.png;.\resources\minus.png;.\resources\about.html;.\resources\shader_with_light.v;.\resources\shader_with_light.f;.\resources\shader_without_light.f;.\resources\shader_without_light.v;.\resources\shader_with_texture.f;.\resources\shader_with_textured_edges.f;.\resources\shader_with_textured_edges.v;.\resources\shader_with_texture.v;.\resources\shader_instanced.v;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+    </CustomBuild>
+    <None Include="resources\about.html">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\cgal_logo.xpm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_instanced.v">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_without_light.f">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_without_light.v">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_light.f">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_light.v">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_texture.f">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_texture.v">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_textured_edges.f">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="resources\shader_with_textured_edges.v">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.jpg" />
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\pallet.jpg" />
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\rock.jpg" />
     <Image Include="..\..\..\..\kaptain eesikord\Documents\Daph\woodbox.jpg" />
+    <Image Include="..\..\..\..\kaptain eesikord\Pictures\brazo_izquierdo.jpg" />
+    <Image Include="resources\boolean-diff.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\boolean-intersection.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\boolean-union.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\check-off.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\check-on.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\convex-hull.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\editcopy.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\kernel.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\minus.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\plus.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="resources\simplification.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
