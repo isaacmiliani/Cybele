@@ -1,7 +1,7 @@
 #ifndef CYBELE_H
 #define CYBELE_H
 #include "config.h"
-#include <string>
+
 #ifdef QT_SCRIPT_LIB
 #  include  <QScriptEngine>
 #endif
@@ -38,10 +38,14 @@
 #include <QMap>
 #include <QStandardItemModel>
 #include <QStandardItem>
-#include <stdexcept>
-#include <fstream>
-#include <algorithm> 
 
+#include <stdexcept>
+#include <utility>
+#include <fstream>
+#include <iostream>
+#include <algorithm> 
+#include <string>
+#include <list>
 
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptValue>
@@ -53,6 +57,8 @@
 #include "Polyhedron_demo_io_plugin_interface.h"
 #include "Polyhedron_demo_plugin_helper.h"
 
+#include <CGAL/IO/read_off_points.h>
+#include <CGAL/IO/write_off_points.h>
 #include <CGAL/AABB_intersections.h>
 #include <CGAL/gl.h>
 #include <CGAL/AABB_tree.h>
@@ -61,10 +67,10 @@
 #include <CGAL/internal/AABB_tree/AABB_drawing_traits.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/bounding_box.h>
-
 #include <CGAL/Qt/DemosMainWindow.h>
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Polyhedron_3.h>
+#include <CGAL/Surface_mesh.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/Point_3.h>
@@ -77,10 +83,27 @@
 #include <CGAL/Constrained_triangulation_plus_2.h>
 #include <CGAL/IO/io.h>
 #include <CGAL/Cartesian.h>
+#include <CGAL/Gmpq.h>
 
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
+#include <CGAL/Polygon_mesh_processing/triangulate_hole.h>
 #include <CGAL/spatial_sort.h>
 #include <CGAL/Qt/debug.h>
 
+#include <CGAL/pca_estimate_normals.h>
+#include <CGAL/mst_orient_normals.h>
+#include <CGAL/property_map.h>
+
+// INCLUDES FOR POISSON
+#include <CGAL/compute_average_spacing.h>
+#include <CGAL/IO/Polyhedron_iostream.h>
+#include <CGAL/Surface_mesh_default_triangulation_3.h>
+#include <CGAL/make_surface_mesh.h>
+#include <CGAL/Implicit_surface_3.h>
+#include <CGAL/IO/output_surface_facets_to_polyhedron.h>
+#include <CGAL/Poisson_reconstruction_function.h>
+#include <CGAL/Point_with_normal_3.h>
 
 #include <QGLViewer/manipulatedCameraFrame.h>
 #include <QGLViewer/manipulatedFrame.h>
@@ -101,6 +124,20 @@
 #include "Messages_interface.h"
 #include "formextractor.h"
 
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+
+#include <CGAL/boost/graph/graph_traits_Surface_mesh.h>
+#include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
+#include <CGAL/Polygon_mesh_processing/stitch_borders.h>
+#include <CGAL/Polygon_mesh_processing/repair.h>
+#include <CGAL/Polygon_mesh_processing/self_intersections.h>
+#include <boost/foreach.hpp>
+
+
+#include <CGAL/Polygon_mesh_processing/orient_polygon_soup.h>
+#include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>
+#include <CGAL/Polygon_mesh_processing/orientation.h>
+
 typedef Kernel::Point_3 Point_3;
 typedef Point_set_3<Kernel> Point_set;
 typedef Point_set::UI_point UI_point; // type of points in Point_set_3
@@ -109,6 +146,34 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel Epic_kernel;
 typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron>     AABB_primitive;
 typedef CGAL::AABB_traits<Epic_kernel, AABB_primitive>           AABB_traits;
 typedef CGAL::AABB_tree<AABB_traits>                            AABB_tree;
+
+typedef Epic_kernel::Point_3 Point;
+typedef Epic_kernel::Vector_3 Vector;
+typedef CGAL::Point_with_normal_3<Epic_kernel> Point_with_normal;
+typedef std::vector<Point_with_normal> PointList;
+//typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
+
+// Point with normal vector stored in a std::pair.
+typedef std::pair<Point, Vector> PointVectorPair;
+typedef std::vector<PointVectorPair> ListPointVector;
+
+typedef CGAL::Polyhedron_3<Epic_kernel>     PolyMesh;
+typedef PolyMesh::Halfedge_handle    Halfedge_handle;
+typedef PolyMesh::Facet_handle       Facet_handle;
+typedef PolyMesh::Vertex_handle      Vertex_handle;
+
+typedef CGAL::Surface_mesh<Point> Surface_mesh;
+typedef boost::graph_traits<PolyMesh>::vertex_descriptor vertex_descriptor;
+typedef boost::graph_traits<PolyMesh>::face_descriptor   face_descriptor;
+
+typedef Epic_kernel::FT FT;
+typedef Kernel::Sphere_3 Sphere;
+
+typedef CGAL::Polyhedron_3<Epic_kernel> Polyhedron_K;
+typedef CGAL::Poisson_reconstruction_function<Epic_kernel> Poisson_reconstruction_function;
+typedef CGAL::Surface_mesh_default_triangulation_3 STr;
+typedef CGAL::Surface_mesh_complex_2_in_triangulation_3<STr> C2t3;
+typedef CGAL::Implicit_surface_3<Epic_kernel, Poisson_reconstruction_function> Surface_3;
 
 class Scene;
 class Viewer;
@@ -576,6 +641,9 @@ protected:
 	void closeEvent(QCloseEvent *event);
 	QList<int> getSelectedSceneItemIndices() const;
 	int getSelectedSceneItemIndex() const;
+	void load_off(QString absoluteFilePath);
+	void PoissonReconstruction(const char* filename, const char* filename_out );
+	void calculatePointSetNormals(const char* filename, const char* filename_out);
 
 protected Q_SLOTS:
 	void selectionChanged();

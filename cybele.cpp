@@ -1,5 +1,6 @@
 #include "config.h"
 #include "cybele.h"
+#include <CGAL/IO/OFF_reader.h>
 #include <vector>
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptEngine>
@@ -240,9 +241,6 @@ Cybele::Cybele(QWidget *parent) :
 	// Reset the "Operation menu"
 	clearMenu(ui->menuOperations);
 
-	
-
-	
 
 #ifdef QT_SCRIPT_LIB
 	std::cerr << "Enable scripts.\n";
@@ -986,14 +984,154 @@ void Cybele::message(QString message, QString colorName, QString font) {
 }
 
 
+
+void Cybele::load_off(QString absoluteFilePath){
+
+	PolyMesh mesh;
+	// CONVERT FROM QSTRING TO *CONST CHAR
+	QByteArray ba = absoluteFilePath.toLatin1();
+	const char* filename = ba.data();
+
+	std::ifstream input(filename);
+
+	if (!input)
+	{
+		std::cerr << "Cannot open file " << std::endl;
+	}
+	std::vector<Epic_kernel::Point_3> points;
+	std::vector< std::vector<std::size_t> > polygons;
+
+	if (!CGAL::read_OFF(input, points, polygons))
+	{
+		std::cerr << "Error parsing the OFF file " << std::endl;
+	}
+
+	std::vector<Facet_handle>  patch_facets;
+	std::vector<Vertex_handle> patch_vertices;
+
+	CGAL::Polygon_mesh_processing::orient_polygon_soup(points, polygons);
+
+	if (CGAL::Polygon_mesh_processing::is_polygon_soup_a_polygon_mesh(polygons))
+		CGAL::Polygon_mesh_processing::polygon_soup_to_polygon_mesh(points, polygons, mesh);
+
+	CGAL::Polygon_mesh_processing::triangulate_faces(mesh);
+
+	// SAVE MESH
+	std::ofstream out("filled.off");
+	out.precision(17);
+	out << mesh << std::endl;
+
+}
+
+void Cybele::calculatePointSetNormals(const char* filename_in, const char* filename_out){
+	// Reads a .xyz point set file in points[].
+	std::list<PointVectorPair> points;
+	
+	std::ifstream stream(filename_in);
+
+	if (!stream || !CGAL::read_off_points(stream,std::back_inserter(points),CGAL::First_of_pair_property_map<PointVectorPair>()))
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+	
+	// Estimates normals direction.
+	// Note: pca_estimate_normals() requires an iterator over points
+	// as well as property maps to access each point's position and normal.
+	const int nb_neighbors = 18; // K-nearest neighbors = 3 rings
+	CGAL::pca_estimate_normals(points.begin(), points.end(),
+		CGAL::First_of_pair_property_map<PointVectorPair>(),
+		CGAL::Second_of_pair_property_map<PointVectorPair>(),
+		nb_neighbors);
+	// Orients normals.
+	// Note: mst_orient_normals() requires an iterator over points
+	// as well as property maps to access each point's position and normal.
+	std::list<PointVectorPair>::iterator unoriented_points_begin =
+		CGAL::mst_orient_normals(points.begin(), points.end(),CGAL::First_of_pair_property_map<PointVectorPair>(),CGAL::Second_of_pair_property_map<PointVectorPair>(),	nb_neighbors);
+	// Optional: delete points with an unoriented normal
+	// if you plan to call a reconstruction algorithm that expects oriented normals.
+	points.erase(unoriented_points_begin, points.end());
+
+	// Saves point set.
+	// Note: write_xyz_points_and_normals() requires an output iterator
+	// over points as well as property maps to access each
+	// point position and normal.
+
+	//SAVE FILE WITH NORMALS
+	
+	std::ofstream out(filename_out);
+	if (!out || !CGAL::write_off_points_and_normals(out, points.begin(), points.end(), CGAL::First_of_pair_property_map<PointVectorPair>(), CGAL::Second_of_pair_property_map<PointVectorPair>()))
+		std::cerr << "Error: cannot write .off file" << std::endl;
+
+	
+
+}
+void Cybele::PoissonReconstruction(const char* filename_in, const char* filename_out){
+	PointList points;
+	std::ifstream stream(filename_in);
+	if (!stream || !CGAL::read_off_points_and_normals(stream, std::back_inserter(points), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())))
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+
+	// Poisson options
+	FT sm_angle = 20.0; // Min triangle angle in degrees.
+	FT sm_radius = 30; // Max triangle size w.r.t. point set average spacing.
+	FT sm_distance = 0.375; // Surface Approximation error w.r.t. point set average spacing.
+
+	// Creates implicit function from the read points using the default solver.
+	// Note: this method requires an iterator over points
+	// + property maps to access each point's position and normal.
+	// The position property map can be omitted here as we use iterators over Point_3 elements.
+	Poisson_reconstruction_function function(points.begin(), points.end(), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type()));
+
+	// Computes the Poisson indicator function f()
+	// at each vertex of the triangulation.
+	if (!function.compute_implicit_function())
+		std::cerr << "compute_implicit_function - Failed" << std::endl;
+	// Computes average spacing
+	FT average_spacing = CGAL::compute_average_spacing(points.begin(), points.end(), 6 /* knn = 1 ring */);
+	// Gets one point inside the implicit surface and computes implicit function bounding sphere radius.
+	Point inner_point = function.get_inner_point();
+	Sphere bsphere = function.bounding_sphere();
+	FT radius = std::sqrt(bsphere.squared_radius());
+
+	// Defines the implicit surface: requires defining a conservative bounding sphere centered at inner point.
+	FT sm_sphere_radius = 5.0 * radius;
+	FT sm_dichotomy_error = sm_distance*average_spacing / 1000.0; // Dichotomy error must be << sm_distance
+	Surface_3 surface(function,Sphere(inner_point, sm_sphere_radius*sm_sphere_radius), sm_dichotomy_error / sm_sphere_radius);
+	// Defines surface mesh generation criteria
+	CGAL::Surface_mesh_default_criteria_3<STr> criteria(sm_angle,  // Min triangle angle (degrees)
+		sm_radius*average_spacing,  // Max triangle size
+		sm_distance*average_spacing); // Approximation error
+	// Generates surface mesh with manifold option
+	STr tr; // 3D Delaunay triangulation for surface mesh generation
+	C2t3 c2t3(tr); // 2D complex in 3D Delaunay triangulation
+	CGAL::make_surface_mesh(c2t3,                                 // reconstructed mesh
+		surface,                              // implicit surface
+		criteria,                             // meshing criteria
+		CGAL::Manifold_with_boundary_tag());  // require manifold mesh
+	if (tr.number_of_vertices() == 0)
+		std::cerr << "ERROR - Number of vertices equals zero " << std::endl;
+	
+	// saves reconstructed surface mesh
+	std::ofstream out(filename_out);
+	Polyhedron_K output_mesh;
+	CGAL::output_surface_facets_to_polyhedron(c2t3, output_mesh);
+	out << output_mesh;
+}
+
 Scene_item* Cybele::load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_interface* loader) {
 	Scene_item* item = NULL;
 	if (!fileinfo.isFile() || !fileinfo.isReadable()) {
 		throw std::invalid_argument(QString("File %1 is not a readable file.")
 			.arg(fileinfo.absoluteFilePath()).toStdString());
 	}
+	//SAVE FILE WITH NORMALS
+	QString str_file = fileinfo.absoluteFilePath().section(".", 0, 0);
+	QByteArray ba_file, ba_normal_file, ba_poisson_file;
+	ba_file = str_file.toLatin1()+".off";
+	ba_normal_file = str_file.toLatin1() + "-normals.off";
+	ba_poisson_file = str_file.toLatin1() + "-poisson.off";
 
-	QApplication::setOverrideCursor(Qt::WaitCursor);
+	calculatePointSetNormals(ba_file, ba_normal_file);
+	PoissonReconstruction(ba_normal_file.data(), ba_poisson_file.data());
+	fileinfo.setFile(ba_poisson_file.data());
 	item = loader->load(fileinfo);
 
 	QApplication::restoreOverrideCursor();
@@ -1004,8 +1142,8 @@ Scene_item* Cybele::load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_inte
 
 	item->setProperty("source filename", fileinfo.absoluteFilePath());
 	item->setProperty("loader_name", loader->name());
-	QColor c(45, 137, 239);
-	item->setColor(c);
+	//QColor c(45, 137, 239);
+	//item->setColor(c);
 	return item;
 }
 void Cybele::selectSceneItem(int i)
@@ -1068,8 +1206,8 @@ void Cybele::loadPlugins()
 	}
 
 	QList<QDir> plugins_directories;
-	static QString wqert = "C://Program Files//CGAL-4.7//build//demo//Polyhedron//Debug";
-	plugins_directories << wqert; //qApp->applicationDirPath();
+	static QString plugins_folder = "C://Program Files//CGAL-4.7//build//demo//Polyhedron//Release";
+	plugins_directories << plugins_folder; //qApp->applicationDirPath();
 	QString env_path = qgetenv("POLYHEDRON_DEMO_PLUGINS_PATH");
 	if (!env_path.isEmpty()) {
 		Q_FOREACH(QString pluginsDir,

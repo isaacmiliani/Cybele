@@ -1,7 +1,7 @@
 #ifndef CGALWINDOW_H
 #define CGALWINDOW_H
 #ifdef QT_SCRIPT_LIB
-#  include  <QScriptEngine>
+#include  <QScriptEngine>
 #endif
 #include <CGAL/Qt/DemosMainWindow.h>
 #include <QMainWindow>
