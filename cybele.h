@@ -691,13 +691,14 @@ protected Q_SLOTS:
 	void filterOperations();
 	Scene_plane_item* createCutPlane(QString, Scene_points_with_normal_item*);
 	CGAL::Bbox_3 createBBox(Scene_points_with_normal_item*);
-	Scene_edges_item* cut(QString, Scene_plane_item* plane_item, Scene_points_with_normal_item*);
+	void cut(QString, Scene_plane_item* plane_item, Scene_points_with_normal_item*, Scene_edges_item**);
 	Scene_points_with_normal_item* createMeasureItem(QString);
-	bool findSegment(Epic_kernel::Segment_3 inter_seg);
+	bool findSegment(Epic_kernel::Segment_3 inter_seg, Scene_edges_item*);
 	void searchSegment(Scene_edges_item*, Scene_edges_item*, Epic_kernel::Point_3 source, Epic_kernel::Point_3 target);
 	bool checkTargets(Epic_kernel::Point_3 target, Epic_kernel::Point_3 t, Epic_kernel::Point_3 s);
 	bool checkSources(Epic_kernel::Point_3 source, Epic_kernel::Point_3 s, Epic_kernel::Point_3 t);
 	void setBboxLines(Scene_bbox_item* item, CGAL::Bbox_3 box_3);
+	QString extractMeasure(QString, Scene_plane_item* plane_item, Scene_points_with_normal_item*, Scene_edges_item*);
 	void on_actionRecenterScene_triggered();
 	void on_btn_CircunCefalica_clicked();
 	void on_btn_CircunBrazoIzq_clicked();
@@ -714,8 +715,10 @@ private slots:
 private:
     Ui::Cybele *ui;
 	Viewer* viewer;
+	Viewer* viewer_2;
 	QTreeView* sceneView;
 	Scene* scene;	
+	Scene* scene_2;
 	/// plugin black-list
 	QSet<QString> plugin_blacklist;
 	// typedef to make Q_FOREACH work

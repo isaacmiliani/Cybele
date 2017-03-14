@@ -129,6 +129,17 @@ Cybele::Cybele(QWidget *parent) :
 	scene = new Scene(this);
 	viewer->setScene(scene);
 
+	// Save some pointers from ui, for latter use.
+	sceneView = ui->sceneView;
+	viewer_2 = ui->viewer_2;
+
+	// do not save the state of the viewer (anoying)
+	viewer_2->setStateFileName(QString::null);
+
+	// setup scene
+	scene_2 = new Scene(this);
+	viewer_2->setScene(scene_2);
+
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel(scene);
 
@@ -572,13 +583,13 @@ void Cybele::showSceneContextMenu(int selectedItemIndex,
 double Cybele::getDistanceBetweenPoints(CGAL::Point_3<CGAL::Cartesian<double>> q, CGAL::Point_3<CGAL::Cartesian<double>> p){
 	double x1, x2, y1, y2, z1, z2, dx, dy, dz, distance;
 	// First point
-	x1 = q.x();
-	y1 = q.y();
-	z1 = q.z();
+	x1 = abs(q.x());
+	y1 = abs(q.y());
+	z1 = abs(q.z());
 	// Second Point
-	x2 = p.x();
-	y2 = p.y();
-	z2 = p.z();
+	x2 = abs(p.x());
+	y2 = abs(p.y());
+	z2 = abs(p.z());
 
 	dx = x2 - x1;
 	dy = y2 - y1;
@@ -1033,9 +1044,10 @@ void Cybele::calculatePointSetNormals(const char* filename_in, const char* filen
 		std::cerr << "Error: cannot read file " << filename_in << std::endl;
 	
 	// Estimates normals direction.
+	std::cerr << "Computing normals...." << std::endl;
 	// Note: pca_estimate_normals() requires an iterator over points
 	// as well as property maps to access each point's position and normal.
-	const int nb_neighbors = 18; // K-nearest neighbors = 3 rings
+	const int nb_neighbors = 6; // K-nearest neighbors = 3 rings
 	CGAL::pca_estimate_normals(points.begin(), points.end(),
 		CGAL::First_of_pair_property_map<PointVectorPair>(),
 		CGAL::Second_of_pair_property_map<PointVectorPair>(),
@@ -1072,8 +1084,8 @@ void Cybele::PoissonReconstruction(const char* filename_in, const char* filename
 	// Poisson options
 	FT sm_angle = 20.0; // Min triangle angle in degrees.
 	FT sm_radius = 30; // Max triangle size w.r.t. point set average spacing.
-	FT sm_distance = 0.375; // Surface Approximation error w.r.t. point set average spacing.
-
+	FT sm_distance = 0.275; // Surface Approximation error w.r.t. point set average spacing.
+	std::cerr << "Poisson reconstruction...." << std::endl;
 	// Creates implicit function from the read points using the default solver.
 	// Note: this method requires an iterator over points
 	// + property maps to access each point's position and normal.
@@ -1109,6 +1121,7 @@ void Cybele::PoissonReconstruction(const char* filename_in, const char* filename
 	if (tr.number_of_vertices() == 0)
 		std::cerr << "ERROR - Number of vertices equals zero " << std::endl;
 	
+	std::cerr << "Finishing...." << std::endl;
 	// saves reconstructed surface mesh
 	std::ofstream out(filename_out);
 	Polyhedron_K output_mesh;
@@ -1128,7 +1141,7 @@ Scene_item* Cybele::load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_inte
 	ba_file = str_file.toLatin1()+".off";
 	ba_normal_file = str_file.toLatin1() + "-normals.off";
 	ba_poisson_file = str_file.toLatin1() + "-poisson.off";
-
+	
 	calculatePointSetNormals(ba_file, ba_normal_file);
 	PoissonReconstruction(ba_normal_file.data(), ba_poisson_file.data());
 	fileinfo.setFile(ba_poisson_file.data());
@@ -1206,8 +1219,9 @@ void Cybele::loadPlugins()
 	}
 
 	QList<QDir> plugins_directories;
-	static QString plugins_folder = "C://Program Files//CGAL-4.7//build//demo//Polyhedron//Release";
-	plugins_directories << plugins_folder; //qApp->applicationDirPath();
+	static QString plugins_folder = "C://Program Files//CGAL-4.7//build//demo//Polyhedron//Debug";
+	plugins_directories << qApp->applicationDirPath();
+	qDebug("### Real app path \"%s\".", qPrintable(qApp->applicationDirPath()));
 	QString env_path = qgetenv("POLYHEDRON_DEMO_PLUGINS_PATH");
 	if (!env_path.isEmpty()) {
 		Q_FOREACH(QString pluginsDir,
@@ -1731,6 +1745,7 @@ void Cybele::quit()
 
 Scene_points_with_normal_item* Cybele::createMeasureItem(QString measure){
 
+	// GETS THE ITEM TO MEASURE
 	int index = getSelectedSceneItemIndex();
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
 	
@@ -1744,9 +1759,12 @@ Scene_points_with_normal_item* Cybele::createMeasureItem(QString measure){
 		information("Error: there is no selected vertex in polyhedron selection item!");
 		return 0;
 	}
+	// UI ITEM WITH THE SELECTED POINTS
 	Scene_points_with_normal_item* point_item = new Scene_points_with_normal_item();
-	point_item->setName(QString("%1-points").arg(measure));
+	//point_item->setName(QString("%1-points").arg(measure));
 
+	// STORE THE SELECTED POINTS
+	// EDIT: I DONT REMEMBER WHAT FOR
 	std::vector<Kernel::Point_3> selectedPoints;
 	selectedPoints.reserve(selection_item->selected_vertices.size());
 
@@ -1756,20 +1774,22 @@ Scene_points_with_normal_item* Cybele::createMeasureItem(QString measure){
 		point_item->point_set()->push_back((*begin)->point());
 			selectedPoints.push_back((*begin)->point());
 	}
-	scene->setSelectedItem(scene->addItem(point_item));
-	scene->itemChanged(point_item);
+	//scene->setSelectedItem(scene->addItem(point_item));
+	//scene->itemChanged(point_item);
 	scene->erase(index);
 
 	return point_item;
 }
 
 Scene_plane_item* Cybele::createCutPlane(QString measure, Scene_points_with_normal_item* points) {
+	
+	// holds the plane that passthroug the selected points defined in var points
 	Scene_plane_item* plane_item = new Scene_plane_item(scene);
 	qglviewer::ManipulatedFrame* mf = plane_item->manipulatedFrame();
 
 	// set center
 	bool oldState = mf->blockSignals(true); // dont let it signal, it will invoke plane_manipulated_frame_modified otherwise
-	const CGAL::Bbox_3 box_3 = createBBox(points);
+	const CGAL::Bbox_3 box_3 = createBBox(points); // this bounding box intersects the surface of the mesh
 	plane_item->setPosition((box_3.xmin() + box_3.xmax()) / 2.f, (box_3.ymin() + box_3.ymax()) / 2.f, (box_3.zmin() + box_3.zmax()) / 2.f);
 	mf->blockSignals(oldState);
 
@@ -1787,15 +1807,11 @@ Scene_plane_item* Cybele::createCutPlane(QString measure, Scene_points_with_norm
 	qglviewer::Quaternion orientation_from_bases;
 	orientation_from_bases.setFromRotatedBasis(base_1, base_2, other);
 
-	//NORMAL DEL PLANO
+	//PLane normals
 	oldState = mf->blockSignals(true); // dont let it signal, it will invoke plane_manipulated_frame_modified otherwise
 	mf->setOrientation(orientation_from_bases);
-	//mf->setOrientation(0, 0, 0, 1);
 	mf->blockSignals(oldState);
-	/*
-	const Epic_kernel::Vector_3 normal = CGAL::cross_product(b_1, b_1);
-	plane_item->setNormal(normal.x(), normal.y(), normal.z());
-	*/
+	
 	QColor c(153, 180, 51,128);
 	connect(plane_item, SIGNAL(destroyed()),this, SLOT(enableAction()));
 	plane_item->setManipulatable(true);
@@ -1823,42 +1839,38 @@ Scene_plane_item* Cybele::createCutPlane(QString measure, Scene_points_with_norm
 	
 }
 
-Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_with_normal_item* points) {
+void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_with_normal_item* points, Scene_edges_item** edges_item) {
 	
 	QApplication::setOverrideCursor(Qt::WaitCursor);
+	
+	// edges_item will hold the cutting edges of the mesh
 	QColor c(227, 162, 26);
-	if (!edges_item) {
-		edges_item = new Scene_edges_item;
-		edges_item->setName(QString("%1-edges").arg(measure));
-		edges_item->setColor(c);
-		edges_item->startTimer(0);
+	(*edges_item) = new Scene_edges_item;
+	(*edges_item)->setName(QString("%1-edges").arg(measure));
+	(*edges_item)->setColor(c);
+	(*edges_item)->startTimer(0);
+	connect((*edges_item), SIGNAL(destroyed()),
+		this, SLOT(reset_edges()));
 
-		c.setRgb(238, 17, 17);
-		outside_edges_item = new Scene_edges_item;
-		outside_edges_item->setName("Outside Edges of the cut");
-		outside_edges_item->setColor(c);
-		outside_edges_item->startTimer(0);
+	// outside_edges is a control variable that holds the non-intersecting edges with the mesh
+	c.setRgb(238, 17, 17);
+	outside_edges_item = new Scene_edges_item;
+	outside_edges_item->setName("Outside Edges of the cut");
+	outside_edges_item->setColor(c);
+	outside_edges_item->startTimer(0);
+	connect(outside_edges_item, SIGNAL(destroyed()),
+		this, SLOT(reset_edges()));
 
-		c.setRgb(126, 56, 120);
-		inside_edges_item = new Scene_edges_item;
-		inside_edges_item->setName("Inside Edges of the cut");
-		inside_edges_item->setColor(c);
-		inside_edges_item->startTimer(0);
-
-		connect(edges_item, SIGNAL(destroyed()),
-			this, SLOT(reset_edges()));
-		
-
-		connect(outside_edges_item, SIGNAL(destroyed()),
-			this, SLOT(reset_edges()));
-		//scene->addItem(outside_edges_item);
-
-		connect(inside_edges_item, SIGNAL(destroyed()),
-			this, SLOT(reset_edges()));
-		//scene->addItem(inside_edges_item);
-
-	}
-	if (edges_item->top)
+		// outside_edges is a control variable that holds the intersecting edges with the mesh inside the bounding box
+	c.setRgb(126, 56, 120);
+	inside_edges_item = new Scene_edges_item;
+	inside_edges_item->setName("Inside Edges of the cut");
+	inside_edges_item->setColor(c);
+	inside_edges_item->startTimer(0);
+	connect(inside_edges_item, SIGNAL(destroyed()),
+		this, SLOT(reset_edges()));
+	
+	if ((*edges_item)->top)
 	{
 		//const qglviewer::Vec& pos = plane_item->manipulatedFrame()->position();
 		//const qglviewer::Vec& n = plane_item->manipulatedFrame()->inverseTransformOf(qglviewer::Vec(2.f, 1.f, 1.f));
@@ -1866,7 +1878,7 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 		const CGAL::Bbox_3 box_3 = createBBox(points);
 		const Epic_kernel::Plane_3 plane = plane_item->plane();
 		//std::cerr << plane << std::endl;
-		edges_item->edges.clear();
+		(*edges_item)->edges.clear();
 		outside_edges_item->edges.clear();
 		inside_edges_item->edges.clear();
 
@@ -1879,8 +1891,7 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 			if (!poly_item) continue;
 			Trees::iterator it = trees.find(poly_item);
 			if (it == trees.end()) {
-				it = trees.insert(trees.begin(),
-					std::make_pair(poly_item,
+				it = trees.insert(trees.begin(),std::make_pair(poly_item,
 					new AABB_tree(faces(*(poly_item->polyhedron())).first,
 					faces(*(poly_item->polyhedron())).second,
 					*poly_item->polyhedron())));
@@ -1888,7 +1899,7 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 				aabb_item->setName(tr("AABB tree of %1").arg(poly_item->name()));
 				aabb_item->setRenderingMode(Wireframe);
 				aabb_item->setVisible(false);
-				scene->addItem(aabb_item);
+				//scene->addItem(aabb_item);
 				//std::cerr << "size: " << it->second->size() << std::endl;
 			}
 
@@ -1914,7 +1925,7 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 				if (NULL != inter_seg){
 					if (CGAL::do_intersect(box_3, *inter_seg)){
 						inside_edges_item->edges.push_back(*inter_seg);
-						edges_item->edges.push_back(*inter_seg);
+						(*edges_item)->edges.push_back(*inter_seg);
 						count++;
 					}
 					else{
@@ -1922,8 +1933,8 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 					}
 				}
 			}
-			std::cout << "**** Total Inside Segments: " << inside_edges_item->edges.size() << std::endl;
-			std::cout << "---- Total Outside Segments: " << outside_edges_item->edges.size() << std::endl;
+			//std::cout << "**** Total Inside Segments: " << inside_edges_item->edges.size() << std::endl;
+			//std::cout << "---- Total Outside Segments: " << outside_edges_item->edges.size() << std::endl;
 			count = 0;
 			bool segmentFound = false;
 			Epic_kernel::Point_3 source;
@@ -1942,18 +1953,18 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 				// RECORRE LOS SEGMENTOS QUE INTERSECTAN EL PLANO PERO QUE NO ESTAN DENTRO DEL BOUNDING BOX
 				for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
 					if (i_outside == outside_edges_item->edges.begin()){
-					std::cout << "@@ First OUTSIDE Segment: " << i_outside->source().x() << ", " << i_outside->source().y() << ", " << i_outside->source().z() << std::endl;
+					//std::cout << "@@ First OUTSIDE Segment: " << i_outside->source().x() << ", " << i_outside->source().y() << ", " << i_outside->source().z() << std::endl;
 					}
 					// VERIFICA QUE PREVIAMENTE NO SE HAYA AGREGADO EL SEGMENTO 
-					if (!findSegment(*i_outside)){
+					if (!findSegment(*i_outside, (*edges_item))){
 						//std::cout << "@@ checking if: " << target << std::endl;
 						//std::cout << "     @@ equals: " << i_outside->source() << std::endl;
 
 						if (checkSources(source, i_outside->target(), i_outside->source()) || checkTargets(target, i_outside->source(), i_outside->target())){
-							std::cout << "@@ Source: " << i_outside->source() << std::endl;
-							std::cout << "@@ Target: " << i_outside->target() << std::endl;
+							//std::cout << "@@ Source: " << i_outside->source() << std::endl;
+							//std::cout << "@@ Target: " << i_outside->target() << std::endl;
 							// AGREGA EL SEGMENTO A LA LISTA 
-							edges_item->edges.push_back(*i_outside);
+							(*edges_item)->edges.push_back(*i_outside);
 							//inside_edges_item->edges.push_back(*i_outside);
 
 							// ACTUALIZA LA NUEVA PUNTA DEL PROXIMO PUNTO
@@ -1974,18 +1985,18 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 						}else
 							segmentFound = false;
 					}
-					std::cout << "Outside i =: " << count_outside << std::endl;
+					//std::cout << "Outside i =: " << count_outside << std::endl;
 					count_outside++;
 				}
-				std::cout << "Total outside segments iterated: " << count_outside << std::endl;
+				//std::cout << "Total outside segments iterated: " << count_outside << std::endl;
 				count_outside = 0;
 
-				std::cout << "Inside i =: " << count_inside << std::endl;
+				//std::cout << "Inside i =: " << count_inside << std::endl;
 				count_inside++;
 			}
-			std::cout << "Total inside segments iterated: " << count_inside << std::endl;
+			//std::cout << "Total inside segments iterated: " << count_inside << std::endl;
 			count_inside = 0;
-			std::cout << "Total segments found: " << count << std::endl;
+			//std::cout << "Total segments found: " << count << std::endl;
 		}
 		
 		Scene_bbox_item* item = new Scene_bbox_item(scene);
@@ -1997,13 +2008,13 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 		item->setName(QString("%1-bbox").arg(measure));
 		item->setColor(Qt::black);
 		item->setRenderingMode(Wireframe);
-		scene->addItem(item);
+		//scene->addItem(item);
 		
 		//actionBbox->setEnabled(false);
 		
-		information(QString("cut (%1 ms). %2 edges. (new edges)").arg(time.elapsed()).arg(edges_item->edges.size()));
-		edges_item->invalidate_buffers();
-		scene->itemChanged(edges_item);
+		information(QString("cut (%1 ms). %2 edges. (new edges)").arg(time.elapsed()).arg((*edges_item)->edges.size()));
+		(*edges_item)->invalidate_buffers();
+		//scene->itemChanged(edges_item);
 
 		information(QString("cut (%1 ms). %2 edges. (outside)").arg(time.elapsed()).arg(outside_edges_item->edges.size()));
 		outside_edges_item->invalidate_buffers();
@@ -2016,10 +2027,10 @@ Scene_edges_item* Cybele::cut(QString measure, Scene_plane_item* plane_item, Sce
 	
 	QApplication::restoreOverrideCursor();
 	outside_edges_item->top = false;
-	edges_item->top = false;
+	(*edges_item)->top = false;
 	inside_edges_item->top = false;
 	
-	return edges_item;
+	//return edges_item;
 }
 
 void Cybele::setBboxLines(Scene_bbox_item* item, CGAL::Bbox_3 box_3){
@@ -2052,7 +2063,7 @@ void Cybele::setBboxLines(Scene_bbox_item* item, CGAL::Bbox_3 box_3){
 	item->lines.push_back(box_3.xmax()); item->lines.push_back(box_3.ymax()); item->lines.push_back(box_3.zmax());
 	item->lines.push_back(box_3.xmax()); item->lines.push_back(box_3.ymax()); item->lines.push_back(box_3.zmin());
 }
-bool Cybele::findSegment(Epic_kernel::Segment_3 inter_seg){
+bool Cybele::findSegment(Epic_kernel::Segment_3 inter_seg, Scene_edges_item* edges_item){
 	
 	for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_item->edges.begin(); vi != edges_item->edges.end(); ++vi){
 		if (inter_seg == *vi)
@@ -2069,7 +2080,7 @@ void Cybele::searchSegment(Scene_edges_item* edges_item, Scene_edges_item* outsi
 	for (std::vector<Epic_kernel::Segment_3>::iterator vi = outside_edges_item->edges.begin(); vi != outside_edges_item->edges.end(); ++vi){
 		s = vi->source();
 		t = vi->target();
-		if (!findSegment(*vi)){
+		if (!findSegment(*vi, edges_item)){
 			//if (checkSources(target, t, s) || checkTargets(source, s, t))
 			//	edges_item->edges.push_back(*vi);
 		}
@@ -2077,37 +2088,6 @@ void Cybele::searchSegment(Scene_edges_item* edges_item, Scene_edges_item* outsi
 }
 
 CGAL::Bbox_3 Cybele::createBBox(Scene_points_with_normal_item* points){
-	/*
-	const Epic_kernel::Point_3 p = points->point_set[0];
-	const Epic_kernel::Point_3 q = points->point_set[1];
-	const Epic_kernel::Point_3 r = points->point_set[2];
-	const Epic_kernel::Point_3 s = points->point_set[3];
-	
-	std::size_t size = 4;
-	std::vector<Kernel::Point_3> vec;
-	double minX, minY, minZ, maxX, maxY, maxZ;
-	vec.reserve(size);
-	vec.push_back(p);
-	vec.push_back(q);
-	vec.push_back(r);
-	vec.push_back(s);
-
-	// Point Sorting
-	std::sort(vec.begin(), vec.end(), myobjectX);
-	minX = vec[0].x();
-	maxX = vec[3].x();
-
-	std::sort(vec.begin(), vec.end(), myobjectY);
-	minY = vec[0].y();
-	maxY = vec[3].y();
-
-	std::sort(vec.begin(), vec.end(), myobjectZ);
-	minZ = vec[0].z();
-	maxZ = vec[3].z();
-	
-	Kernel::Point_3 maxPoint(maxX, maxY, maxZ);
-	Kernel::Point_3 minPoint(minX, minY, minZ);
-	*/
 	const CGAL::Bbox_3 box_3(points->point_set()->bounding_box().xmin(), points->point_set()->bounding_box().ymin(), points->point_set()->bounding_box().zmin(), points->point_set()->bounding_box().xmax(), points->point_set()->bounding_box().ymax(), points->point_set()->bounding_box().zmax());
 	return box_3;
 }
@@ -2123,82 +2103,42 @@ bool Cybele::checkSources(Epic_kernel::Point_3 source, Epic_kernel::Point_3 s, E
 
 void Cybele::on_btn_CircunCefalica_clicked()
 {
-	QString measureName = "CircunCefalica";
-	points_CircunCefalica = createMeasureItem(measureName);
-	plane_CircunCefalica = createCutPlane(measureName, points_CircunCefalica);
-	edges_CircunCefalica = cut(measureName, plane_CircunCefalica, points_CircunCefalica);
-	double value = computeMeasure(edges_CircunCefalica);
-
-	scene->addItem(plane_CircunCefalica);
-	scene->addItem(edges_CircunCefalica);
-	QString valueAsString = QString::number(value);
+	double value;
+	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica, points_CircunCefalica, edges_CircunCefalica);
 	QString measure = "Circunferencia Cefálica: " + valueAsString + " cm.";
-	ui->lbl_CircunCefalica->setText(measure);
-
+	ui->lbl_CircunCefalica->setText(measure); 
+	
 }
-
+void Cybele::on_btn_CircunCintura_clicked()
+{
+	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura, points_CircunCintura, edges_CircunCintura);
+	QString measure = "Circunferencia Cintura: " + valueAsString + " cm.";
+	ui->lbl_CircunCintura->setText(measure);
+}
 void Cybele::on_btn_CircunBrazoIzq_clicked()
 {
-	QString measureName = "CircunBrazoIzq";
-	points_CircunBrazoIzq = createMeasureItem(measureName);
-	plane_CircunBrazoIzq = createCutPlane(measureName, points_CircunBrazoIzq);
-	edges_CircunBrazoIzq = cut(measureName, plane_CircunBrazoIzq, points_CircunBrazoIzq);
-	double value = computeMeasure(edges_CircunBrazoIzq);
-
-	scene->addItem(plane_CircunBrazoIzq);
-	scene->addItem(edges_CircunBrazoIzq);
-	QString valueAsString = QString::number(value);
+	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq, points_CircunBrazoIzq, edges_CircunBrazoIzq);
 	QString measure = "Circunferencia Brazo Izquierdo: " + valueAsString + " cm.";
 	ui->lbl_CircunBrazoIzq->setText(measure);
 }
 
-void Cybele::on_btn_CircunCintura_clicked()
-{
-	QString measureName = "CircunCintura";
-	points_CircunCintura = createMeasureItem(measureName);
-	plane_CircunCintura = createCutPlane(measureName, points_CircunCintura);
-	edges_CircunCintura = cut(measureName, plane_CircunCintura, points_CircunCintura);
-
-	scene->addItem(plane_CircunCintura);
-	scene->addItem(edges_CircunCintura);
-	double value = computeMeasure(edges_CircunCintura);
-	QString valueAsString = QString::number(value);
-	QString measure = "Circunferencia Cintura: " + valueAsString + " cm.";
-	ui->lbl_CircunCintura->setText(measure);
-}
-
 void Cybele::on_btn_CircunCadera_clicked()
 {
-	QString measureName = "CircunCadera";
-	points_CircunCadera = createMeasureItem(measureName);
-	plane_CircunCadera = createCutPlane(measureName, points_CircunCadera);
-	edges_CircunCadera = cut(measureName, plane_CircunCadera, points_CircunCadera);
-	double value = computeMeasure(edges_CircunCadera);
-	QString valueAsString = QString::number(value);
+	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera, points_CircunCadera, edges_CircunCadera);
 	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
 	ui->lbl_CircunCadera->setText(measure);
 }
 
 void Cybele::on_btn_CircunMusloIzq_clicked()
 {
-	QString measureName = "CircunMusloIzq";
-	points_CircunMusloIzq = createMeasureItem(measureName);
-	plane_CircunMusloIzq = createCutPlane(measureName, points_CircunMusloIzq);
-	edges_CircunMusloIzq = cut(measureName, plane_CircunMusloIzq, points_CircunMusloIzq);
-	double value = computeMeasure(edges_CircunMusloIzq);
-	QString valueAsString = QString::number(value);
+	QString valueAsString = extractMeasure("CircunMusloIzq", plane_CircunMusloIzq, points_CircunMusloIzq, edges_CircunMusloIzq);
 	QString measure = "Circunferencia Muslo Izquierdo: " + valueAsString + " cm.";
 	ui->lbl_MusloIzq->setText(measure);
 }
 
 void Cybele::on_btn_DiamMuneca_clicked()
 {
-	QString measureName = "DiamMuneca";
-	points_DiamMuneca = createMeasureItem(measureName);
-	plane_DiamMuneca = createCutPlane(measureName, points_DiamMuneca);
-	edges_DiamMuneca = cut(measureName, plane_DiamMuneca, points_DiamMuneca);
-	double value = computeMeasure(edges_DiamMuneca);
-	QString valueAsString = QString::number(value);
+	QString valueAsString = extractMeasure("DiamMuneca", plane_DiamMuneca, points_DiamMuneca, edges_DiamMuneca);
 	QString measure = "Diametro Muñeca: " + valueAsString + " cm.";
 	ui->lbl_DiamMuneca->setText(measure);
 }
@@ -2208,7 +2148,7 @@ void Cybele::on_btn_DiamFemur_clicked()
 	QString measureName = "DiamFemur";
 	points_DiamFemur = createMeasureItem(measureName);
 	plane_DiamFemur = createCutPlane(measureName, points_DiamFemur);
-	edges_DiamFemur = cut(measureName, plane_DiamFemur, points_DiamFemur);
+	cut(measureName, plane_DiamFemur, points_DiamFemur, &edges_DiamFemur);
 	double value = computeMeasure(edges_DiamFemur);
 	QString valueAsString = QString::number(value);
 	QString measure = "Diametro Femur: " + valueAsString + " cm.";
@@ -2220,44 +2160,80 @@ void Cybele::on_btn_Talla_clicked()
 	int index = getSelectedSceneItemIndex();
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
 	Scene_polyhedron_item* height = dynamic_cast<Scene_polyhedron_item*>(item);
-	CGAL::Point_3<CGAL::Cartesian<double>> p, q;
-	float total_squared;
-	//q = CGAL::Point_3<CGAL::Cartesian<double>>(height->bbox().xmin, height->bbox().ymin, height->bbox().zmin);
-	//p = CGAL::Point_3<CGAL::Cartesian<double>>(height->bbox().xmax, height->bbox().ymax, height->bbox().zmax);
 	
-	total_squared = height->bbox().height();
-	QString valueAsString = QString::number(total_squared/10);
+	float total_squared = height->bbox().height();
+	
+	QString valueAsString = QString::number(total_squared);
 	QString measure = "Talla: " + valueAsString + " cm.";
 	ui->lbl_talla->setText(measure);
 }
 
 void Cybele::on_btn_selection_clicked()
 {
-	int index = getSelectedSceneItemIndex();
-	Scene_item* item = scene->item(getSelectedSceneItemIndex());
-	Scene_polyhedron_item* poly_item = dynamic_cast<Scene_polyhedron_item*>(item);
-
-	if (!poly_item) {
-		information("Error: there is no selected polyhedron item!");
-		//print_message("Error: there is no selected polyhedron item!");
-		return;
+	try {
+		int index = getSelectedSceneItemIndex();
+		Scene_polyhedron_item* poly_item;
+		// Code that could throw an exception  
+		Scene_item* item = scene->item(getSelectedSceneItemIndex());
+		poly_item  = dynamic_cast<Scene_polyhedron_item*>(item);
+		if (!poly_item) {
+			information("Error: there is no selected polyhedron item!");
+			//print_message("Error: there is no selected polyhedron item!");
+			return;
+		}
+		// all other arrangements (putting inside selection_item_map), setting names etc,
+		// other params (e.g. k_ring) will be set inside new_item_created
+		Scene_polyhedron_selection_item* new_item = new Scene_polyhedron_selection_item(poly_item, this);
+		int item_id = scene->addItem(new_item);
+		QObject* scene_ptr = dynamic_cast<QObject*>(scene);
+		if (scene_ptr)
+			connect(new_item, SIGNAL(simplicesSelected(Scene_item*)), scene_ptr, SLOT(setSelectedItem(Scene_item*)));
+		scene->setSelectedItem(item_id);
 	}
-	
-	// all other arrangements (putting inside selection_item_map), setting names etc,
-	// other params (e.g. k_ring) will be set inside new_item_created
-	Scene_polyhedron_selection_item* new_item = new Scene_polyhedron_selection_item(poly_item, this);
-	int item_id = scene->addItem(new_item);
-	QObject* scene_ptr = dynamic_cast<QObject*>(scene);
-	if (scene_ptr)
-		connect(new_item, SIGNAL(simplicesSelected(Scene_item*)), scene_ptr, SLOT(setSelectedItem(Scene_item*)));
-	scene->setSelectedItem(item_id);
+	catch (const std::bad_cast& e) {
+		information("Error: Dynamic cast failed ");
+	}
 }
 
 double Cybele::computeMeasure(Scene_edges_item* cut){
-	double total_squared = 0;
+	double segment_length = 0;
+	double x1, x2, y1, y2, z1, z2, dx, dy, dz, distance, edge_length;
+	edge_length = distance = 0;
+	CGAL::Point_3<CGAL::Epick> p, q;
 		for (std::vector<Epic_kernel::Segment_3>::iterator vi = cut->edges.begin(); vi != cut->edges.end(); ++vi){
-			total_squared += vi->squared_length();
-		}
+			q = vi->vertex(0);
+			p = vi->vertex(1);
+			// First point
+			x1 = abs(q.x());
+			y1 = abs(q.y());
+			z1 = abs(q.z());
+			// Second Point
+			x2 = abs(p.x());
+			y2 = abs(p.y());
+			z2 = abs(p.z());
 
-	return total_squared / 100;
+			dx = x2 - x1;
+			dy = y2 - y1;
+			dz = z2 - z1;
+
+			segment_length = pow(dx, 2) + pow(dy, 2) + pow(dz, 2);
+			edge_length += sqrt(segment_length);
+		}
+		return edge_length*100;
+}
+
+QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item, Scene_points_with_normal_item* points_item, Scene_edges_item* edges_item){
+	
+	points_item = createMeasureItem(measureName); // ITEM THAT HOLDS THE SELECTED POINTS
+	if (points_item != NULL){
+		plane_item = createCutPlane(measureName, points_item); // CUTTING PLANE TROUGH SELECTED POINTS 
+		cut(measureName, plane_item, points_item, &edges_item); // INTERSECTING EDGES WITH THE CUTTING PLANE
+		double value = computeMeasure(edges_item);
+		//scene->addItem(plane_item);
+		scene->addItem(edges_item);
+		QString valueAsString = QString::number(value);
+		return valueAsString;
+	}
+	else
+		return "-";
 }

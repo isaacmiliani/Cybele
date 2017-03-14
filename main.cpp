@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	//MainWindow w;
 
 	//CGALWindow w;
-	w.show();
+	w.showMaximized();
 
 	
 	//QGuiApplication app(argc, argv);
