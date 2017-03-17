@@ -16,7 +16,6 @@
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -92,8 +91,43 @@ public:
     QAction *actionLoad_Script;
     QAction *actionPreferences;
     QWidget *centralwidget;
-    QFrame *frame_4;
-    QVBoxLayout *verticalLayout_3;
+    QLabel *infoLabel;
+    QWidget *layoutWidget;
+    QHBoxLayout *horizontalLayout;
+    QToolButton *addButton;
+    QToolButton *removeButton;
+    QToolButton *duplicateButton;
+    QSpacerItem *horizontalSpacer;
+    QLineEdit *searchEdit;
+    QTreeView *sceneView;
+    Viewer *viewer;
+    QTreeView *sceneView_2;
+    QWidget *gridLayoutWidget;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_7;
+    QPushButton *pushButton_5;
+    QPushButton *pushButton_6;
+    Viewer *viewer_2;
+    QWidget *layoutWidget_2;
+    QHBoxLayout *horizontalLayout_3;
+    QToolButton *addButtonRight;
+    QToolButton *removeButtonRight;
+    QToolButton *duplicateButtonRight;
+    QSpacerItem *horizontalSpacer_2;
+    QLineEdit *searchEditRight;
+    QWidget *gridLayoutWidget_2;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *pushButton_8;
+    QPushButton *pushButton_9;
+    QPushButton *pushButton_10;
+    QPushButton *pushButton_11;
+    QPushButton *pushButton_12;
+    QPushButton *pushButton_13;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
     QPushButton *btn_selection;
     QPushButton *btn_CircunCintura;
     QPushButton *btn_CircunCadera;
@@ -101,16 +135,15 @@ public:
     QPushButton *btn_CircunBrazoIzq;
     QPushButton *btn_CircunCefalica;
     QPushButton *btn_Talla;
-    Viewer *viewer;
-    QWidget *gridLayoutWidget;
-    QGridLayout *gridLayout;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_7;
-    QPushButton *pushButton_6;
-    QPushButton *pushButton_5;
-    Viewer *viewer_2;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *verticalLayout_3;
+    QPushButton *btn_selection_2;
+    QPushButton *btn_CircunCadera_2;
+    QPushButton *btn_CircunBrazoIzq_2;
+    QPushButton *btn_DiamFemur_2;
+    QPushButton *btn_CircunCintura_2;
+    QPushButton *btn_CircunCefalica_2;
+    QPushButton *btn_Talla_2;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -126,18 +159,6 @@ public:
     QDockWidget *consoleDockWidget;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout;
-    QToolButton *addButton;
-    QToolButton *removeButton;
-    QToolButton *duplicateButton;
-    QSpacerItem *horizontalSpacer;
-    QLineEdit *searchEdit;
-    QTreeView *sceneView;
-    QVBoxLayout *verticalLayout_4;
-    QLabel *displayLabel;
-    QLabel *infoLabel;
-    QTextEdit *consoleTextEdit;
     QFormLayout *formLayout_3;
     QLineEdit *lineEdit;
     QFrame *line_2;
@@ -153,8 +174,11 @@ public:
     QLabel *lbl_MusloIzq;
     QLabel *lbl_DiamMuneca;
     QLabel *lbl_DiamFemur;
-    QFrame *line;
     QPushButton *pushButton;
+    QFrame *line;
+    QLabel *displayLabel;
+    QFrame *line_3;
+    QTextEdit *consoleTextEdit;
 
     void setupUi(QMainWindow *Cybele)
     {
@@ -293,125 +317,93 @@ public:
         centralwidget->setLayoutDirection(Qt::LeftToRight);
         centralwidget->setAutoFillBackground(false);
         centralwidget->setStyleSheet(QStringLiteral(""));
-        frame_4 = new QFrame(centralwidget);
-        frame_4->setObjectName(QStringLiteral("frame_4"));
-        frame_4->setGeometry(QRect(10, 10, 140, 486));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        infoLabel = new QLabel(centralwidget);
+        infoLabel->setObjectName(QStringLiteral("infoLabel"));
+        infoLabel->setGeometry(QRect(10, 830, 1511, 61));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
-        frame_4->setSizePolicy(sizePolicy1);
-        frame_4->setMinimumSize(QSize(45, 45));
-        frame_4->setFrameShape(QFrame::StyledPanel);
-        frame_4->setFrameShadow(QFrame::Raised);
-        verticalLayout_3 = new QVBoxLayout(frame_4);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        btn_selection = new QPushButton(frame_4);
-        btn_selection->setObjectName(QStringLiteral("btn_selection"));
-        btn_selection->setMinimumSize(QSize(0, 60));
-        btn_selection->setAutoFillBackground(false);
-        btn_selection->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_selection->setFlat(false);
+        sizePolicy1.setVerticalStretch(1);
+        sizePolicy1.setHeightForWidth(infoLabel->sizePolicy().hasHeightForWidth());
+        infoLabel->setSizePolicy(sizePolicy1);
+        infoLabel->setContextMenuPolicy(Qt::DefaultContextMenu);
+        infoLabel->setLineWidth(0);
+        infoLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        infoLabel->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
+        layoutWidget = new QWidget(centralwidget);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 700, 176, 25));
+        horizontalLayout = new QHBoxLayout(layoutWidget);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        addButton = new QToolButton(layoutWidget);
+        addButton->setObjectName(QStringLiteral("addButton"));
+        addButton->setStyleSheet(QStringLiteral("border:0px;"));
+        addButton->setIcon(icon);
 
-        verticalLayout_3->addWidget(btn_selection);
+        horizontalLayout->addWidget(addButton);
 
-        btn_CircunCintura = new QPushButton(frame_4);
-        btn_CircunCintura->setObjectName(QStringLiteral("btn_CircunCintura"));
-        btn_CircunCintura->setMinimumSize(QSize(0, 60));
-        btn_CircunCintura->setAutoFillBackground(false);
-        btn_CircunCintura->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_CircunCintura->setCheckable(false);
-        btn_CircunCintura->setFlat(false);
+        removeButton = new QToolButton(layoutWidget);
+        removeButton->setObjectName(QStringLiteral("removeButton"));
+        removeButton->setStyleSheet(QStringLiteral("border:0px;"));
+        removeButton->setIcon(icon1);
 
-        verticalLayout_3->addWidget(btn_CircunCintura);
+        horizontalLayout->addWidget(removeButton);
 
-        btn_CircunCadera = new QPushButton(frame_4);
-        btn_CircunCadera->setObjectName(QStringLiteral("btn_CircunCadera"));
-        btn_CircunCadera->setMinimumSize(QSize(0, 60));
-        btn_CircunCadera->setAutoFillBackground(false);
-        btn_CircunCadera->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_CircunCadera->setFlat(false);
+        duplicateButton = new QToolButton(layoutWidget);
+        duplicateButton->setObjectName(QStringLiteral("duplicateButton"));
+        duplicateButton->setStyleSheet(QStringLiteral("border:0px;"));
+        duplicateButton->setIcon(icon2);
 
-        verticalLayout_3->addWidget(btn_CircunCadera);
+        horizontalLayout->addWidget(duplicateButton);
 
-        btn_DiamFemur = new QPushButton(frame_4);
-        btn_DiamFemur->setObjectName(QStringLiteral("btn_DiamFemur"));
-        btn_DiamFemur->setMinimumSize(QSize(0, 60));
-        btn_DiamFemur->setAutoFillBackground(false);
-        btn_DiamFemur->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_DiamFemur->setFlat(false);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        verticalLayout_3->addWidget(btn_DiamFemur);
+        horizontalLayout->addItem(horizontalSpacer);
 
-        btn_CircunBrazoIzq = new QPushButton(frame_4);
-        btn_CircunBrazoIzq->setObjectName(QStringLiteral("btn_CircunBrazoIzq"));
-        btn_CircunBrazoIzq->setMinimumSize(QSize(0, 60));
-        btn_CircunBrazoIzq->setAutoFillBackground(false);
-        btn_CircunBrazoIzq->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 75 8pt \"Segoe UI\";"));
-        btn_CircunBrazoIzq->setFlat(false);
+        searchEdit = new QLineEdit(layoutWidget);
+        searchEdit->setObjectName(QStringLiteral("searchEdit"));
 
-        verticalLayout_3->addWidget(btn_CircunBrazoIzq);
+        horizontalLayout->addWidget(searchEdit);
 
-        btn_CircunCefalica = new QPushButton(frame_4);
-        btn_CircunCefalica->setObjectName(QStringLiteral("btn_CircunCefalica"));
-        btn_CircunCefalica->setMinimumSize(QSize(0, 60));
-        btn_CircunCefalica->setAutoFillBackground(false);
-        btn_CircunCefalica->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 75 8pt \"Segoe UI\";"));
-        btn_CircunCefalica->setFlat(false);
-
-        verticalLayout_3->addWidget(btn_CircunCefalica);
-
-        btn_Talla = new QPushButton(frame_4);
-        btn_Talla->setObjectName(QStringLiteral("btn_Talla"));
-        btn_Talla->setMinimumSize(QSize(0, 60));
-        btn_Talla->setAutoFillBackground(false);
-        btn_Talla->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 75 8pt \"Segoe UI\";"));
-        btn_Talla->setFlat(false);
-
-        verticalLayout_3->addWidget(btn_Talla);
-
+        sceneView = new QTreeView(centralwidget);
+        sceneView->setObjectName(QStringLiteral("sceneView"));
+        sceneView->setEnabled(true);
+        sceneView->setGeometry(QRect(10, 730, 581, 81));
+        sceneView->setFrameShape(QFrame::Panel);
+        sceneView->setFrameShadow(QFrame::Plain);
+        sceneView->setLineWidth(0);
+        sceneView->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
+        sceneView->setAlternatingRowColors(false);
+        sceneView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        sceneView->setIndentation(0);
         viewer = new Viewer(centralwidget);
         viewer->setObjectName(QStringLiteral("viewer"));
-        viewer->setGeometry(QRect(150, 10, 701, 881));
+        viewer->setGeometry(QRect(10, 0, 731, 691));
         QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(1);
         sizePolicy2.setHeightForWidth(viewer->sizePolicy().hasHeightForWidth());
         viewer->setSizePolicy(sizePolicy2);
         viewer->setAutoFillBackground(false);
-        viewer->setStyleSheet(QStringLiteral(""));
+        viewer->setStyleSheet(QLatin1String("background-color: rgb(239, 244, 255,0);\n"
+""));
+        sceneView_2 = new QTreeView(centralwidget);
+        sceneView_2->setObjectName(QStringLiteral("sceneView_2"));
+        sceneView_2->setEnabled(true);
+        sceneView_2->setGeometry(QRect(780, 730, 741, 71));
+        sceneView_2->setFrameShape(QFrame::Panel);
+        sceneView_2->setFrameShadow(QFrame::Plain);
+        sceneView_2->setLineWidth(0);
+        sceneView_2->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
+        sceneView_2->setAlternatingRowColors(false);
+        sceneView_2->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        sceneView_2->setIndentation(0);
         gridLayoutWidget = new QWidget(centralwidget);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 510, 131, 166));
-        gridLayout = new QGridLayout(gridLayoutWidget);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_4 = new QPushButton(gridLayoutWidget);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setMinimumSize(QSize(50, 50));
-        pushButton_4->setMaximumSize(QSize(50, 50));
-        pushButton_4->setAutoFillBackground(false);
-        pushButton_4->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
-"font: 87 12pt \"Segoe UI Black\";\n"
-"color: rgb(255, 255, 255);"));
-        pushButton_4->setFlat(false);
-
-        gridLayout->addWidget(pushButton_4, 0, 0, 1, 1);
-
+        gridLayoutWidget->setGeometry(QRect(250, 0, 337, 52));
+        horizontalLayout_2 = new QHBoxLayout(gridLayoutWidget);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
         pushButton_3 = new QPushButton(gridLayoutWidget);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
         QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -428,7 +420,7 @@ public:
 "alternate-background-color: rgb(185, 29, 71);"));
         pushButton_3->setFlat(false);
 
-        gridLayout->addWidget(pushButton_3, 1, 1, 1, 1);
+        horizontalLayout_2->addWidget(pushButton_3);
 
         pushButton_2 = new QPushButton(gridLayoutWidget);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
@@ -442,7 +434,19 @@ public:
 "color: rgb(255, 255, 255);"));
         pushButton_2->setFlat(false);
 
-        gridLayout->addWidget(pushButton_2, 1, 0, 1, 1);
+        horizontalLayout_2->addWidget(pushButton_2);
+
+        pushButton_4 = new QPushButton(gridLayoutWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_4->setMinimumSize(QSize(50, 50));
+        pushButton_4->setMaximumSize(QSize(50, 50));
+        pushButton_4->setAutoFillBackground(false);
+        pushButton_4->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_4->setFlat(false);
+
+        horizontalLayout_2->addWidget(pushButton_4);
 
         pushButton_7 = new QPushButton(gridLayoutWidget);
         pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
@@ -454,19 +458,7 @@ public:
 "color: rgb(255, 255, 255);"));
         pushButton_7->setFlat(false);
 
-        gridLayout->addWidget(pushButton_7, 0, 1, 1, 1);
-
-        pushButton_6 = new QPushButton(gridLayoutWidget);
-        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
-        pushButton_6->setMinimumSize(QSize(50, 50));
-        pushButton_6->setMaximumSize(QSize(50, 50));
-        pushButton_6->setAutoFillBackground(false);
-        pushButton_6->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
-"font: 87 12pt \"Segoe UI Black\";\n"
-"color: rgb(255, 255, 255);"));
-        pushButton_6->setFlat(false);
-
-        gridLayout->addWidget(pushButton_6, 2, 0, 1, 1);
+        horizontalLayout_2->addWidget(pushButton_7);
 
         pushButton_5 = new QPushButton(gridLayoutWidget);
         pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
@@ -478,16 +470,326 @@ public:
 "color: rgb(255, 255, 255);"));
         pushButton_5->setFlat(false);
 
-        gridLayout->addWidget(pushButton_5, 2, 1, 1, 1);
+        horizontalLayout_2->addWidget(pushButton_5);
+
+        pushButton_6 = new QPushButton(gridLayoutWidget);
+        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
+        pushButton_6->setMinimumSize(QSize(50, 50));
+        pushButton_6->setMaximumSize(QSize(50, 50));
+        pushButton_6->setAutoFillBackground(false);
+        pushButton_6->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_6->setFlat(false);
+
+        horizontalLayout_2->addWidget(pushButton_6);
 
         viewer_2 = new Viewer(centralwidget);
         viewer_2->setObjectName(QStringLiteral("viewer_2"));
-        viewer_2->setGeometry(QRect(870, 9, 551, 891));
+        viewer_2->setGeometry(QRect(780, 0, 741, 691));
+        sizePolicy2.setHeightForWidth(viewer_2->sizePolicy().hasHeightForWidth());
+        viewer_2->setSizePolicy(sizePolicy2);
+        viewer_2->setAutoFillBackground(false);
+        viewer_2->setStyleSheet(QStringLiteral(""));
+        layoutWidget_2 = new QWidget(centralwidget);
+        layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
+        layoutWidget_2->setGeometry(QRect(780, 700, 176, 25));
+        horizontalLayout_3 = new QHBoxLayout(layoutWidget_2);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
+        addButtonRight = new QToolButton(layoutWidget_2);
+        addButtonRight->setObjectName(QStringLiteral("addButtonRight"));
+        addButtonRight->setStyleSheet(QStringLiteral("border:0px;"));
+        addButtonRight->setIcon(icon);
+
+        horizontalLayout_3->addWidget(addButtonRight);
+
+        removeButtonRight = new QToolButton(layoutWidget_2);
+        removeButtonRight->setObjectName(QStringLiteral("removeButtonRight"));
+        removeButtonRight->setStyleSheet(QStringLiteral("border:0px;"));
+        removeButtonRight->setIcon(icon1);
+
+        horizontalLayout_3->addWidget(removeButtonRight);
+
+        duplicateButtonRight = new QToolButton(layoutWidget_2);
+        duplicateButtonRight->setObjectName(QStringLiteral("duplicateButtonRight"));
+        duplicateButtonRight->setStyleSheet(QStringLiteral("border:0px;"));
+        duplicateButtonRight->setIcon(icon2);
+
+        horizontalLayout_3->addWidget(duplicateButtonRight);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+        searchEditRight = new QLineEdit(layoutWidget_2);
+        searchEditRight->setObjectName(QStringLiteral("searchEditRight"));
+
+        horizontalLayout_3->addWidget(searchEditRight);
+
+        gridLayoutWidget_2 = new QWidget(centralwidget);
+        gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
+        gridLayoutWidget_2->setGeometry(QRect(970, 0, 337, 52));
+        horizontalLayout_4 = new QHBoxLayout(gridLayoutWidget_2);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        pushButton_8 = new QPushButton(gridLayoutWidget_2);
+        pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
+        sizePolicy3.setHeightForWidth(pushButton_8->sizePolicy().hasHeightForWidth());
+        pushButton_8->setSizePolicy(sizePolicy3);
+        pushButton_8->setMinimumSize(QSize(50, 50));
+        pushButton_8->setMaximumSize(QSize(50, 50));
+        pushButton_8->setAutoFillBackground(false);
+        pushButton_8->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);\n"
+"alternate-background-color: rgb(185, 29, 71);"));
+        pushButton_8->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_8);
+
+        pushButton_9 = new QPushButton(gridLayoutWidget_2);
+        pushButton_9->setObjectName(QStringLiteral("pushButton_9"));
+        sizePolicy3.setHeightForWidth(pushButton_9->sizePolicy().hasHeightForWidth());
+        pushButton_9->setSizePolicy(sizePolicy3);
+        pushButton_9->setMinimumSize(QSize(50, 50));
+        pushButton_9->setMaximumSize(QSize(50, 50));
+        pushButton_9->setAutoFillBackground(false);
+        pushButton_9->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_9->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_9);
+
+        pushButton_10 = new QPushButton(gridLayoutWidget_2);
+        pushButton_10->setObjectName(QStringLiteral("pushButton_10"));
+        pushButton_10->setMinimumSize(QSize(50, 50));
+        pushButton_10->setMaximumSize(QSize(50, 50));
+        pushButton_10->setAutoFillBackground(false);
+        pushButton_10->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_10->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_10);
+
+        pushButton_11 = new QPushButton(gridLayoutWidget_2);
+        pushButton_11->setObjectName(QStringLiteral("pushButton_11"));
+        pushButton_11->setMinimumSize(QSize(50, 50));
+        pushButton_11->setMaximumSize(QSize(50, 50));
+        pushButton_11->setAutoFillBackground(false);
+        pushButton_11->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_11->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_11);
+
+        pushButton_12 = new QPushButton(gridLayoutWidget_2);
+        pushButton_12->setObjectName(QStringLiteral("pushButton_12"));
+        pushButton_12->setMinimumSize(QSize(50, 50));
+        pushButton_12->setMaximumSize(QSize(50, 50));
+        pushButton_12->setAutoFillBackground(false);
+        pushButton_12->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_12->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_12);
+
+        pushButton_13 = new QPushButton(gridLayoutWidget_2);
+        pushButton_13->setObjectName(QStringLiteral("pushButton_13"));
+        pushButton_13->setMinimumSize(QSize(50, 50));
+        pushButton_13->setMaximumSize(QSize(50, 50));
+        pushButton_13->setAutoFillBackground(false);
+        pushButton_13->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_13->setFlat(false);
+
+        horizontalLayout_4->addWidget(pushButton_13);
+
+        verticalLayoutWidget = new QWidget(centralwidget);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(10, 0, 160, 464));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        btn_selection = new QPushButton(verticalLayoutWidget);
+        btn_selection->setObjectName(QStringLiteral("btn_selection"));
+        btn_selection->setMinimumSize(QSize(0, 60));
+        btn_selection->setAutoFillBackground(false);
+        btn_selection->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_selection->setFlat(false);
+
+        verticalLayout->addWidget(btn_selection);
+
+        btn_CircunCintura = new QPushButton(verticalLayoutWidget);
+        btn_CircunCintura->setObjectName(QStringLiteral("btn_CircunCintura"));
+        btn_CircunCintura->setMinimumSize(QSize(0, 60));
+        btn_CircunCintura->setAutoFillBackground(false);
+        btn_CircunCintura->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_CircunCintura->setCheckable(false);
+        btn_CircunCintura->setFlat(false);
+
+        verticalLayout->addWidget(btn_CircunCintura);
+
+        btn_CircunCadera = new QPushButton(verticalLayoutWidget);
+        btn_CircunCadera->setObjectName(QStringLiteral("btn_CircunCadera"));
+        btn_CircunCadera->setMinimumSize(QSize(0, 60));
+        btn_CircunCadera->setAutoFillBackground(false);
+        btn_CircunCadera->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_CircunCadera->setFlat(false);
+
+        verticalLayout->addWidget(btn_CircunCadera);
+
+        btn_DiamFemur = new QPushButton(verticalLayoutWidget);
+        btn_DiamFemur->setObjectName(QStringLiteral("btn_DiamFemur"));
+        btn_DiamFemur->setMinimumSize(QSize(0, 60));
+        btn_DiamFemur->setAutoFillBackground(false);
+        btn_DiamFemur->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_DiamFemur->setFlat(false);
+
+        verticalLayout->addWidget(btn_DiamFemur);
+
+        btn_CircunBrazoIzq = new QPushButton(verticalLayoutWidget);
+        btn_CircunBrazoIzq->setObjectName(QStringLiteral("btn_CircunBrazoIzq"));
+        btn_CircunBrazoIzq->setMinimumSize(QSize(0, 60));
+        btn_CircunBrazoIzq->setAutoFillBackground(false);
+        btn_CircunBrazoIzq->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_CircunBrazoIzq->setFlat(false);
+
+        verticalLayout->addWidget(btn_CircunBrazoIzq);
+
+        btn_CircunCefalica = new QPushButton(verticalLayoutWidget);
+        btn_CircunCefalica->setObjectName(QStringLiteral("btn_CircunCefalica"));
+        btn_CircunCefalica->setMinimumSize(QSize(0, 60));
+        btn_CircunCefalica->setAutoFillBackground(false);
+        btn_CircunCefalica->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_CircunCefalica->setFlat(false);
+
+        verticalLayout->addWidget(btn_CircunCefalica);
+
+        btn_Talla = new QPushButton(verticalLayoutWidget);
+        btn_Talla->setObjectName(QStringLiteral("btn_Talla"));
+        btn_Talla->setMinimumSize(QSize(0, 60));
+        btn_Talla->setAutoFillBackground(false);
+        btn_Talla->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_Talla->setFlat(false);
+
+        verticalLayout->addWidget(btn_Talla);
+
+        verticalLayoutWidget_2 = new QWidget(centralwidget);
+        verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
+        verticalLayoutWidget_2->setGeometry(QRect(1360, 0, 160, 464));
+        verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget_2);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        btn_selection_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_selection_2->setObjectName(QStringLiteral("btn_selection_2"));
+        btn_selection_2->setMinimumSize(QSize(0, 60));
+        btn_selection_2->setAutoFillBackground(false);
+        btn_selection_2->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_selection_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_selection_2);
+
+        btn_CircunCadera_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCadera_2->setObjectName(QStringLiteral("btn_CircunCadera_2"));
+        btn_CircunCadera_2->setMinimumSize(QSize(0, 60));
+        btn_CircunCadera_2->setAutoFillBackground(false);
+        btn_CircunCadera_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_CircunCadera_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_CircunCadera_2);
+
+        btn_CircunBrazoIzq_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunBrazoIzq_2->setObjectName(QStringLiteral("btn_CircunBrazoIzq_2"));
+        btn_CircunBrazoIzq_2->setMinimumSize(QSize(0, 60));
+        btn_CircunBrazoIzq_2->setAutoFillBackground(false);
+        btn_CircunBrazoIzq_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_CircunBrazoIzq_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_CircunBrazoIzq_2);
+
+        btn_DiamFemur_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_DiamFemur_2->setObjectName(QStringLiteral("btn_DiamFemur_2"));
+        btn_DiamFemur_2->setMinimumSize(QSize(0, 60));
+        btn_DiamFemur_2->setAutoFillBackground(false);
+        btn_DiamFemur_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_DiamFemur_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_DiamFemur_2);
+
+        btn_CircunCintura_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCintura_2->setObjectName(QStringLiteral("btn_CircunCintura_2"));
+        btn_CircunCintura_2->setMinimumSize(QSize(0, 60));
+        btn_CircunCintura_2->setAutoFillBackground(false);
+        btn_CircunCintura_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        btn_CircunCintura_2->setCheckable(false);
+        btn_CircunCintura_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_CircunCintura_2);
+
+        btn_CircunCefalica_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCefalica_2->setObjectName(QStringLiteral("btn_CircunCefalica_2"));
+        btn_CircunCefalica_2->setMinimumSize(QSize(0, 60));
+        btn_CircunCefalica_2->setAutoFillBackground(false);
+        btn_CircunCefalica_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_CircunCefalica_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_CircunCefalica_2);
+
+        btn_Talla_2 = new QPushButton(verticalLayoutWidget_2);
+        btn_Talla_2->setObjectName(QStringLiteral("btn_Talla_2"));
+        btn_Talla_2->setMinimumSize(QSize(0, 60));
+        btn_Talla_2->setAutoFillBackground(false);
+        btn_Talla_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 8pt \"Segoe UI\";"));
+        btn_Talla_2->setFlat(false);
+
+        verticalLayout_3->addWidget(btn_Talla_2);
+
         Cybele->setCentralWidget(centralwidget);
         viewer->raise();
-        frame_4->raise();
-        gridLayoutWidget->raise();
         viewer_2->raise();
+        infoLabel->raise();
+        layoutWidget->raise();
+        sceneView->raise();
+        sceneView_2->raise();
+        gridLayoutWidget->raise();
+        layoutWidget_2->raise();
+        gridLayoutWidget_2->raise();
+        verticalLayoutWidget->raise();
+        verticalLayoutWidget_2->raise();
         menubar = new QMenuBar(Cybele);
         menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 1730, 23));
@@ -548,10 +850,13 @@ public:
         consoleDockWidget = new QDockWidget(Cybele);
         consoleDockWidget->setObjectName(QStringLiteral("consoleDockWidget"));
         consoleDockWidget->setEnabled(true);
-        sizePolicy1.setHeightForWidth(consoleDockWidget->sizePolicy().hasHeightForWidth());
-        consoleDockWidget->setSizePolicy(sizePolicy1);
-        consoleDockWidget->setMinimumSize(QSize(305, 695));
-        consoleDockWidget->setMaximumSize(QSize(524287, 524287));
+        QSizePolicy sizePolicy6(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(consoleDockWidget->sizePolicy().hasHeightForWidth());
+        consoleDockWidget->setSizePolicy(sizePolicy6);
+        consoleDockWidget->setMinimumSize(QSize(200, 787));
+        consoleDockWidget->setMaximumSize(QSize(200, 524287));
         consoleDockWidget->setContextMenuPolicy(Qt::NoContextMenu);
         consoleDockWidget->setStyleSheet(QStringLiteral(""));
         consoleDockWidget->setFloating(false);
@@ -561,93 +866,6 @@ public:
         dockWidgetContents->setStyleSheet(QStringLiteral(""));
         verticalLayout_2 = new QVBoxLayout(dockWidgetContents);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        addButton = new QToolButton(dockWidgetContents);
-        addButton->setObjectName(QStringLiteral("addButton"));
-        addButton->setStyleSheet(QStringLiteral("border:0px;"));
-        addButton->setIcon(icon);
-
-        horizontalLayout->addWidget(addButton);
-
-        removeButton = new QToolButton(dockWidgetContents);
-        removeButton->setObjectName(QStringLiteral("removeButton"));
-        removeButton->setStyleSheet(QStringLiteral("border:0px;"));
-        removeButton->setIcon(icon1);
-
-        horizontalLayout->addWidget(removeButton);
-
-        duplicateButton = new QToolButton(dockWidgetContents);
-        duplicateButton->setObjectName(QStringLiteral("duplicateButton"));
-        duplicateButton->setStyleSheet(QStringLiteral("border:0px;"));
-        duplicateButton->setIcon(icon2);
-
-        horizontalLayout->addWidget(duplicateButton);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-        searchEdit = new QLineEdit(dockWidgetContents);
-        searchEdit->setObjectName(QStringLiteral("searchEdit"));
-
-        horizontalLayout->addWidget(searchEdit);
-
-
-        verticalLayout->addLayout(horizontalLayout);
-
-        sceneView = new QTreeView(dockWidgetContents);
-        sceneView->setObjectName(QStringLiteral("sceneView"));
-        sceneView->setEnabled(true);
-        sceneView->setFrameShape(QFrame::Panel);
-        sceneView->setFrameShadow(QFrame::Plain);
-        sceneView->setLineWidth(0);
-        sceneView->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
-        sceneView->setAlternatingRowColors(false);
-        sceneView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        sceneView->setIndentation(0);
-
-        verticalLayout->addWidget(sceneView);
-
-
-        verticalLayout_2->addLayout(verticalLayout);
-
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setSpacing(0);
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        displayLabel = new QLabel(dockWidgetContents);
-        displayLabel->setObjectName(QStringLiteral("displayLabel"));
-
-        verticalLayout_4->addWidget(displayLabel);
-
-        infoLabel = new QLabel(dockWidgetContents);
-        infoLabel->setObjectName(QStringLiteral("infoLabel"));
-        QSizePolicy sizePolicy6(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(1);
-        sizePolicy6.setHeightForWidth(infoLabel->sizePolicy().hasHeightForWidth());
-        infoLabel->setSizePolicy(sizePolicy6);
-        infoLabel->setContextMenuPolicy(Qt::DefaultContextMenu);
-        infoLabel->setLineWidth(0);
-        infoLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-        infoLabel->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
-
-        verticalLayout_4->addWidget(infoLabel);
-
-        consoleTextEdit = new QTextEdit(dockWidgetContents);
-        consoleTextEdit->setObjectName(QStringLiteral("consoleTextEdit"));
-        consoleTextEdit->setFrameShape(QFrame::Panel);
-        consoleTextEdit->setFrameShadow(QFrame::Plain);
-        consoleTextEdit->setLineWidth(0);
-        consoleTextEdit->setReadOnly(true);
-
-        verticalLayout_4->addWidget(consoleTextEdit);
-
-
-        verticalLayout_2->addLayout(verticalLayout_4);
-
         formLayout_3 = new QFormLayout();
         formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
         lineEdit = new QLineEdit(dockWidgetContents);
@@ -722,13 +940,6 @@ public:
 
         formLayout_3->setWidget(13, QFormLayout::LabelRole, lbl_DiamFemur);
 
-        line = new QFrame(dockWidgetContents);
-        line->setObjectName(QStringLiteral("line"));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-
-        formLayout_3->setWidget(15, QFormLayout::LabelRole, line);
-
         pushButton = new QPushButton(dockWidgetContents);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setAutoFillBackground(false);
@@ -740,11 +951,39 @@ public:
 
         formLayout_3->setWidget(14, QFormLayout::LabelRole, pushButton);
 
+        line = new QFrame(dockWidgetContents);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        formLayout_3->setWidget(16, QFormLayout::LabelRole, line);
+
 
         verticalLayout_2->addLayout(formLayout_3);
 
+        displayLabel = new QLabel(dockWidgetContents);
+        displayLabel->setObjectName(QStringLiteral("displayLabel"));
+
+        verticalLayout_2->addWidget(displayLabel);
+
+        line_3 = new QFrame(dockWidgetContents);
+        line_3->setObjectName(QStringLiteral("line_3"));
+        line_3->setFrameShape(QFrame::HLine);
+        line_3->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout_2->addWidget(line_3);
+
+        consoleTextEdit = new QTextEdit(dockWidgetContents);
+        consoleTextEdit->setObjectName(QStringLiteral("consoleTextEdit"));
+        consoleTextEdit->setFrameShape(QFrame::Panel);
+        consoleTextEdit->setFrameShadow(QFrame::Plain);
+        consoleTextEdit->setLineWidth(0);
+        consoleTextEdit->setReadOnly(true);
+
+        verticalLayout_2->addWidget(consoleTextEdit);
+
         consoleDockWidget->setWidget(dockWidgetContents);
-        Cybele->addDockWidget(static_cast<Qt::DockWidgetArea>(2), consoleDockWidget);
+        Cybele->addDockWidget(static_cast<Qt::DockWidgetArea>(1), consoleDockWidget);
         consoleDockWidget->raise();
 
         menubar->addAction(menuFile->menuAction());
@@ -876,6 +1115,44 @@ public:
         actionSelect_all_items->setShortcut(QApplication::translate("Cybele", "Ctrl+A", 0));
         actionLoad_Script->setText(QApplication::translate("Cybele", "Load &script", 0));
         actionPreferences->setText(QApplication::translate("Cybele", "&Preferences", 0));
+        addButton->setText(QApplication::translate("Cybele", "+", 0));
+        removeButton->setText(QApplication::translate("Cybele", "-", 0));
+        duplicateButton->setText(QApplication::translate("Cybele", "...", 0));
+        searchEdit->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", 0));
+        pushButton_3->setText(QApplication::translate("Cybele", "W", 0));
+        pushButton_2->setText(QApplication::translate("Cybele", "P", 0));
+        pushButton_4->setText(QApplication::translate("Cybele", "S", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_7->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_7->setText(QApplication::translate("Cybele", "A", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_5->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_5->setText(QApplication::translate("Cybele", "L", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_6->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_6->setText(QApplication::translate("Cybele", "G", 0));
+        addButtonRight->setText(QApplication::translate("Cybele", "+", 0));
+        removeButtonRight->setText(QApplication::translate("Cybele", "-", 0));
+        duplicateButtonRight->setText(QApplication::translate("Cybele", "...", 0));
+        searchEditRight->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", 0));
+        pushButton_8->setText(QApplication::translate("Cybele", "W", 0));
+        pushButton_9->setText(QApplication::translate("Cybele", "P", 0));
+        pushButton_10->setText(QApplication::translate("Cybele", "S", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_11->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_11->setText(QApplication::translate("Cybele", "A", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_12->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_12->setText(QApplication::translate("Cybele", "L", 0));
+#ifndef QT_NO_WHATSTHIS
+        pushButton_13->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+#endif // QT_NO_WHATSTHIS
+        pushButton_13->setText(QApplication::translate("Cybele", "G", 0));
         btn_selection->setText(QApplication::translate("Cybele", "SELECCIONAR \n"
 "PUNTOS", 0));
         btn_CircunCintura->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
@@ -887,21 +1164,17 @@ public:
         btn_CircunCefalica->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
 "CEFALICA", 0));
         btn_Talla->setText(QApplication::translate("Cybele", "TALLA", 0));
-        pushButton_4->setText(QApplication::translate("Cybele", "S", 0));
-        pushButton_3->setText(QApplication::translate("Cybele", "W", 0));
-        pushButton_2->setText(QApplication::translate("Cybele", "P", 0));
-#ifndef QT_NO_WHATSTHIS
-        pushButton_7->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
-#endif // QT_NO_WHATSTHIS
-        pushButton_7->setText(QApplication::translate("Cybele", "A", 0));
-#ifndef QT_NO_WHATSTHIS
-        pushButton_6->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
-#endif // QT_NO_WHATSTHIS
-        pushButton_6->setText(QApplication::translate("Cybele", "G", 0));
-#ifndef QT_NO_WHATSTHIS
-        pushButton_5->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
-#endif // QT_NO_WHATSTHIS
-        pushButton_5->setText(QApplication::translate("Cybele", "L", 0));
+        btn_selection_2->setText(QApplication::translate("Cybele", "SELECCIONAR \n"
+"PUNTOS", 0));
+        btn_CircunCadera_2->setText(QApplication::translate("Cybele", "CADERA", 0));
+        btn_CircunBrazoIzq_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
+"BRAZO", 0));
+        btn_DiamFemur_2->setText(QApplication::translate("Cybele", " FEMUR", 0));
+        btn_CircunCintura_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
+"CINTURA", 0));
+        btn_CircunCefalica_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
+"CEFALICA", 0));
+        btn_Talla_2->setText(QApplication::translate("Cybele", "TALLA", 0));
         menuFile->setTitle(QApplication::translate("Cybele", "&File", 0));
         menuEdit->setTitle(QApplication::translate("Cybele", "&Edit", 0));
         menuOperations->setTitle(QApplication::translate("Cybele", "&Operations", 0));
@@ -913,11 +1186,6 @@ public:
         menuDockWindows->setTitle(QApplication::translate("Cybele", "&Dock windows", 0));
         menuCamera->setTitle(QApplication::translate("Cybele", "Ca&mera", 0));
         consoleDockWidget->setWindowTitle(QString());
-        addButton->setText(QApplication::translate("Cybele", "+", 0));
-        removeButton->setText(QApplication::translate("Cybele", "-", 0));
-        duplicateButton->setText(QApplication::translate("Cybele", "...", 0));
-        searchEdit->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", 0));
-        displayLabel->setText(QString());
         lineEdit->setPlaceholderText(QApplication::translate("Cybele", "Buscar...", 0));
         lineEdit_2->setPlaceholderText(QApplication::translate("Cybele", "Nombre", 0));
         lineEdit_3->setPlaceholderText(QApplication::translate("Cybele", "Apellido", 0));
@@ -932,6 +1200,7 @@ public:
         lbl_DiamMuneca->setText(QApplication::translate("Cybele", "Circunferencia Mu\303\261eca", 0));
         lbl_DiamFemur->setText(QApplication::translate("Cybele", "Femur", 0));
         pushButton->setText(QApplication::translate("Cybele", "Guardar", 0));
+        displayLabel->setText(QString());
     } // retranslateUi
 
 };

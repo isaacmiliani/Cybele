@@ -5,7 +5,7 @@
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptEngine>
 #  include <QScriptValue>
-
+#include <QOpenGLContext>
 
 QScriptValue
 myScene_itemToScriptValue(QScriptEngine *engine,
@@ -104,6 +104,127 @@ QScriptValue myPrintFunction(QScriptContext *context, QScriptEngine *engine)
 	return engine->undefinedValue();
 }
 
+void Cybele::setupViewer_2(){
+	
+	// Save some pointers from ui, for latter use.
+	sceneView_2 = ui->sceneView_2;
+	viewer_2 = ui->viewer_2;
+
+	// setup scene
+	scene_2 = new Scene(this);
+	viewer_2->setScene(scene_2);
+	
+	proxyModel_2 = new QSortFilterProxyModel(this);
+	proxyModel_2->setSourceModel(scene_2);
+
+	sceneView_2->setModel(proxyModel_2);
+	// setup the sceneview: delegation and columns sizing...
+	sceneView_2->setItemDelegate(new SceneDelegate(this));
+	sceneView_2->header()->setStretchLastSection(false);
+	sceneView_2->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
+	sceneView_2->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
+	sceneView_2->header()->setSectionResizeMode(Scene::ColorColumn, QHeaderView::ResizeToContents);
+	sceneView_2->header()->setSectionResizeMode(Scene::RenderingModeColumn, QHeaderView::Fixed);
+	sceneView_2->header()->setSectionResizeMode(Scene::ABColumn, QHeaderView::Fixed);
+	sceneView_2->header()->setSectionResizeMode(Scene::VisibleColumn, QHeaderView::Fixed);
+	sceneView_2->resizeColumnToContents(Scene::ColorColumn);
+	sceneView_2->resizeColumnToContents(Scene::RenderingModeColumn);
+	sceneView_2->resizeColumnToContents(Scene::ABColumn);
+	sceneView_2->resizeColumnToContents(Scene::VisibleColumn);
+
+	// setup connections
+	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this, SLOT(updateInfo_2()));
+
+	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this, SLOT(updateDisplayInfo_2()));
+
+	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		viewer_2, SLOT(updateGL()));
+
+	connect(scene_2, SIGNAL(updated()),
+		viewer_2, SLOT(updateGL()));
+
+	connect(scene_2, SIGNAL(updated()),
+		this, SLOT(selectionChanged()));
+
+	connect(scene_2, SIGNAL(itemAboutToBeDestroyed(Scene_item*)),
+		this, SLOT(removeManipulatedFrame_2(Scene_item*)));
+
+	connect(scene_2, SIGNAL(updated_bbox()),
+		this, SLOT(updateViewerBBox_2()));
+
+	connect(scene_2, SIGNAL(selectionChanged(int)),
+		this, SLOT(selectSceneItem_2(int)));
+
+	connect(sceneView_2->selectionModel(),
+		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+		this, SLOT(updateInfo_2()));
+
+	connect(sceneView_2->selectionModel(),
+		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+		this, SLOT(updateDisplayInfo_2()));
+
+	connect(sceneView_2->selectionModel(),
+		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+		this, SLOT(selectionChanged_2()));
+
+	sceneView_2->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(sceneView_2, SIGNAL(customContextMenuRequested(const QPoint &)),
+		this, SLOT(showSceneContextMenu_2(const QPoint &)));
+
+	connect(viewer_2, SIGNAL(selected(int)),
+		this, SLOT(selectSceneItem_2(int)));
+	connect(viewer_2, SIGNAL(selectedPoint(double, double, double)),
+		this, SLOT(showSelectedPoint(double, double, double)));
+
+	connect(viewer_2, SIGNAL(selectionRay(double, double, double,
+		double, double, double)),
+		scene_2, SIGNAL(selectionRay(double, double, double,
+		double, double, double)));
+
+	connect(viewer_2, SIGNAL(requestContextMenu(QPoint)),
+		this, SLOT(contextMenuRequested(QPoint)));
+
+	// The contextMenuPolicy of infoLabel is now the default one, so that one
+	// can easily copy-paste its text.
+	// connect(ui->infoLabel, SIGNAL(customContextMenuRequested(const QPoint & )),
+	//         this, SLOT(showSceneContextMenu(const QPoint &)));
+
+	connect(ui->actionRecenterScene, SIGNAL(triggered()),
+		viewer_2, SLOT(update()));
+
+	connect(ui->actionAntiAliasing, SIGNAL(toggled(bool)),
+		viewer_2, SLOT(setAntiAliasing(bool)));
+
+	connect(ui->actionDraw_two_sides, SIGNAL(toggled(bool)),
+		viewer_2, SLOT(setTwoSides(bool)));
+
+	// add the "About CGAL..." and "About demo..." entries
+	//this->addAboutCGAL();
+	//this->addAboutDemo(":/cgal/Polyhedron_3/about.html");
+
+	// Connect the button "addButton" with actionLoad
+	ui->addButton->setDefaultAction(ui->actionLoad);
+	// Same with "removeButton" and "duplicateButton"
+	ui->removeButton->setDefaultAction(ui->actionErase);
+	ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
+
+	// Connect actionQuit (Ctrl+Q) and qApp->quit()
+	//connect(ui->actionQuit, SIGNAL(triggered()),
+	//	this, SLOT(quit()));
+
+	// Connect "Select all items"
+	connect(ui->actionSelect_all_items, SIGNAL(triggered()),
+		this, SLOT(selectAll()));
+
+	// Recent files menu
+	this->addRecentFiles(ui->menuFile, ui->actionQuit);
+	connect(this, SIGNAL(openRecentFile(QString)),
+		this, SLOT(open(QString)));
+
+}
+
 Cybele::Cybele(QWidget *parent) :
 	CGAL::Qt::DemosMainWindow(parent),
 	edges_item(0),
@@ -118,27 +239,21 @@ Cybele::Cybele(QWidget *parent) :
 	ui->menuBar->removeAction(ui->actionLoad_Script);
 #endif
 	
+	
 	// Save some pointers from ui, for latter use.
 	sceneView = ui->sceneView;
-	viewer = ui->viewer;
 	
-	// do not save the state of the viewer (anoying)
-	viewer->setStateFileName(QString::null);
-
+	
 	// setup scene
 	scene = new Scene(this);
-	viewer->setScene(scene);
+	//
 
-	// Save some pointers from ui, for latter use.
-	sceneView = ui->sceneView;
-	viewer_2 = ui->viewer_2;
-
+	//viewer = new Viewer(scene, 0,this);
+	//viewer=ui->viewer;
 	// do not save the state of the viewer (anoying)
-	viewer_2->setStateFileName(QString::null);
-
-	// setup scene
-	scene_2 = new Scene(this);
-	viewer_2->setScene(scene_2);
+	viewer = ui->viewer;
+	viewer->setScene(scene);
+	viewer->setStateFileName(QString::null);
 
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel(scene);
@@ -328,13 +443,48 @@ Cybele::Cybele(QWidget *parent) :
 	// setup menu filtering
 	connect(ui->menuOperations, SIGNAL(aboutToShow())
 		, this, SLOT(filterOperations()));
-
+	
+	// Right viewer
+	setupViewer_2();
+	
 }
 
 Cybele::~Cybele()
 {
 	delete ui;
 }
+
+void Cybele::selectionChanged_2()
+{
+	scene_2->setSelectedItemIndex(getSelectedSceneItemIndex_2());
+	scene_2->setSelectedItemsList(getSelectedSceneItemIndices_2());
+	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
+	if (item != NULL && item->manipulatable()) {
+		viewer_2->setManipulatedFrame(item->manipulatedFrame());
+	}
+	else {
+		viewer_2->setManipulatedFrame(0);
+	}
+	if (viewer_2->manipulatedFrame() == 0) {
+		Q_FOREACH(Scene_item* item, scene_2->entries()) {
+			if (item->manipulatable() && item->manipulatedFrame() != 0) {
+				if (viewer_2->manipulatedFrame() != 0) {
+					// there are at least two possible frames
+					viewer_2->setManipulatedFrame(0);
+					break;
+				}
+				else {
+					viewer_2->setManipulatedFrame(item->manipulatedFrame());
+				}
+			}
+		}
+	}
+	if (viewer_2->manipulatedFrame() != 0) {
+		connect(viewer_2->manipulatedFrame(), SIGNAL(modified()),
+			this, SLOT(updateInfo_2()));
+	}
+	viewer_2->updateGL();
+} 
 
 void Cybele::selectionChanged()
 {
@@ -366,7 +516,7 @@ void Cybele::selectionChanged()
 			this, SLOT(updateInfo()));
 	}
 	viewer->updateGL();
-} 
+}
 
 QList<int> Cybele::getSelectedSceneItemIndices() const
 {
@@ -374,6 +524,15 @@ QList<int> Cybele::getSelectedSceneItemIndices() const
 	QList<int> result;
 	Q_FOREACH(QModelIndex index, selectedRows) {
 		result << proxyModel->mapToSource(index).row();
+	}
+	return result;
+}
+QList<int> Cybele::getSelectedSceneItemIndices_2() const
+{
+	QModelIndexList selectedRows = sceneView_2->selectionModel()->selectedRows();
+	QList<int> result;
+	Q_FOREACH(QModelIndex index, selectedRows) {
+		result << proxyModel_2->mapToSource(index).row();
 	}
 	return result;
 }
@@ -536,6 +695,21 @@ void Cybele::addSceneItemInSelection(int i)
 	sceneView->selectionModel()->select(s, QItemSelectionModel::Select);
 	scene->itemChanged(i);
 }
+void Cybele::removeSceneItemFromSelection_2(int i)
+{
+	QItemSelection s =
+		proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
+	sceneView_2->selectionModel()->select(s,
+		QItemSelectionModel::Deselect);
+	scene_2->itemChanged(i);
+}
+void Cybele::addSceneItemInSelection_2(int i)
+{
+	QItemSelection s =
+		proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
+	sceneView_2->selectionModel()->select(s, QItemSelectionModel::Select);
+	scene_2->itemChanged(i);
+}
 void Cybele::unSelectSceneItem(int i)
 {
 	removeSceneItemFromSelection(i);
@@ -568,6 +742,46 @@ void Cybele::showSceneContextMenu(int selectedItemIndex,
 			showobject->setData(qVariantFromValue(selectedItemIndex));
 			connect(showobject, SIGNAL(triggered()),
 				this, SLOT(viewerShowObject()));
+
+			QAction* objectLenght = menu->addAction(tr("&Measure this object"));
+			objectLenght->setData(qVariantFromValue(selectedItemIndex));
+			connect(objectLenght, SIGNAL(triggered()),
+				this, SLOT(getCircumference()));
+
+			menu->setProperty(prop_name, true);
+		}
+	}
+	if (menu)
+		menu->exec(global_pos);
+}
+void Cybele::showSceneContextMenu_2(int selectedItemIndex,
+	const QPoint& global_pos)
+{
+	Scene_item* item = scene_2->item(selectedItemIndex);
+	if (!item) return;
+
+	const char* prop_name = "Menu modified by MainWindow.";
+
+	QMenu* menu = item->contextMenu();
+	if (menu) {
+		bool menuChanged = menu->property(prop_name).toBool();
+		if (!menuChanged) {
+			menu->addSeparator();
+			if (!item->property("source filename").toString().isEmpty()) {
+				QAction* reload = menu->addAction(tr("&Reload item from file"));
+				reload->setData(qVariantFromValue(selectedItemIndex));
+				connect(reload, SIGNAL(triggered()),
+					this, SLOT(reload_item()));
+			}
+			QAction* saveas = menu->addAction(tr("&Save as..."));
+			saveas->setData(qVariantFromValue(selectedItemIndex));
+			connect(saveas, SIGNAL(triggered()),
+				this, SLOT(on_actionSaveAs_triggered()));
+
+			QAction* showobject = menu->addAction(tr("&Zoom to this object"));
+			showobject->setData(qVariantFromValue(selectedItemIndex));
+			connect(showobject, SIGNAL(triggered()),
+				this, SLOT(viewerShowObject_2()));
 
 			QAction* objectLenght = menu->addAction(tr("&Measure this object"));
 			objectLenght->setData(qVariantFromValue(selectedItemIndex));
@@ -814,6 +1028,23 @@ void Cybele::showSceneContextMenu(const QPoint& p) {
 
 	showSceneContextMenu(index, sender->mapToGlobal(p));
 }
+void Cybele::showSceneContextMenu_2(const QPoint& p) {
+	QWidget* sender = qobject_cast<QWidget*>(this->sender());
+	if (!sender) return;
+
+	int index = -1;
+	if (sender == sceneView_2) {
+		QModelIndex modelIndex = sceneView_2->indexAt(p);
+		if (!modelIndex.isValid()) return;
+
+		index = proxyModel_2->mapToSource(modelIndex).row();
+	}
+	else{
+		index = scene_2->mainSelectionIndex();
+	}
+
+	showSceneContextMenu_2(index, sender->mapToGlobal(p));
+}
 
 void Cybele::reload_item() {
 	QAction* sender_action = qobject_cast<QAction*>(sender());
@@ -861,6 +1092,13 @@ void Cybele::removeManipulatedFrame(Scene_item* item)
 	if (item->manipulatable() &&
 		item->manipulatedFrame() == viewer->manipulatedFrame()) {
 		viewer->setManipulatedFrame(0);
+	}
+}
+void Cybele::removeManipulatedFrame_2(Scene_item* item)
+{
+	if (item->manipulatable() &&
+		item->manipulatedFrame() == viewer_2->manipulatedFrame()) {
+		viewer_2->setManipulatedFrame(0);
 	}
 }
 void Cybele::readSettings()
@@ -977,6 +1215,63 @@ void Cybele::viewerShowObject()
 	if (index >= 0) {
 		const Scene::Bbox bbox = scene->item(index)->bbox();
 		viewerShow((float)bbox.xmin, (float)bbox.ymin, (float)bbox.zmin,
+			(float)bbox.xmax, (float)bbox.ymax	, (float)bbox.zmax);
+	}
+}
+
+void Cybele::viewerShow_2(float xmin,
+	float ymin,
+	float zmin,
+	float xmax,
+	float ymax,
+	float zmax)
+{
+	qglviewer::Vec
+		min_(xmin, ymin, zmin),
+		max_(xmax, ymax, zmax);
+#if QGLVIEWER_VERSION >= 0x020502
+	viewer_2->camera()->setPivotPoint((min_ + max_)*0.5);
+#else
+	viewer_2->camera()->setRevolveAroundPoint((min_ + max_)*0.5);
+#endif
+
+	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_2->camera()->frame());
+	viewer_2->camera()->fitBoundingBox(min_, max_);
+	qglviewer::ManipulatedCameraFrame new_frame(*viewer_2->camera()->frame());
+	*viewer_2->camera()->frame() = backup_frame;
+	viewer_2->camera()->interpolateTo(new_frame, 1.f);
+	viewer_2->setVisualHintsMask(1);
+
+}
+
+void Cybele::viewerShow_2(float x, float y, float z) {
+#if QGLVIEWER_VERSION >= 0x020502
+	viewer_2->camera()->setPivotPoint(qglviewer::Vec(x, y, z));
+#else
+	viewer_2->camera()->setRevolveAroundPoint(qglviewer::Vec(x, y, z));
+#endif
+	// viewer->camera()->lookAt(qglviewer::Vec(x, y, z));
+
+	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_2->camera()->frame());
+	viewer_2->camera()->fitSphere(qglviewer::Vec(x, y, z),
+		viewer_2->camera()->sceneRadius() / 100);
+	qglviewer::ManipulatedCameraFrame new_frame(*viewer_2->camera()->frame());
+	*viewer_2->camera()->frame() = backup_frame;
+	viewer_2->camera()->interpolateTo(new_frame, 1.f);
+	viewer_2->setVisualHintsMask(1);
+
+}
+
+void Cybele::viewerShowObject_2()
+{
+	int index = -1;
+	QAction* sender_action = qobject_cast<QAction*>(sender());
+	if (sender_action && !sender_action->data().isNull()) {
+		index = sender_action->data().toInt();
+	}
+	if (index >= 0) {
+		const Scene::Bbox bbox = scene_2->item(index)->bbox();
+		viewerShow_2((float)bbox.xmin, (float)bbox.ymin, (float)bbox.zmin,
 			(float)bbox.xmax, (float)bbox.ymax, (float)bbox.zmax);
 	}
 }
@@ -993,8 +1288,6 @@ void Cybele::message(QString message, QString colorName, QString font) {
 	//ui->consoleTextEdit->insertHtml(message);
 	//ui->consoleTextEdit->verticalScrollBar()->setValue(ui->consoleTextEdit->verticalScrollBar()->maximum());
 }
-
-
 
 void Cybele::load_off(QString absoluteFilePath){
 
@@ -1173,8 +1466,36 @@ void Cybele::selectSceneItem(int i)
 			QItemSelectionModel::ClearAndSelect);
 	}
 }
+void Cybele::selectSceneItem_2(int i)
+{
+	if (i < 0 || i >= scene_2->numberOfEntries()) {
+		sceneView_2->selectionModel()->clearSelection();
+		updateInfo_2();
+		updateDisplayInfo_2();
+	}
+	else {
+		QItemSelection s =
+			proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
+		sceneView_2->selectionModel()->select(s,
+			QItemSelectionModel::ClearAndSelect);
+	}
+}
 void Cybele::updateInfo() {
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
+	if (item) {
+
+		QString item_text = item->toolTip();
+		QString item_filename = item->property("source filename").toString();
+		if (!item_filename.isEmpty()) {
+			item_text += QString("<br /><i>File: %1").arg(item_filename);
+		}
+		ui->infoLabel->setText(item_text);
+	}
+	else
+		ui->infoLabel->clear();
+}
+void Cybele::updateInfo_2() {
+	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
 	if (item) {
 
 		QString item_text = item->toolTip();
@@ -1194,6 +1515,13 @@ void Cybele::updateDisplayInfo() {
 	else
 		ui->displayLabel->clear();
 }
+void Cybele::updateDisplayInfo_2() {
+	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
+	if (item)
+		ui->displayLabel->setPixmap(item->graphicalToolTip());
+	else
+		ui->displayLabel->clear();
+}
 
 int Cybele::getSelectedSceneItemIndex() const
 {
@@ -1202,6 +1530,16 @@ int Cybele::getSelectedSceneItemIndex() const
 		return -1;
 	else {
 		QModelIndex i = proxyModel->mapToSource(selectedRows.first());
+		return i.row();
+	}
+}
+int Cybele::getSelectedSceneItemIndex_2() const
+{
+	QModelIndexList selectedRows = sceneView_2->selectionModel()->selectedRows();
+	if (selectedRows.size() != 1)
+		return -1;
+	else {
+		QModelIndex i = proxyModel_2->mapToSource(selectedRows.first());
 		return i.row();
 	}
 }
@@ -1355,6 +1693,11 @@ void Cybele::evaluate_script_quiet(QString script,
 
 void Cybele::on_actionLoad_triggered()
 {
+	openFile(scene, viewer);
+}
+
+void Cybele::openFile(Scene *scene, Viewer *viewer){
+
 	QStringList filters;
 	// we need to special case our way out of this
 	filters << "All Files (*)";
@@ -1401,6 +1744,7 @@ void Cybele::on_actionLoad_triggered()
 
 	Q_FOREACH(const QString& filename, dialog.selectedFiles()) {
 		Scene_item* item = NULL;
+		Scene_item* item_2 = NULL;
 		if (selectedPlugin) {
 			QFileInfo info(filename);
 			item = load_item(info, selectedPlugin);
@@ -1409,14 +1753,12 @@ void Cybele::on_actionLoad_triggered()
 			this->addToRecentFiles(filename);
 		}
 		else {
-			open(filename);
+			open(filename, scene, viewer);
 		}
 	}
-	
 }
 
-
-void Cybele::open(QString filename)
+void Cybele::open(QString filename, Scene *scene, Viewer *viewer)
 {
 	QFileInfo fileinfo(filename);
 
@@ -1507,14 +1849,122 @@ void Cybele::open(QString filename)
 	settings.setValue("OFF open directory",
 		fileinfo.absoluteDir().absolutePath());
 
+	viewer->makeCurrent();
 	Scene_item* scene_item = 0;
-
 	scene_item = load_item(fileinfo, find_loader(load_pair.first));
-
+	
+	selectSceneItem(scene->addItem(scene_item));
 	if (scene_item != 0) {
 		this->addToRecentFiles(fileinfo.absoluteFilePath());
 	}
+	
+	
+	
+}
+void Cybele::open(QString filename)
+{
+	QFileInfo fileinfo(filename);
+
+#ifdef QT_SCRIPT_LIB
+	// Handles the loading of script file from the command line arguments,
+	// and the special command line arguments that start with "javascript:"
+	// or "qtscript:"
+	QString program;
+	if (filename.startsWith("javascript:")) {
+		program = filename.right(filename.size() - 11);
+	}
+	if (filename.startsWith("qtscript:")) {
+		program = filename.right(filename.size() - 9);
+	}
+	if (filename.endsWith(".js")) {
+		load_script(fileinfo);
+		return;
+	}
+	if (!program.isEmpty())
+	{
+		{
+			QTextStream(stderr) << "Execution of script \""
+				<< filename << "\"\n";
+			// << filename << "\", with following content:\n"
+			// << program;
+		}
+		evaluate_script(program, filename);
+		return;
+	}
+#endif
+
+	if (!fileinfo.exists()){
+		QMessageBox::warning(this,
+			tr("Cannot open file"),
+			tr("File %1 does not exist.")
+			.arg(filename));
+		return;
+	}
+
+	QStringList selected_items;
+	QStringList all_items;
+
+	QMap<QString, QString>::iterator dfs_it =
+		default_plugin_selection.find(fileinfo.completeSuffix());
+
+	if (dfs_it == default_plugin_selection.end())
+	{
+		// collect all io_plugins and offer them to load if the file extension match one name filter
+		// also collect all available plugin in case of a no extension match
+		Q_FOREACH(Polyhedron_demo_io_plugin_interface* io_plugin, io_plugins) {
+			if (!io_plugin->canLoad()) continue;
+			all_items << io_plugin->name();
+			if (file_matches_filter(io_plugin->nameFilters(), filename))
+				selected_items << io_plugin->name();
+		}
+	}
+	else
+		selected_items << *dfs_it;
+
+	bool ok;
+	std::pair<QString, bool> load_pair;
+
+	switch (selected_items.size())
+	{
+	case 1:
+		load_pair = std::make_pair(selected_items.first(), false);
+		ok = true;
+		break;
+	case 0:
+		load_pair = File_loader_dialog::getItem(fileinfo.fileName(), all_items, &ok);
+		break;
+	default:
+		load_pair = File_loader_dialog::getItem(fileinfo.fileName(), selected_items, &ok);
+	}
+
+	if (!ok || load_pair.first.isEmpty()) { return; }
+
+	if (load_pair.second)
+		default_plugin_selection[fileinfo.completeSuffix()] = load_pair.first;
+
+
+	QSettings settings;
+	settings.setValue("OFF open directory",
+		fileinfo.absoluteDir().absolutePath());
+
+
+	Scene_item* scene_item = 0;
+	scene_item = load_item(fileinfo, find_loader(load_pair.first));
+
 	selectSceneItem(scene->addItem(scene_item));
+	if (scene_item != 0) {
+		this->addToRecentFiles(fileinfo.absoluteFilePath());
+	}
+
+	viewer_2->makeCurrent();
+	QString str_file = "C:\\Users\\kaptain eesikord\\Documents\\Meshes\\fandisk.off";
+	QByteArray ba_file = str_file.toLatin1();
+	fileinfo.setFile(ba_file.data());
+
+	Scene_item* scene_item_2 = 0;
+	scene_item_2 = load_item(fileinfo, find_loader(load_pair.first));
+
+	selectSceneItem_2(scene_2->addItem(scene_item_2));
 }
 bool Cybele::load_script(QString filename)
 {
@@ -1584,9 +2034,7 @@ void Cybele::addAction(QAction* action)
   action->setEnabled(true);
   Q_FOREACH(QWidget* widget, action->associatedWidgets())
   {
-     qDebug() << QString("%1 (%2)\n")
-       .arg(widget->objectName())
-     .arg(widget->metaObject()->className());
+    // qDebug() << QString("%1 (%2)\n").arg(widget->objectName()).arg(widget->metaObject()->className());
     QMenu* menu = qobject_cast<QMenu*>(widget);
     if(menu)
     {
@@ -1666,7 +2114,24 @@ void Cybele::updateViewerBBox()
 		vec_max);
 	viewer->camera()->showEntireScene();
 }
-
+void Cybele::updateViewerBBox_2()
+{
+	const Scene::Bbox bbox = scene_2->bbox();
+	const double xmin = bbox.xmin;
+	const double ymin = bbox.ymin;
+	const double zmin = bbox.zmin;
+	const double xmax = bbox.xmax;
+	const double ymax = bbox.ymax;
+	const double zmax = bbox.zmax;
+	// qDebug() << QString("Bounding box: (%1, %2, %3) - (%4, %5, %6)\n")
+	// .arg(xmin).arg(ymin).arg(zmin).arg(xmax).arg(ymax).arg(zmax);
+	qglviewer::Vec
+		vec_min(xmin, ymin, zmin),
+		vec_max(xmax, ymax, zmax);
+	viewer_2->setSceneBoundingBox(vec_min,
+		vec_max);
+	viewer_2->camera()->showEntireScene();
+}
 QString Cybele::camera_string() const
 {
 	return viewer->dumpCameraCoordinates();
@@ -2128,7 +2593,7 @@ void Cybele::on_btn_CircunCadera_clicked()
 	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
 	ui->lbl_CircunCadera->setText(measure);
 }
-
+/*
 void Cybele::on_btn_CircunMusloIzq_clicked()
 {
 	QString valueAsString = extractMeasure("CircunMusloIzq", plane_CircunMusloIzq, points_CircunMusloIzq, edges_CircunMusloIzq);
@@ -2142,7 +2607,7 @@ void Cybele::on_btn_DiamMuneca_clicked()
 	QString measure = "Diametro Muñeca: " + valueAsString + " cm.";
 	ui->lbl_DiamMuneca->setText(measure);
 }
-
+*/
 void Cybele::on_btn_DiamFemur_clicked()
 {
 	QString measureName = "DiamFemur";
@@ -2236,4 +2701,13 @@ QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item
 	}
 	else
 		return "-";
+}
+void Cybele::on_addButtonRight_clicked()
+{
+	openFile(scene_2, viewer_2);
+}
+
+void Cybele::on_removeButtonRight_clicked()
+{
+
 }

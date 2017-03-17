@@ -55,9 +55,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_qml.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_piechart.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -141,9 +138,6 @@
     <CustomBuild Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\MainWindow.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\Daph\qml.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="piechart.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -200,26 +194,17 @@
     <ClInclude Include="GeneratedFiles\ui_formextractor.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_draw_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Cybele.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\main.qml">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\glcode.js">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="js2.bin" />
     <None Include="js3.bin" />
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodels.js">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodelsbasic.qml">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\pallet.json">
@@ -232,12 +217,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gl-matrix.js">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\ThreeJSLoader.js">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\chart.qml">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="resources\cgal_logo.xpm">

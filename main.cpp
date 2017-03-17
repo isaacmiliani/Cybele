@@ -17,46 +17,10 @@
 
 int main(int argc, char *argv[])
 {
+	//QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 	QApplication a(argc, argv);
-
-	//CGAL
 	Cybele w;
 
-	
-	// PLY to OFF
-	//MainViewer w;
-	
-	//MEPP 
-	//MainWindow w;
-
-	//CGALWindow w;
 	w.showMaximized();
-
-	
-	//QGuiApplication app(argc, argv);
-
-	////QQmlApplicationEngine engine;
-	///engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
-	//return app.exec();
-
-	//QGuiApplication app(argc, argv);
-
-	//qmlRegisterType<PieChart>("Charts", 1, 0, "PieChart");
-
-	//QQuickView view;
-	//view.setResizeMode(QQuickView::SizeRootObjectToView);
-	//view.setSource(QUrl("qrc:/chart.qml"));
-	//view.show();
-
-	//QCoreApplication app(argc, argv);
-
-	//QQmlEngine engine;
-	//Message msg;
-	//engine.rootContext()->setContextProperty("msg", &msg);
-	//QQmlComponent component(&engine, QUrl(QStringLiteral("qrc:/main.qml")));
-	//component.create();
-
-	//return app.exec();
 	return a.exec();
 }

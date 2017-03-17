@@ -284,57 +284,7 @@ private:
 		positions_lines.clear();
 
 		positions_lines = lines;
-
 	
-	/*
-		Kernel::Point_3 a(-0.11401200000000000, 0.0027570500000000000, 0.21384100000000000);
-		Kernel::Point_3 b(-0.0064117999999999996, 0.046622200000000003, 0.21884300000000001);
-		Kernel::Point_3 c(0.049186599999999997, -0.056083700000000000, 0.21255199999999999);
-		Kernel::Point_3 d(-0.044841800000000001, -0.081323900000000005, 0.21241199999999999);
-
-		Kernel::Point_3 a(0.018252600000000001, -0.025993599999999999, -0.10114099999999999);
-		Kernel::Point_3 b(0.058771999999999998, 0.0037752100000000002, -0.091562599999999994);
-		Kernel::Point_3 c(0.098318100000000005, -0.065202200000000002, -0.084362000000000006);
-		Kernel::Point_3 d(0.042104500000000003, -0.088278099999999998, -0.099194699999999997);
-		const Epic_kernel::Point_3& p = a;
-		const Epic_kernel::Point_3& q = b;
-		const Epic_kernel::Point_3& r = c;
-		const Epic_kernel::Point_3& s = d;
-		const Epic_kernel::Line_3 l(a, b);
-
-		const Epic_kernel::Plane_3 plane(p, q, r);
-
-		const Epic_kernel::Tetrahedron_3 t(a, b, c, d);
-		const Epic_kernel::Triangle_3 tgl(p, q, r);
-
-		std::size_t size = 4;
-		std::vector<Kernel::Point_3> vec;
-		double minX, minY, minZ, maxX, maxY, maxZ;
-		vec.reserve(size);
-		vec.push_back(p);
-		vec.push_back(q);
-		vec.push_back(r);
-		vec.push_back(s);
-
-		// Point Sorting
-		std::sort(vec.begin(), vec.end(), myobjectX);
-		minX = vec[0].x();
-		maxX = vec[3].x();
-
-		std::sort(vec.begin(), vec.end(), myobjectY);
-		minY = vec[0].y();
-		maxY = vec[3].y();
-
-		std::sort(vec.begin(), vec.end(), myobjectZ);
-		minZ = vec[0].z();
-		maxZ = vec[3].z();
-		Kernel::Point_3 maxPoint(maxX, maxY, maxZ);
-		Kernel::Point_3 minPoint(minX, minY, minZ);
-		const Epic_kernel::Circle_3 circ(vec[1], vec[2], vec[0]);
-		*/
-		//const CGAL::Bbox_3 box_3(minX, minY, minZ, maxX, maxY, maxZ);
-
-		
 	}
 
 	const Scene_interface* scene;
@@ -595,8 +545,10 @@ public:
 
 public Q_SLOTS:
 	void updateViewerBBox();
+	void updateViewerBBox_2();
 	void open(QString);
-	
+	void open(QString, Scene *, Viewer *);
+	void openFile(Scene *, Viewer *);
 	/// given a file extension file, returns true if `filename` matches the filter
 	bool file_matches_filter(const QString& filters, const QString& filename);
 	bool hasPlugin(const QString&) const;
@@ -610,10 +562,14 @@ public Q_SLOTS:
 	void setAddKeyFrameKeyboardModifiers(Qt::KeyboardModifiers);
 	void enableScriptDebugger(bool = true);
 	void selectSceneItem(int i);
+	void selectSceneItem_2(int i);
 	void showSelectedPoint(double, double, double);
 	void unSelectSceneItem(int i);
+
 	void addSceneItemInSelection(int i);
 	void removeSceneItemFromSelection(int i); // same as unSelectSceneItem
+	void addSceneItemInSelection_2(int i);
+	void removeSceneItemFromSelection_2(int i); // same as unSelectSceneItem
 
 	void selectAll();
 	
@@ -629,6 +585,10 @@ public Q_SLOTS:
 	void viewerShow(float, float, float);
 	void viewerShow(float, float, float, float, float, float);
 	void viewerShowObject();
+
+	void viewerShow_2(float, float, float);
+	void viewerShow_2(float, float, float, float, float, float);
+	void viewerShowObject_2();
 	/// Reloads an item. Expects to be called by a QAction with the
 	/// index of the item to be reloaded as data attached to the action.
 	/// The index must identify a valid `Scene_item`.
@@ -640,21 +600,29 @@ protected:
 	bool onePolygonIsSelected() const;
 	void closeEvent(QCloseEvent *event);
 	QList<int> getSelectedSceneItemIndices() const;
+	QList<int> getSelectedSceneItemIndices_2() const;
 	int getSelectedSceneItemIndex() const;
+	int getSelectedSceneItemIndex_2() const;
 	void load_off(QString absoluteFilePath);
 	void PoissonReconstruction(const char* filename, const char* filename_out );
 	void calculatePointSetNormals(const char* filename, const char* filename_out);
 
 protected Q_SLOTS:
 	void selectionChanged();
+	void selectionChanged_2();
 
 	void contextMenuRequested(const QPoint& global_pos);
 	void showSceneContextMenu(int selectedItemIndex, const QPoint& global_pos);
+	void showSceneContextMenu_2(int selectedItemIndex, const QPoint& global_pos);
 	void showSceneContextMenu(const QPoint& local_pos_of_treeview);
+	void showSceneContextMenu_2(const QPoint& local_pos_of_treeview);
 	
 	void updateInfo();
+	void updateInfo_2();
 	void updateDisplayInfo();
+	void updateDisplayInfo_2();
 	void removeManipulatedFrame(Scene_item*);
+	void removeManipulatedFrame_2(Scene_item*);
 
 	// settings
 	void quit();
@@ -704,28 +672,38 @@ protected Q_SLOTS:
 	void on_btn_CircunBrazoIzq_clicked();
 	void on_btn_CircunCintura_clicked();
 	void on_btn_CircunCadera_clicked();
-	void on_btn_CircunMusloIzq_clicked();
-	void on_btn_DiamMuneca_clicked();
+	//void on_btn_CircunMusloIzq_clicked();
+	//void on_btn_DiamMuneca_clicked();
 	void on_btn_DiamFemur_clicked();
 	void on_btn_Talla_clicked();
 private slots:
 
         void on_btn_selection_clicked();
 
+        void on_addButtonRight_clicked();
+
+
+
+        void on_removeButtonRight_clicked();
+
 private:
     Ui::Cybele *ui;
 	Viewer* viewer;
 	Viewer* viewer_2;
 	QTreeView* sceneView;
+	QTreeView* sceneView_2;
 	Scene* scene;	
 	Scene* scene_2;
-	/// plugin black-list
+	void setupViewer_2();
+
+	// plugin blacklist
 	QSet<QString> plugin_blacklist;
 	// typedef to make Q_FOREACH work
 	typedef QPair<Polyhedron_demo_plugin_interface*, QString> PluginNamePair;
 	QVector<PluginNamePair > plugins;
 	QVector<Polyhedron_demo_io_plugin_interface*> io_plugins;
 	QSortFilterProxyModel* proxyModel;
+	QSortFilterProxyModel* proxyModel_2;
 	QMap<QString, QString> default_plugin_selection;
 	QString strippedName(const QString &fullFileName);
 	typedef std::map<QObject*, AABB_tree*> Trees;

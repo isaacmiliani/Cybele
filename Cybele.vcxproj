@@ -176,12 +176,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_qml.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_cybele.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -260,6 +254,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_EXPORTS -Dscene_item_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron\Debug" "-IC:\Program Files\CGAL\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\include" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron\CGAL_demo" "-IC:\Program Files\CGAL-4.7\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\build\demo\Polyhedron" "-IC:\Program Files\CGAL-4.7\auxiliary\gmp\include" "-IC:\Program Files\CGAL-4.7\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Users\kaptain eesikord\Libraries\glew-1.13.0\include" "-IC:\Users\kaptain eesikord\Libraries\freeglut\include" "-IC:\Program Files\Assimp\include" "-IC:\libQGLViewer-2.6.3" "-IC:\Qt\5.5\msvc2013_64\include" "-IC:\Qt\5.5\msvc2013_64\include\QtOpenGL" "-IC:\Qt\5.5\msvc2013_64\include\QtWidgets" "-IC:\Qt\5.5\msvc2013_64\include\QtGui" "-IC:\Qt\5.5\msvc2013_64\include\QtANGLE" "-IC:\Qt\5.5\msvc2013_64\include\QtScript" "-IC:\Qt\5.5\msvc2013_64\include\QtScriptTools" "-IC:\Qt\5.5\msvc2013_64\include\QtXml" "-IC:\Qt\5.5\msvc2013_64\include\QtCore" "-IC:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013" "-I.\GeneratedFiles" "-I$(NOINHERIT)\."</Command>
     </CustomBuild>
+    <ClInclude Include="..\..\..\..\..\Program Files\CGAL-4.7\demo\Polyhedron\Scene_draw_interface.h" />
     <ClInclude Include="..\..\..\..\..\Program Files\CGAL\include\CGAL\Polyhedron_3.h" />
     <CustomBuild Include="cybele.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -351,35 +346,10 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\chart.qml" />
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gl-matrix.js" />
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\glcode.js">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\gold.json" />
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodels.js" />
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodelsbasic.qml">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\main.qml">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\pallet.json" />
-    <CustomBuild Include="..\..\..\..\kaptain eesikord\Documents\Daph\qml.qrc">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath);..\..\..\..\kaptain eesikord\Documents\Daph\main.qml;..\..\..\..\kaptain eesikord\Documents\Daph\glcode.js;..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodelsbasic.qml;%(AdditionalInputs)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Rcc%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath);..\..\..\..\kaptain eesikord\Documents\Daph\main.qml;..\..\..\..\kaptain eesikord\Documents\Daph\glcode.js;..\..\..\..\kaptain eesikord\Documents\Daph\jsonmodelsbasic.qml;%(AdditionalInputs)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Rcc%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-    </CustomBuild>
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\rock.json" />
-    <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\ThreeJSLoader.js" />
     <None Include="..\..\..\..\kaptain eesikord\Documents\Daph\woodbox.json" />
     <CustomBuild Include="cybele.ui">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
