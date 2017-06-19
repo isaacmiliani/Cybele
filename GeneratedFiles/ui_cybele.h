@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'cybele.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -14,8 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDockWidget>
-#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -91,7 +91,6 @@ public:
     QAction *actionLoad_Script;
     QAction *actionPreferences;
     QWidget *centralwidget;
-    QLabel *infoLabel;
     QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout;
     QToolButton *addButton;
@@ -101,16 +100,16 @@ public:
     QLineEdit *searchEdit;
     QTreeView *sceneView;
     Viewer *viewer;
-    QTreeView *sceneView_2;
+    QTreeView *sceneView_right;
     QWidget *gridLayoutWidget;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_7;
-    QPushButton *pushButton_5;
     QPushButton *pushButton_6;
-    Viewer *viewer_2;
+    QPushButton *pushButton_7;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_5;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
+    Viewer *viewer_right;
     QWidget *layoutWidget_2;
     QHBoxLayout *horizontalLayout_3;
     QToolButton *addButtonRight;
@@ -137,13 +136,37 @@ public:
     QPushButton *btn_Talla;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_3;
-    QPushButton *btn_selection_2;
-    QPushButton *btn_CircunCadera_2;
-    QPushButton *btn_CircunBrazoIzq_2;
-    QPushButton *btn_DiamFemur_2;
-    QPushButton *btn_CircunCintura_2;
-    QPushButton *btn_CircunCefalica_2;
-    QPushButton *btn_Talla_2;
+    QPushButton *btn_selection_right;
+    QPushButton *btn_CircunCadera_right;
+    QPushButton *btn_CircunBrazoIzq_right;
+    QPushButton *btn_DiamFemur_right;
+    QPushButton *btn_CircunCintura_right;
+    QPushButton *btn_CircunCefalica_right;
+    QPushButton *btn_Talla_right;
+    QWidget *layoutWidget1;
+    QGridLayout *gridLayout;
+    QLabel *lbl_CircunCadera;
+    QLabel *lbl_DiamFemur;
+    QLabel *lbl_talla;
+    QLabel *lbl_CircunCintura;
+    QLabel *lbl_CircunCefalica;
+    QLabel *lbl_CircunBrazoIzq;
+    QLabel *lbl_DiamMuneca;
+    QLabel *lbl_MusloIzq;
+    QPushButton *saveButton;
+    QWidget *layoutWidget_3;
+    QGridLayout *gridLayout_2;
+    QLabel *lbl_CircunCadera_right;
+    QLabel *lbl_talla_right;
+    QLabel *lbl_CircunBrazoIzq_right;
+    QLabel *lbl_CircunCefalica_right;
+    QLabel *lbl_MusloIzq_right;
+    QLabel *lbl_DiamMuneca_right;
+    QLabel *lbl_CircunCintura_right;
+    QLabel *lbl_DiamFemur_right;
+    QPushButton *saveButton_right;
+    QLabel *infoLabel;
+    QLabel *infoLabel_right;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -159,25 +182,16 @@ public:
     QDockWidget *consoleDockWidget;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout_2;
-    QFormLayout *formLayout_3;
     QLineEdit *lineEdit;
-    QFrame *line_2;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit_3;
-    QLineEdit *lineEdit_4;
-    QLineEdit *lineEdit_5;
-    QLabel *lbl_talla;
-    QLabel *lbl_CircunCefalica;
-    QLabel *lbl_CircunBrazoIzq;
-    QLabel *lbl_CircunCintura;
-    QLabel *lbl_CircunCadera;
-    QLabel *lbl_MusloIzq;
-    QLabel *lbl_DiamMuneca;
-    QLabel *lbl_DiamFemur;
-    QPushButton *pushButton;
-    QFrame *line;
-    QLabel *displayLabel;
+    QVBoxLayout *verticalLayout_5;
     QFrame *line_3;
+    QLineEdit *nombre;
+    QLineEdit *apellido;
+    QLineEdit *fecha_nacimiento;
+    QLineEdit *cedula;
+    QPushButton *savePatient;
+    QPushButton *btn_historial;
+    QLabel *displayLabel;
     QTextEdit *consoleTextEdit;
 
     void setupUi(QMainWindow *Cybele)
@@ -185,7 +199,7 @@ public:
         if (Cybele->objectName().isEmpty())
             Cybele->setObjectName(QStringLiteral("Cybele"));
         Cybele->setWindowModality(Qt::ApplicationModal);
-        Cybele->resize(1730, 940);
+        Cybele->resize(1730, 1092);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -317,18 +331,6 @@ public:
         centralwidget->setLayoutDirection(Qt::LeftToRight);
         centralwidget->setAutoFillBackground(false);
         centralwidget->setStyleSheet(QStringLiteral(""));
-        infoLabel = new QLabel(centralwidget);
-        infoLabel->setObjectName(QStringLiteral("infoLabel"));
-        infoLabel->setGeometry(QRect(10, 830, 1511, 61));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(1);
-        sizePolicy1.setHeightForWidth(infoLabel->sizePolicy().hasHeightForWidth());
-        infoLabel->setSizePolicy(sizePolicy1);
-        infoLabel->setContextMenuPolicy(Qt::DefaultContextMenu);
-        infoLabel->setLineWidth(0);
-        infoLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-        infoLabel->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
         layoutWidget = new QWidget(centralwidget);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(10, 700, 176, 25));
@@ -368,7 +370,7 @@ public:
         sceneView = new QTreeView(centralwidget);
         sceneView->setObjectName(QStringLiteral("sceneView"));
         sceneView->setEnabled(true);
-        sceneView->setGeometry(QRect(10, 730, 581, 81));
+        sceneView->setGeometry(QRect(10, 730, 341, 141));
         sceneView->setFrameShape(QFrame::Panel);
         sceneView->setFrameShadow(QFrame::Plain);
         sceneView->setLineWidth(0);
@@ -378,75 +380,43 @@ public:
         sceneView->setIndentation(0);
         viewer = new Viewer(centralwidget);
         viewer->setObjectName(QStringLiteral("viewer"));
-        viewer->setGeometry(QRect(10, 0, 731, 691));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(1);
-        sizePolicy2.setHeightForWidth(viewer->sizePolicy().hasHeightForWidth());
-        viewer->setSizePolicy(sizePolicy2);
+        viewer->setGeometry(QRect(10, 0, 740, 690));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(1);
+        sizePolicy1.setHeightForWidth(viewer->sizePolicy().hasHeightForWidth());
+        viewer->setSizePolicy(sizePolicy1);
         viewer->setAutoFillBackground(false);
         viewer->setStyleSheet(QLatin1String("background-color: rgb(239, 244, 255,0);\n"
 ""));
-        sceneView_2 = new QTreeView(centralwidget);
-        sceneView_2->setObjectName(QStringLiteral("sceneView_2"));
-        sceneView_2->setEnabled(true);
-        sceneView_2->setGeometry(QRect(780, 730, 741, 71));
-        sceneView_2->setFrameShape(QFrame::Panel);
-        sceneView_2->setFrameShadow(QFrame::Plain);
-        sceneView_2->setLineWidth(0);
-        sceneView_2->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
-        sceneView_2->setAlternatingRowColors(false);
-        sceneView_2->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        sceneView_2->setIndentation(0);
+        sceneView_right = new QTreeView(centralwidget);
+        sceneView_right->setObjectName(QStringLiteral("sceneView_right"));
+        sceneView_right->setEnabled(true);
+        sceneView_right->setGeometry(QRect(820, 730, 361, 161));
+        sceneView_right->setFrameShape(QFrame::Panel);
+        sceneView_right->setFrameShadow(QFrame::Plain);
+        sceneView_right->setLineWidth(0);
+        sceneView_right->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
+        sceneView_right->setAlternatingRowColors(false);
+        sceneView_right->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        sceneView_right->setIndentation(0);
         gridLayoutWidget = new QWidget(centralwidget);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(250, 0, 337, 52));
+        gridLayoutWidget->setGeometry(QRect(190, 0, 337, 52));
         horizontalLayout_2 = new QHBoxLayout(gridLayoutWidget);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        pushButton_3 = new QPushButton(gridLayoutWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy3);
-        pushButton_3->setMinimumSize(QSize(50, 50));
-        pushButton_3->setMaximumSize(QSize(50, 50));
-        pushButton_3->setAutoFillBackground(false);
-        pushButton_3->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
-"font: 87 12pt \"Segoe UI Black\";\n"
-"color: rgb(255, 255, 255);\n"
-"alternate-background-color: rgb(185, 29, 71);"));
-        pushButton_3->setFlat(false);
-
-        horizontalLayout_2->addWidget(pushButton_3);
-
-        pushButton_2 = new QPushButton(gridLayoutWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        sizePolicy3.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy3);
-        pushButton_2->setMinimumSize(QSize(50, 50));
-        pushButton_2->setMaximumSize(QSize(50, 50));
-        pushButton_2->setAutoFillBackground(false);
-        pushButton_2->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+        pushButton_6 = new QPushButton(gridLayoutWidget);
+        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
+        pushButton_6->setMinimumSize(QSize(50, 50));
+        pushButton_6->setMaximumSize(QSize(50, 50));
+        pushButton_6->setAutoFillBackground(false);
+        pushButton_6->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
 "font: 87 12pt \"Segoe UI Black\";\n"
 "color: rgb(255, 255, 255);"));
-        pushButton_2->setFlat(false);
+        pushButton_6->setFlat(false);
 
-        horizontalLayout_2->addWidget(pushButton_2);
-
-        pushButton_4 = new QPushButton(gridLayoutWidget);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setMinimumSize(QSize(50, 50));
-        pushButton_4->setMaximumSize(QSize(50, 50));
-        pushButton_4->setAutoFillBackground(false);
-        pushButton_4->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
-"font: 87 12pt \"Segoe UI Black\";\n"
-"color: rgb(255, 255, 255);"));
-        pushButton_4->setFlat(false);
-
-        horizontalLayout_2->addWidget(pushButton_4);
+        horizontalLayout_2->addWidget(pushButton_6);
 
         pushButton_7 = new QPushButton(gridLayoutWidget);
         pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
@@ -460,6 +430,18 @@ public:
 
         horizontalLayout_2->addWidget(pushButton_7);
 
+        pushButton_4 = new QPushButton(gridLayoutWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_4->setMinimumSize(QSize(50, 50));
+        pushButton_4->setMaximumSize(QSize(50, 50));
+        pushButton_4->setAutoFillBackground(false);
+        pushButton_4->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);"));
+        pushButton_4->setFlat(false);
+
+        horizontalLayout_2->addWidget(pushButton_4);
+
         pushButton_5 = new QPushButton(gridLayoutWidget);
         pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
         pushButton_5->setMinimumSize(QSize(50, 50));
@@ -472,28 +454,48 @@ public:
 
         horizontalLayout_2->addWidget(pushButton_5);
 
-        pushButton_6 = new QPushButton(gridLayoutWidget);
-        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
-        pushButton_6->setMinimumSize(QSize(50, 50));
-        pushButton_6->setMaximumSize(QSize(50, 50));
-        pushButton_6->setAutoFillBackground(false);
-        pushButton_6->setStyleSheet(QLatin1String("background-color: rgb(159, 0, 167);\n"
+        pushButton_2 = new QPushButton(gridLayoutWidget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
+        pushButton_2->setSizePolicy(sizePolicy2);
+        pushButton_2->setMinimumSize(QSize(50, 50));
+        pushButton_2->setMaximumSize(QSize(50, 50));
+        pushButton_2->setAutoFillBackground(false);
+        pushButton_2->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
 "font: 87 12pt \"Segoe UI Black\";\n"
 "color: rgb(255, 255, 255);"));
-        pushButton_6->setFlat(false);
+        pushButton_2->setFlat(false);
 
-        horizontalLayout_2->addWidget(pushButton_6);
+        horizontalLayout_2->addWidget(pushButton_2);
 
-        viewer_2 = new Viewer(centralwidget);
-        viewer_2->setObjectName(QStringLiteral("viewer_2"));
-        viewer_2->setGeometry(QRect(780, 0, 741, 691));
-        sizePolicy2.setHeightForWidth(viewer_2->sizePolicy().hasHeightForWidth());
-        viewer_2->setSizePolicy(sizePolicy2);
-        viewer_2->setAutoFillBackground(false);
-        viewer_2->setStyleSheet(QStringLiteral(""));
+        pushButton_3 = new QPushButton(gridLayoutWidget);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        sizePolicy2.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
+        pushButton_3->setSizePolicy(sizePolicy2);
+        pushButton_3->setMinimumSize(QSize(50, 50));
+        pushButton_3->setMaximumSize(QSize(50, 50));
+        pushButton_3->setAutoFillBackground(false);
+        pushButton_3->setStyleSheet(QLatin1String("background-color: rgb(185, 29, 71);\n"
+"font: 87 12pt \"Segoe UI Black\";\n"
+"color: rgb(255, 255, 255);\n"
+"alternate-background-color: rgb(185, 29, 71);"));
+        pushButton_3->setFlat(false);
+
+        horizontalLayout_2->addWidget(pushButton_3);
+
+        viewer_right = new Viewer(centralwidget);
+        viewer_right->setObjectName(QStringLiteral("viewer_right"));
+        viewer_right->setGeometry(QRect(820, 0, 740, 690));
+        sizePolicy1.setHeightForWidth(viewer_right->sizePolicy().hasHeightForWidth());
+        viewer_right->setSizePolicy(sizePolicy1);
+        viewer_right->setAutoFillBackground(false);
+        viewer_right->setStyleSheet(QStringLiteral(""));
         layoutWidget_2 = new QWidget(centralwidget);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(780, 700, 176, 25));
+        layoutWidget_2->setGeometry(QRect(820, 700, 176, 25));
         horizontalLayout_3 = new QHBoxLayout(layoutWidget_2);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
@@ -529,14 +531,14 @@ public:
 
         gridLayoutWidget_2 = new QWidget(centralwidget);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(970, 0, 337, 52));
+        gridLayoutWidget_2->setGeometry(QRect(1030, 0, 337, 52));
         horizontalLayout_4 = new QHBoxLayout(gridLayoutWidget_2);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
         pushButton_8 = new QPushButton(gridLayoutWidget_2);
         pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
-        sizePolicy3.setHeightForWidth(pushButton_8->sizePolicy().hasHeightForWidth());
-        pushButton_8->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(pushButton_8->sizePolicy().hasHeightForWidth());
+        pushButton_8->setSizePolicy(sizePolicy2);
         pushButton_8->setMinimumSize(QSize(50, 50));
         pushButton_8->setMaximumSize(QSize(50, 50));
         pushButton_8->setAutoFillBackground(false);
@@ -550,8 +552,8 @@ public:
 
         pushButton_9 = new QPushButton(gridLayoutWidget_2);
         pushButton_9->setObjectName(QStringLiteral("pushButton_9"));
-        sizePolicy3.setHeightForWidth(pushButton_9->sizePolicy().hasHeightForWidth());
-        pushButton_9->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(pushButton_9->sizePolicy().hasHeightForWidth());
+        pushButton_9->setSizePolicy(sizePolicy2);
         pushButton_9->setMinimumSize(QSize(50, 50));
         pushButton_9->setMaximumSize(QSize(50, 50));
         pushButton_9->setAutoFillBackground(false);
@@ -612,7 +614,7 @@ public:
 
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 0, 160, 464));
+        verticalLayoutWidget->setGeometry(QRect(10, 0, 111, 464));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -696,100 +698,238 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(1360, 0, 160, 464));
+        verticalLayoutWidget_2->setGeometry(QRect(1460, 0, 95, 464));
         verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
-        btn_selection_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_selection_2->setObjectName(QStringLiteral("btn_selection_2"));
-        btn_selection_2->setMinimumSize(QSize(0, 60));
-        btn_selection_2->setAutoFillBackground(false);
-        btn_selection_2->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
+        btn_selection_right = new QPushButton(verticalLayoutWidget_2);
+        btn_selection_right->setObjectName(QStringLiteral("btn_selection_right"));
+        btn_selection_right->setMinimumSize(QSize(0, 60));
+        btn_selection_right->setAutoFillBackground(false);
+        btn_selection_right->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_selection_2->setFlat(false);
+        btn_selection_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_selection_2);
+        verticalLayout_3->addWidget(btn_selection_right);
 
-        btn_CircunCadera_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_CircunCadera_2->setObjectName(QStringLiteral("btn_CircunCadera_2"));
-        btn_CircunCadera_2->setMinimumSize(QSize(0, 60));
-        btn_CircunCadera_2->setAutoFillBackground(false);
-        btn_CircunCadera_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_CircunCadera_right = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCadera_right->setObjectName(QStringLiteral("btn_CircunCadera_right"));
+        btn_CircunCadera_right->setMinimumSize(QSize(0, 60));
+        btn_CircunCadera_right->setAutoFillBackground(false);
+        btn_CircunCadera_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_CircunCadera_2->setFlat(false);
+        btn_CircunCadera_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_CircunCadera_2);
+        verticalLayout_3->addWidget(btn_CircunCadera_right);
 
-        btn_CircunBrazoIzq_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_CircunBrazoIzq_2->setObjectName(QStringLiteral("btn_CircunBrazoIzq_2"));
-        btn_CircunBrazoIzq_2->setMinimumSize(QSize(0, 60));
-        btn_CircunBrazoIzq_2->setAutoFillBackground(false);
-        btn_CircunBrazoIzq_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_CircunBrazoIzq_right = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunBrazoIzq_right->setObjectName(QStringLiteral("btn_CircunBrazoIzq_right"));
+        btn_CircunBrazoIzq_right->setMinimumSize(QSize(0, 60));
+        btn_CircunBrazoIzq_right->setAutoFillBackground(false);
+        btn_CircunBrazoIzq_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 75 8pt \"Segoe UI\";"));
-        btn_CircunBrazoIzq_2->setFlat(false);
+        btn_CircunBrazoIzq_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_CircunBrazoIzq_2);
+        verticalLayout_3->addWidget(btn_CircunBrazoIzq_right);
 
-        btn_DiamFemur_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_DiamFemur_2->setObjectName(QStringLiteral("btn_DiamFemur_2"));
-        btn_DiamFemur_2->setMinimumSize(QSize(0, 60));
-        btn_DiamFemur_2->setAutoFillBackground(false);
-        btn_DiamFemur_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_DiamFemur_right = new QPushButton(verticalLayoutWidget_2);
+        btn_DiamFemur_right->setObjectName(QStringLiteral("btn_DiamFemur_right"));
+        btn_DiamFemur_right->setMinimumSize(QSize(0, 60));
+        btn_DiamFemur_right->setAutoFillBackground(false);
+        btn_DiamFemur_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_DiamFemur_2->setFlat(false);
+        btn_DiamFemur_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_DiamFemur_2);
+        verticalLayout_3->addWidget(btn_DiamFemur_right);
 
-        btn_CircunCintura_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_CircunCintura_2->setObjectName(QStringLiteral("btn_CircunCintura_2"));
-        btn_CircunCintura_2->setMinimumSize(QSize(0, 60));
-        btn_CircunCintura_2->setAutoFillBackground(false);
-        btn_CircunCintura_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_CircunCintura_right = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCintura_right->setObjectName(QStringLiteral("btn_CircunCintura_right"));
+        btn_CircunCintura_right->setMinimumSize(QSize(0, 60));
+        btn_CircunCintura_right->setAutoFillBackground(false);
+        btn_CircunCintura_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 63 8pt \"Segoe UI Semibold\";"));
-        btn_CircunCintura_2->setCheckable(false);
-        btn_CircunCintura_2->setFlat(false);
+        btn_CircunCintura_right->setCheckable(false);
+        btn_CircunCintura_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_CircunCintura_2);
+        verticalLayout_3->addWidget(btn_CircunCintura_right);
 
-        btn_CircunCefalica_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_CircunCefalica_2->setObjectName(QStringLiteral("btn_CircunCefalica_2"));
-        btn_CircunCefalica_2->setMinimumSize(QSize(0, 60));
-        btn_CircunCefalica_2->setAutoFillBackground(false);
-        btn_CircunCefalica_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_CircunCefalica_right = new QPushButton(verticalLayoutWidget_2);
+        btn_CircunCefalica_right->setObjectName(QStringLiteral("btn_CircunCefalica_right"));
+        btn_CircunCefalica_right->setMinimumSize(QSize(0, 60));
+        btn_CircunCefalica_right->setAutoFillBackground(false);
+        btn_CircunCefalica_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 75 8pt \"Segoe UI\";"));
-        btn_CircunCefalica_2->setFlat(false);
+        btn_CircunCefalica_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_CircunCefalica_2);
+        verticalLayout_3->addWidget(btn_CircunCefalica_right);
 
-        btn_Talla_2 = new QPushButton(verticalLayoutWidget_2);
-        btn_Talla_2->setObjectName(QStringLiteral("btn_Talla_2"));
-        btn_Talla_2->setMinimumSize(QSize(0, 60));
-        btn_Talla_2->setAutoFillBackground(false);
-        btn_Talla_2->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
+        btn_Talla_right = new QPushButton(verticalLayoutWidget_2);
+        btn_Talla_right->setObjectName(QStringLiteral("btn_Talla_right"));
+        btn_Talla_right->setMinimumSize(QSize(0, 60));
+        btn_Talla_right->setAutoFillBackground(false);
+        btn_Talla_right->setStyleSheet(QLatin1String("background-color: rgb(0, 171, 169);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 75 8pt \"Segoe UI\";"));
-        btn_Talla_2->setFlat(false);
+        btn_Talla_right->setFlat(false);
 
-        verticalLayout_3->addWidget(btn_Talla_2);
+        verticalLayout_3->addWidget(btn_Talla_right);
 
+        layoutWidget1 = new QWidget(centralwidget);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(370, 720, 419, 161));
+        gridLayout = new QGridLayout(layoutWidget1);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(0, 0, 0, 0);
+        lbl_CircunCadera = new QLabel(layoutWidget1);
+        lbl_CircunCadera->setObjectName(QStringLiteral("lbl_CircunCadera"));
+
+        gridLayout->addWidget(lbl_CircunCadera, 6, 0, 1, 1);
+
+        lbl_DiamFemur = new QLabel(layoutWidget1);
+        lbl_DiamFemur->setObjectName(QStringLiteral("lbl_DiamFemur"));
+
+        gridLayout->addWidget(lbl_DiamFemur, 0, 1, 1, 1);
+
+        lbl_talla = new QLabel(layoutWidget1);
+        lbl_talla->setObjectName(QStringLiteral("lbl_talla"));
+
+        gridLayout->addWidget(lbl_talla, 0, 0, 1, 1);
+
+        lbl_CircunCintura = new QLabel(layoutWidget1);
+        lbl_CircunCintura->setObjectName(QStringLiteral("lbl_CircunCintura"));
+
+        gridLayout->addWidget(lbl_CircunCintura, 6, 1, 1, 1);
+
+        lbl_CircunCefalica = new QLabel(layoutWidget1);
+        lbl_CircunCefalica->setObjectName(QStringLiteral("lbl_CircunCefalica"));
+
+        gridLayout->addWidget(lbl_CircunCefalica, 3, 0, 1, 1);
+
+        lbl_CircunBrazoIzq = new QLabel(layoutWidget1);
+        lbl_CircunBrazoIzq->setObjectName(QStringLiteral("lbl_CircunBrazoIzq"));
+
+        gridLayout->addWidget(lbl_CircunBrazoIzq, 4, 0, 1, 1);
+
+        lbl_DiamMuneca = new QLabel(layoutWidget1);
+        lbl_DiamMuneca->setObjectName(QStringLiteral("lbl_DiamMuneca"));
+
+        gridLayout->addWidget(lbl_DiamMuneca, 4, 1, 1, 1);
+
+        lbl_MusloIzq = new QLabel(layoutWidget1);
+        lbl_MusloIzq->setObjectName(QStringLiteral("lbl_MusloIzq"));
+
+        gridLayout->addWidget(lbl_MusloIzq, 3, 1, 1, 1);
+
+        saveButton = new QPushButton(layoutWidget1);
+        saveButton->setObjectName(QStringLiteral("saveButton"));
+        saveButton->setAutoFillBackground(false);
+        saveButton->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
+"color: rgb(255, 255, 255);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        saveButton->setFlat(false);
+
+        gridLayout->addWidget(saveButton, 7, 1, 1, 1);
+
+        layoutWidget_3 = new QWidget(centralwidget);
+        layoutWidget_3->setObjectName(QStringLiteral("layoutWidget_3"));
+        layoutWidget_3->setGeometry(QRect(1190, 720, 368, 161));
+        gridLayout_2 = new QGridLayout(layoutWidget_3);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        lbl_CircunCadera_right = new QLabel(layoutWidget_3);
+        lbl_CircunCadera_right->setObjectName(QStringLiteral("lbl_CircunCadera_right"));
+
+        gridLayout_2->addWidget(lbl_CircunCadera_right, 4, 0, 1, 1);
+
+        lbl_talla_right = new QLabel(layoutWidget_3);
+        lbl_talla_right->setObjectName(QStringLiteral("lbl_talla_right"));
+
+        gridLayout_2->addWidget(lbl_talla_right, 0, 0, 1, 1);
+
+        lbl_CircunBrazoIzq_right = new QLabel(layoutWidget_3);
+        lbl_CircunBrazoIzq_right->setObjectName(QStringLiteral("lbl_CircunBrazoIzq_right"));
+
+        gridLayout_2->addWidget(lbl_CircunBrazoIzq_right, 2, 0, 1, 1);
+
+        lbl_CircunCefalica_right = new QLabel(layoutWidget_3);
+        lbl_CircunCefalica_right->setObjectName(QStringLiteral("lbl_CircunCefalica_right"));
+
+        gridLayout_2->addWidget(lbl_CircunCefalica_right, 1, 0, 1, 1);
+
+        lbl_MusloIzq_right = new QLabel(layoutWidget_3);
+        lbl_MusloIzq_right->setObjectName(QStringLiteral("lbl_MusloIzq_right"));
+
+        gridLayout_2->addWidget(lbl_MusloIzq_right, 1, 1, 1, 1);
+
+        lbl_DiamMuneca_right = new QLabel(layoutWidget_3);
+        lbl_DiamMuneca_right->setObjectName(QStringLiteral("lbl_DiamMuneca_right"));
+
+        gridLayout_2->addWidget(lbl_DiamMuneca_right, 2, 1, 1, 1);
+
+        lbl_CircunCintura_right = new QLabel(layoutWidget_3);
+        lbl_CircunCintura_right->setObjectName(QStringLiteral("lbl_CircunCintura_right"));
+
+        gridLayout_2->addWidget(lbl_CircunCintura_right, 4, 1, 1, 1);
+
+        lbl_DiamFemur_right = new QLabel(layoutWidget_3);
+        lbl_DiamFemur_right->setObjectName(QStringLiteral("lbl_DiamFemur_right"));
+
+        gridLayout_2->addWidget(lbl_DiamFemur_right, 0, 1, 1, 1);
+
+        saveButton_right = new QPushButton(layoutWidget_3);
+        saveButton_right->setObjectName(QStringLiteral("saveButton_right"));
+        saveButton_right->setAutoFillBackground(false);
+        saveButton_right->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
+"color: rgb(255, 255, 255);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 63 8pt \"Segoe UI Semibold\";"));
+        saveButton_right->setFlat(false);
+
+        gridLayout_2->addWidget(saveButton_right, 5, 1, 1, 1);
+
+        infoLabel = new QLabel(centralwidget);
+        infoLabel->setObjectName(QStringLiteral("infoLabel"));
+        infoLabel->setGeometry(QRect(0, 890, 781, 151));
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(1);
+        sizePolicy3.setHeightForWidth(infoLabel->sizePolicy().hasHeightForWidth());
+        infoLabel->setSizePolicy(sizePolicy3);
+        infoLabel->setContextMenuPolicy(Qt::DefaultContextMenu);
+        infoLabel->setLineWidth(0);
+        infoLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        infoLabel->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
+        infoLabel_right = new QLabel(centralwidget);
+        infoLabel_right->setObjectName(QStringLiteral("infoLabel_right"));
+        infoLabel_right->setGeometry(QRect(810, 900, 751, 141));
+        sizePolicy3.setHeightForWidth(infoLabel_right->sizePolicy().hasHeightForWidth());
+        infoLabel_right->setSizePolicy(sizePolicy3);
+        infoLabel_right->setContextMenuPolicy(Qt::DefaultContextMenu);
+        infoLabel_right->setLineWidth(0);
+        infoLabel_right->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        infoLabel_right->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
         Cybele->setCentralWidget(centralwidget);
         viewer->raise();
-        viewer_2->raise();
-        infoLabel->raise();
+        viewer_right->raise();
         layoutWidget->raise();
         sceneView->raise();
-        sceneView_2->raise();
+        sceneView_right->raise();
         gridLayoutWidget->raise();
         layoutWidget_2->raise();
         gridLayoutWidget_2->raise();
         verticalLayoutWidget->raise();
         verticalLayoutWidget_2->raise();
+        layoutWidget->raise();
+        layoutWidget_3->raise();
+        infoLabel->raise();
+        infoLabel_right->raise();
         menubar = new QMenuBar(Cybele);
         menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 1730, 23));
@@ -855,8 +995,8 @@ public:
         sizePolicy6.setVerticalStretch(0);
         sizePolicy6.setHeightForWidth(consoleDockWidget->sizePolicy().hasHeightForWidth());
         consoleDockWidget->setSizePolicy(sizePolicy6);
-        consoleDockWidget->setMinimumSize(QSize(200, 787));
-        consoleDockWidget->setMaximumSize(QSize(200, 524287));
+        consoleDockWidget->setMinimumSize(QSize(117, 787));
+        consoleDockWidget->setMaximumSize(QSize(150, 524287));
         consoleDockWidget->setContextMenuPolicy(Qt::NoContextMenu);
         consoleDockWidget->setStyleSheet(QStringLiteral(""));
         consoleDockWidget->setFloating(false);
@@ -866,112 +1006,57 @@ public:
         dockWidgetContents->setStyleSheet(QStringLiteral(""));
         verticalLayout_2 = new QVBoxLayout(dockWidgetContents);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        formLayout_3 = new QFormLayout();
-        formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
         lineEdit = new QLineEdit(dockWidgetContents);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
 
-        formLayout_3->setWidget(0, QFormLayout::LabelRole, lineEdit);
+        verticalLayout_2->addWidget(lineEdit);
 
-        line_2 = new QFrame(dockWidgetContents);
-        line_2->setObjectName(QStringLiteral("line_2"));
-        line_2->setFrameShape(QFrame::HLine);
-        line_2->setFrameShadow(QFrame::Sunken);
-
-        formLayout_3->setWidget(1, QFormLayout::LabelRole, line_2);
-
-        lineEdit_2 = new QLineEdit(dockWidgetContents);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-
-        formLayout_3->setWidget(2, QFormLayout::LabelRole, lineEdit_2);
-
-        lineEdit_3 = new QLineEdit(dockWidgetContents);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-
-        formLayout_3->setWidget(3, QFormLayout::LabelRole, lineEdit_3);
-
-        lineEdit_4 = new QLineEdit(dockWidgetContents);
-        lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
-
-        formLayout_3->setWidget(4, QFormLayout::LabelRole, lineEdit_4);
-
-        lineEdit_5 = new QLineEdit(dockWidgetContents);
-        lineEdit_5->setObjectName(QStringLiteral("lineEdit_5"));
-
-        formLayout_3->setWidget(5, QFormLayout::LabelRole, lineEdit_5);
-
-        lbl_talla = new QLabel(dockWidgetContents);
-        lbl_talla->setObjectName(QStringLiteral("lbl_talla"));
-
-        formLayout_3->setWidget(6, QFormLayout::LabelRole, lbl_talla);
-
-        lbl_CircunCefalica = new QLabel(dockWidgetContents);
-        lbl_CircunCefalica->setObjectName(QStringLiteral("lbl_CircunCefalica"));
-
-        formLayout_3->setWidget(7, QFormLayout::LabelRole, lbl_CircunCefalica);
-
-        lbl_CircunBrazoIzq = new QLabel(dockWidgetContents);
-        lbl_CircunBrazoIzq->setObjectName(QStringLiteral("lbl_CircunBrazoIzq"));
-
-        formLayout_3->setWidget(8, QFormLayout::LabelRole, lbl_CircunBrazoIzq);
-
-        lbl_CircunCintura = new QLabel(dockWidgetContents);
-        lbl_CircunCintura->setObjectName(QStringLiteral("lbl_CircunCintura"));
-
-        formLayout_3->setWidget(9, QFormLayout::LabelRole, lbl_CircunCintura);
-
-        lbl_CircunCadera = new QLabel(dockWidgetContents);
-        lbl_CircunCadera->setObjectName(QStringLiteral("lbl_CircunCadera"));
-
-        formLayout_3->setWidget(10, QFormLayout::LabelRole, lbl_CircunCadera);
-
-        lbl_MusloIzq = new QLabel(dockWidgetContents);
-        lbl_MusloIzq->setObjectName(QStringLiteral("lbl_MusloIzq"));
-
-        formLayout_3->setWidget(11, QFormLayout::LabelRole, lbl_MusloIzq);
-
-        lbl_DiamMuneca = new QLabel(dockWidgetContents);
-        lbl_DiamMuneca->setObjectName(QStringLiteral("lbl_DiamMuneca"));
-
-        formLayout_3->setWidget(12, QFormLayout::LabelRole, lbl_DiamMuneca);
-
-        lbl_DiamFemur = new QLabel(dockWidgetContents);
-        lbl_DiamFemur->setObjectName(QStringLiteral("lbl_DiamFemur"));
-
-        formLayout_3->setWidget(13, QFormLayout::LabelRole, lbl_DiamFemur);
-
-        pushButton = new QPushButton(dockWidgetContents);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setAutoFillBackground(false);
-        pushButton->setStyleSheet(QLatin1String("background-color: rgb(227, 162, 26);\n"
-"color: rgb(255, 255, 255);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Segoe UI Semibold\";"));
-        pushButton->setFlat(false);
-
-        formLayout_3->setWidget(14, QFormLayout::LabelRole, pushButton);
-
-        line = new QFrame(dockWidgetContents);
-        line->setObjectName(QStringLiteral("line"));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-
-        formLayout_3->setWidget(16, QFormLayout::LabelRole, line);
-
-
-        verticalLayout_2->addLayout(formLayout_3);
-
-        displayLabel = new QLabel(dockWidgetContents);
-        displayLabel->setObjectName(QStringLiteral("displayLabel"));
-
-        verticalLayout_2->addWidget(displayLabel);
-
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         line_3 = new QFrame(dockWidgetContents);
         line_3->setObjectName(QStringLiteral("line_3"));
         line_3->setFrameShape(QFrame::HLine);
         line_3->setFrameShadow(QFrame::Sunken);
 
-        verticalLayout_2->addWidget(line_3);
+        verticalLayout_5->addWidget(line_3);
+
+        nombre = new QLineEdit(dockWidgetContents);
+        nombre->setObjectName(QStringLiteral("nombre"));
+
+        verticalLayout_5->addWidget(nombre);
+
+        apellido = new QLineEdit(dockWidgetContents);
+        apellido->setObjectName(QStringLiteral("apellido"));
+
+        verticalLayout_5->addWidget(apellido);
+
+        fecha_nacimiento = new QLineEdit(dockWidgetContents);
+        fecha_nacimiento->setObjectName(QStringLiteral("fecha_nacimiento"));
+
+        verticalLayout_5->addWidget(fecha_nacimiento);
+
+        cedula = new QLineEdit(dockWidgetContents);
+        cedula->setObjectName(QStringLiteral("cedula"));
+
+        verticalLayout_5->addWidget(cedula);
+
+        savePatient = new QPushButton(dockWidgetContents);
+        savePatient->setObjectName(QStringLiteral("savePatient"));
+
+        verticalLayout_5->addWidget(savePatient);
+
+        btn_historial = new QPushButton(dockWidgetContents);
+        btn_historial->setObjectName(QStringLiteral("btn_historial"));
+
+        verticalLayout_5->addWidget(btn_historial);
+
+
+        verticalLayout_2->addLayout(verticalLayout_5);
+
+        displayLabel = new QLabel(dockWidgetContents);
+        displayLabel->setObjectName(QStringLiteral("displayLabel"));
+
+        verticalLayout_2->addWidget(displayLabel);
 
         consoleTextEdit = new QTextEdit(dockWidgetContents);
         consoleTextEdit->setObjectName(QStringLiteral("consoleTextEdit"));
@@ -1050,156 +1135,161 @@ public:
 
     void retranslateUi(QMainWindow *Cybele)
     {
-        Cybele->setWindowTitle(QApplication::translate("Cybele", "Cybele", 0));
-        actionQuit->setText(QApplication::translate("Cybele", "&Quit", 0));
-        actionQuit->setShortcut(QApplication::translate("Cybele", "Ctrl+Q", 0));
-        actionSimplify->setText(QApplication::translate("Cybele", "&Simplification", 0));
-        actionCatmullClark->setText(QApplication::translate("Cybele", "&Catmull-Clark", 0));
-        actionKernel->setText(QApplication::translate("Cybele", "&Kernel", 0));
-        actionUnion->setText(QApplication::translate("Cybele", "&Union (A/B)", 0));
-        actionUnion->setShortcut(QApplication::translate("Cybele", "Ctrl+O, U", 0));
-        actionIntersection->setText(QApplication::translate("Cybele", "&Intersection (A/B)", 0));
-        actionIntersection->setShortcut(QApplication::translate("Cybele", "Ctrl+O, I", 0));
-        actionDifference->setText(QApplication::translate("Cybele", "&Difference (A/B)", 0));
-        actionDifference->setShortcut(QApplication::translate("Cybele", "Ctrl+O, D", 0));
-        actionFitPlane->setText(QApplication::translate("Cybele", "Fit &plane", 0));
-        actionFitLine->setText(QApplication::translate("Cybele", "Fit &line", 0));
-        actionEstimateCurvature->setText(QApplication::translate("Cybele", "&Curvature estimation", 0));
-        actionLoad->setText(QApplication::translate("Cybele", "&Load...", 0));
-        actionLoad->setShortcut(QApplication::translate("Cybele", "Ctrl+L", 0));
-        actionErase->setText(QApplication::translate("Cybele", "&Erase", 0));
-        actionErase->setShortcut(QApplication::translate("Cybele", "Del", 0));
-        actionDuplicate->setText(QApplication::translate("Cybele", "&Duplicate", 0));
-        actionDuplicate->setShortcut(QApplication::translate("Cybele", "Ctrl+D", 0));
-        actionSqrt3->setText(QApplication::translate("Cybele", "&Sqrt3", 0));
-        actionAntiAliasing->setText(QApplication::translate("Cybele", "&Antialiasing", 0));
-        dummyAction->setText(QApplication::translate("Cybele", "n/a", 0));
-        actionConvexHull->setText(QApplication::translate("Cybele", "&Convex hull", 0));
-        actionEraseAll->setText(QApplication::translate("Cybele", "&Erase all", 0));
-        actionOptions->setText(QApplication::translate("Cybele", "&Options...", 0));
-        actionLoop->setText(QApplication::translate("Cybele", "&Loop", 0));
-        actionSaveAs->setText(QApplication::translate("Cybele", "Save &as...", 0));
-        actionSave->setText(QApplication::translate("Cybele", "&Save", 0));
-        actionSaveAll->setText(QApplication::translate("Cybele", "Save a&ll", 0));
-        actionMergeAll->setText(QApplication::translate("Cybele", "Mer&ge all", 0));
-        actionMerge->setText(QApplication::translate("Cybele", "&Merge", 0));
-        actionSelfIntersection->setText(QApplication::translate("Cybele", "Self-&intersection", 0));
-        actionSelectAll->setText(QApplication::translate("Cybele", "Select &all", 0));
-        actionSelectNone->setText(QApplication::translate("Cybele", "Select &none", 0));
-        actionSelectInvert->setText(QApplication::translate("Cybele", "&Invert selection", 0));
-        actionShowHide->setText(QApplication::translate("Cybele", "Show/Hide", 0));
-        actionShowHide->setShortcut(QApplication::translate("Cybele", "Ctrl+Space", 0));
-        actionSetPolyhedronA->setText(QApplication::translate("Cybele", "Set polyhedron A", 0));
-        actionSetPolyhedronB->setText(QApplication::translate("Cybele", "Set polyhedron B", 0));
-        actionInsideOut->setText(QApplication::translate("Cybele", "&Inside-out", 0));
-        actionRemeshing->setText(QApplication::translate("Cybele", "&Remeshing", 0));
-        actionConvexDecomposition->setText(QApplication::translate("Cybele", "Convex Decomposition", 0));
-        actionMVC->setText(QApplication::translate("Cybele", "Mean &value coordinates", 0));
-        actionDCP->setText(QApplication::translate("Cybele", "Discrete &conformal maps", 0));
-        actionExplode->setText(QApplication::translate("Cybele", "Explode", 0));
-        actionToNef->setText(QApplication::translate("Cybele", "Convert to nef polyhedron", 0));
-        actionToPoly->setText(QApplication::translate("Cybele", "Convert to normal polyhedron", 0));
-        actionDraw_two_sides->setText(QApplication::translate("Cybele", "Draw &two sides", 0));
-        actionDraw_two_sides->setShortcut(QApplication::translate("Cybele", "Ctrl+T", 0));
-        actionRecenterScene->setText(QApplication::translate("Cybele", "Re&center scene", 0));
-        actionRecenterScene->setShortcut(QApplication::translate("Cybele", "Ctrl+C", 0));
-        actionSetBackgroundColor->setText(QApplication::translate("Cybele", "Change &background color...", 0));
-        actionMinkowskiSum->setText(QApplication::translate("Cybele", "&Minkowski sum (A/B)", 0));
-        actionMinkowskiSum->setShortcut(QApplication::translate("Cybele", "Ctrl+O, M", 0));
-        action_Look_at->setText(QApplication::translate("Cybele", "&Look at...", 0));
-        actionSaveSnapshot->setText(QApplication::translate("Cybele", "Save snapshot", 0));
-        actionDumpCamera->setText(QApplication::translate("Cybele", "&Dump camera coordinates", 0));
-        action_Copy_camera->setText(QApplication::translate("Cybele", "&Copy camera", 0));
-        action_Paste_camera->setText(QApplication::translate("Cybele", "&Paste camera", 0));
-        actionSelect_all_items->setText(QApplication::translate("Cybele", "Select all items", 0));
-        actionSelect_all_items->setShortcut(QApplication::translate("Cybele", "Ctrl+A", 0));
-        actionLoad_Script->setText(QApplication::translate("Cybele", "Load &script", 0));
-        actionPreferences->setText(QApplication::translate("Cybele", "&Preferences", 0));
-        addButton->setText(QApplication::translate("Cybele", "+", 0));
-        removeButton->setText(QApplication::translate("Cybele", "-", 0));
-        duplicateButton->setText(QApplication::translate("Cybele", "...", 0));
-        searchEdit->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", 0));
-        pushButton_3->setText(QApplication::translate("Cybele", "W", 0));
-        pushButton_2->setText(QApplication::translate("Cybele", "P", 0));
-        pushButton_4->setText(QApplication::translate("Cybele", "S", 0));
+        Cybele->setWindowTitle(QApplication::translate("Cybele", "Cybele", Q_NULLPTR));
+        actionQuit->setText(QApplication::translate("Cybele", "&Quit", Q_NULLPTR));
+        actionQuit->setShortcut(QApplication::translate("Cybele", "Ctrl+Q", Q_NULLPTR));
+        actionSimplify->setText(QApplication::translate("Cybele", "&Simplification", Q_NULLPTR));
+        actionCatmullClark->setText(QApplication::translate("Cybele", "&Catmull-Clark", Q_NULLPTR));
+        actionKernel->setText(QApplication::translate("Cybele", "&Kernel", Q_NULLPTR));
+        actionUnion->setText(QApplication::translate("Cybele", "&Union (A/B)", Q_NULLPTR));
+        actionUnion->setShortcut(QApplication::translate("Cybele", "Ctrl+O, U", Q_NULLPTR));
+        actionIntersection->setText(QApplication::translate("Cybele", "&Intersection (A/B)", Q_NULLPTR));
+        actionIntersection->setShortcut(QApplication::translate("Cybele", "Ctrl+O, I", Q_NULLPTR));
+        actionDifference->setText(QApplication::translate("Cybele", "&Difference (A/B)", Q_NULLPTR));
+        actionDifference->setShortcut(QApplication::translate("Cybele", "Ctrl+O, D", Q_NULLPTR));
+        actionFitPlane->setText(QApplication::translate("Cybele", "Fit &plane", Q_NULLPTR));
+        actionFitLine->setText(QApplication::translate("Cybele", "Fit &line", Q_NULLPTR));
+        actionEstimateCurvature->setText(QApplication::translate("Cybele", "&Curvature estimation", Q_NULLPTR));
+        actionLoad->setText(QApplication::translate("Cybele", "&Load...", Q_NULLPTR));
+        actionLoad->setShortcut(QApplication::translate("Cybele", "Ctrl+L", Q_NULLPTR));
+        actionErase->setText(QApplication::translate("Cybele", "&Erase", Q_NULLPTR));
+        actionErase->setShortcut(QApplication::translate("Cybele", "Del", Q_NULLPTR));
+        actionDuplicate->setText(QApplication::translate("Cybele", "&Duplicate", Q_NULLPTR));
+        actionDuplicate->setShortcut(QApplication::translate("Cybele", "Ctrl+D", Q_NULLPTR));
+        actionSqrt3->setText(QApplication::translate("Cybele", "&Sqrt3", Q_NULLPTR));
+        actionAntiAliasing->setText(QApplication::translate("Cybele", "&Antialiasing", Q_NULLPTR));
+        dummyAction->setText(QApplication::translate("Cybele", "n/a", Q_NULLPTR));
+        actionConvexHull->setText(QApplication::translate("Cybele", "&Convex hull", Q_NULLPTR));
+        actionEraseAll->setText(QApplication::translate("Cybele", "&Erase all", Q_NULLPTR));
+        actionOptions->setText(QApplication::translate("Cybele", "&Options...", Q_NULLPTR));
+        actionLoop->setText(QApplication::translate("Cybele", "&Loop", Q_NULLPTR));
+        actionSaveAs->setText(QApplication::translate("Cybele", "Save &as...", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("Cybele", "&Save", Q_NULLPTR));
+        actionSaveAll->setText(QApplication::translate("Cybele", "Save a&ll", Q_NULLPTR));
+        actionMergeAll->setText(QApplication::translate("Cybele", "Mer&ge all", Q_NULLPTR));
+        actionMerge->setText(QApplication::translate("Cybele", "&Merge", Q_NULLPTR));
+        actionSelfIntersection->setText(QApplication::translate("Cybele", "Self-&intersection", Q_NULLPTR));
+        actionSelectAll->setText(QApplication::translate("Cybele", "Select &all", Q_NULLPTR));
+        actionSelectNone->setText(QApplication::translate("Cybele", "Select &none", Q_NULLPTR));
+        actionSelectInvert->setText(QApplication::translate("Cybele", "&Invert selection", Q_NULLPTR));
+        actionShowHide->setText(QApplication::translate("Cybele", "Show/Hide", Q_NULLPTR));
+        actionShowHide->setShortcut(QApplication::translate("Cybele", "Ctrl+Space", Q_NULLPTR));
+        actionSetPolyhedronA->setText(QApplication::translate("Cybele", "Set polyhedron A", Q_NULLPTR));
+        actionSetPolyhedronB->setText(QApplication::translate("Cybele", "Set polyhedron B", Q_NULLPTR));
+        actionInsideOut->setText(QApplication::translate("Cybele", "&Inside-out", Q_NULLPTR));
+        actionRemeshing->setText(QApplication::translate("Cybele", "&Remeshing", Q_NULLPTR));
+        actionConvexDecomposition->setText(QApplication::translate("Cybele", "Convex Decomposition", Q_NULLPTR));
+        actionMVC->setText(QApplication::translate("Cybele", "Mean &value coordinates", Q_NULLPTR));
+        actionDCP->setText(QApplication::translate("Cybele", "Discrete &conformal maps", Q_NULLPTR));
+        actionExplode->setText(QApplication::translate("Cybele", "Explode", Q_NULLPTR));
+        actionToNef->setText(QApplication::translate("Cybele", "Convert to nef polyhedron", Q_NULLPTR));
+        actionToPoly->setText(QApplication::translate("Cybele", "Convert to normal polyhedron", Q_NULLPTR));
+        actionDraw_two_sides->setText(QApplication::translate("Cybele", "Draw &two sides", Q_NULLPTR));
+        actionDraw_two_sides->setShortcut(QApplication::translate("Cybele", "Ctrl+T", Q_NULLPTR));
+        actionRecenterScene->setText(QApplication::translate("Cybele", "Re&center scene", Q_NULLPTR));
+        actionRecenterScene->setShortcut(QApplication::translate("Cybele", "Ctrl+C", Q_NULLPTR));
+        actionSetBackgroundColor->setText(QApplication::translate("Cybele", "Change &background color...", Q_NULLPTR));
+        actionMinkowskiSum->setText(QApplication::translate("Cybele", "&Minkowski sum (A/B)", Q_NULLPTR));
+        actionMinkowskiSum->setShortcut(QApplication::translate("Cybele", "Ctrl+O, M", Q_NULLPTR));
+        action_Look_at->setText(QApplication::translate("Cybele", "&Look at...", Q_NULLPTR));
+        actionSaveSnapshot->setText(QApplication::translate("Cybele", "Save snapshot", Q_NULLPTR));
+        actionDumpCamera->setText(QApplication::translate("Cybele", "&Dump camera coordinates", Q_NULLPTR));
+        action_Copy_camera->setText(QApplication::translate("Cybele", "&Copy camera", Q_NULLPTR));
+        action_Paste_camera->setText(QApplication::translate("Cybele", "&Paste camera", Q_NULLPTR));
+        actionSelect_all_items->setText(QApplication::translate("Cybele", "Select all items", Q_NULLPTR));
+        actionSelect_all_items->setShortcut(QApplication::translate("Cybele", "Ctrl+A", Q_NULLPTR));
+        actionLoad_Script->setText(QApplication::translate("Cybele", "Load &script", Q_NULLPTR));
+        actionPreferences->setText(QApplication::translate("Cybele", "&Preferences", Q_NULLPTR));
+        addButton->setText(QApplication::translate("Cybele", "+", Q_NULLPTR));
+        removeButton->setText(QApplication::translate("Cybele", "-", Q_NULLPTR));
+        duplicateButton->setText(QApplication::translate("Cybele", "...", Q_NULLPTR));
+        searchEdit->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_7->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_6->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_7->setText(QApplication::translate("Cybele", "A", 0));
+        pushButton_6->setText(QApplication::translate("Cybele", "G", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_5->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_7->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_5->setText(QApplication::translate("Cybele", "L", 0));
+        pushButton_7->setText(QApplication::translate("Cybele", "A", Q_NULLPTR));
+        pushButton_4->setText(QApplication::translate("Cybele", "S", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_6->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_5->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_6->setText(QApplication::translate("Cybele", "G", 0));
-        addButtonRight->setText(QApplication::translate("Cybele", "+", 0));
-        removeButtonRight->setText(QApplication::translate("Cybele", "-", 0));
-        duplicateButtonRight->setText(QApplication::translate("Cybele", "...", 0));
-        searchEditRight->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", 0));
-        pushButton_8->setText(QApplication::translate("Cybele", "W", 0));
-        pushButton_9->setText(QApplication::translate("Cybele", "P", 0));
-        pushButton_10->setText(QApplication::translate("Cybele", "S", 0));
+        pushButton_5->setText(QApplication::translate("Cybele", "L", Q_NULLPTR));
+        pushButton_2->setText(QApplication::translate("Cybele", "P", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("Cybele", "W", Q_NULLPTR));
+        addButtonRight->setText(QApplication::translate("Cybele", "+", Q_NULLPTR));
+        removeButtonRight->setText(QApplication::translate("Cybele", "-", Q_NULLPTR));
+        duplicateButtonRight->setText(QApplication::translate("Cybele", "...", Q_NULLPTR));
+        searchEditRight->setPlaceholderText(QApplication::translate("Cybele", "Quick filter... <Alt+Q>", Q_NULLPTR));
+        pushButton_8->setText(QApplication::translate("Cybele", "W", Q_NULLPTR));
+        pushButton_9->setText(QApplication::translate("Cybele", "P", Q_NULLPTR));
+        pushButton_10->setText(QApplication::translate("Cybele", "S", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_11->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_11->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_11->setText(QApplication::translate("Cybele", "A", 0));
+        pushButton_11->setText(QApplication::translate("Cybele", "A", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_12->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_12->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_12->setText(QApplication::translate("Cybele", "L", 0));
+        pushButton_12->setText(QApplication::translate("Cybele", "L", Q_NULLPTR));
 #ifndef QT_NO_WHATSTHIS
-        pushButton_13->setWhatsThis(QApplication::translate("Cybele", "Light", 0));
+        pushButton_13->setWhatsThis(QApplication::translate("Cybele", "Light", Q_NULLPTR));
 #endif // QT_NO_WHATSTHIS
-        pushButton_13->setText(QApplication::translate("Cybele", "G", 0));
+        pushButton_13->setText(QApplication::translate("Cybele", "G", Q_NULLPTR));
         btn_selection->setText(QApplication::translate("Cybele", "SELECCIONAR \n"
-"PUNTOS", 0));
-        btn_CircunCintura->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"CINTURA", 0));
-        btn_CircunCadera->setText(QApplication::translate("Cybele", "CADERA", 0));
-        btn_DiamFemur->setText(QApplication::translate("Cybele", " FEMUR", 0));
-        btn_CircunBrazoIzq->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"BRAZO", 0));
-        btn_CircunCefalica->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"CEFALICA", 0));
-        btn_Talla->setText(QApplication::translate("Cybele", "TALLA", 0));
-        btn_selection_2->setText(QApplication::translate("Cybele", "SELECCIONAR \n"
-"PUNTOS", 0));
-        btn_CircunCadera_2->setText(QApplication::translate("Cybele", "CADERA", 0));
-        btn_CircunBrazoIzq_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"BRAZO", 0));
-        btn_DiamFemur_2->setText(QApplication::translate("Cybele", " FEMUR", 0));
-        btn_CircunCintura_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"CINTURA", 0));
-        btn_CircunCefalica_2->setText(QApplication::translate("Cybele", "CIRCUNFERENCIA \n"
-"CEFALICA", 0));
-        btn_Talla_2->setText(QApplication::translate("Cybele", "TALLA", 0));
-        menuFile->setTitle(QApplication::translate("Cybele", "&File", 0));
-        menuEdit->setTitle(QApplication::translate("Cybele", "&Edit", 0));
-        menuOperations->setTitle(QApplication::translate("Cybele", "&Operations", 0));
-        menuSubdivision->setTitle(QApplication::translate("Cybele", "&Subdivision", 0));
-        menu_Boolean_operations->setTitle(QApplication::translate("Cybele", "&Boolean operations", 0));
-        menuParameterization->setTitle(QApplication::translate("Cybele", "Parameterization", 0));
-        menuPCA->setTitle(QApplication::translate("Cybele", "PCA", 0));
-        menuView->setTitle(QApplication::translate("Cybele", "&View", 0));
-        menuDockWindows->setTitle(QApplication::translate("Cybele", "&Dock windows", 0));
-        menuCamera->setTitle(QApplication::translate("Cybele", "Ca&mera", 0));
+"PUNTOS", Q_NULLPTR));
+        btn_CircunCintura->setText(QApplication::translate("Cybele", "CINTURA", Q_NULLPTR));
+        btn_CircunCadera->setText(QApplication::translate("Cybele", "CADERA", Q_NULLPTR));
+        btn_DiamFemur->setText(QApplication::translate("Cybele", " FEMUR", Q_NULLPTR));
+        btn_CircunBrazoIzq->setText(QApplication::translate("Cybele", "BRAZO", Q_NULLPTR));
+        btn_CircunCefalica->setText(QApplication::translate("Cybele", "CEFALICA", Q_NULLPTR));
+        btn_Talla->setText(QApplication::translate("Cybele", "TALLA", Q_NULLPTR));
+        btn_selection_right->setText(QApplication::translate("Cybele", "SELECCIONAR \n"
+"PUNTOS", Q_NULLPTR));
+        btn_CircunCadera_right->setText(QApplication::translate("Cybele", "CADERA", Q_NULLPTR));
+        btn_CircunBrazoIzq_right->setText(QApplication::translate("Cybele", "BRAZO", Q_NULLPTR));
+        btn_DiamFemur_right->setText(QApplication::translate("Cybele", " FEMUR", Q_NULLPTR));
+        btn_CircunCintura_right->setText(QApplication::translate("Cybele", "CINTURA", Q_NULLPTR));
+        btn_CircunCefalica_right->setText(QApplication::translate("Cybele", "CEFALICA", Q_NULLPTR));
+        btn_Talla_right->setText(QApplication::translate("Cybele", "TALLA", Q_NULLPTR));
+        lbl_CircunCadera->setText(QApplication::translate("Cybele", "Circunferencia Cadera", Q_NULLPTR));
+        lbl_DiamFemur->setText(QApplication::translate("Cybele", "Femur", Q_NULLPTR));
+        lbl_talla->setText(QApplication::translate("Cybele", "Talla", Q_NULLPTR));
+        lbl_CircunCintura->setText(QApplication::translate("Cybele", "Circunferencia Cintura", Q_NULLPTR));
+        lbl_CircunCefalica->setText(QApplication::translate("Cybele", "Circunferencia Cefalica", Q_NULLPTR));
+        lbl_CircunBrazoIzq->setText(QApplication::translate("Cybele", "Circunferencia Brazo Izquierdo", Q_NULLPTR));
+        lbl_DiamMuneca->setText(QApplication::translate("Cybele", "Circunferencia Mu\303\261eca", Q_NULLPTR));
+        lbl_MusloIzq->setText(QApplication::translate("Cybele", "Circunferencia Muslo Izquierdo", Q_NULLPTR));
+        saveButton->setText(QApplication::translate("Cybele", "Guardar", Q_NULLPTR));
+        lbl_CircunCadera_right->setText(QApplication::translate("Cybele", "Circunferencia Cadera", Q_NULLPTR));
+        lbl_talla_right->setText(QApplication::translate("Cybele", "Talla", Q_NULLPTR));
+        lbl_CircunBrazoIzq_right->setText(QApplication::translate("Cybele", "Circunferencia Brazo Izquierdo", Q_NULLPTR));
+        lbl_CircunCefalica_right->setText(QApplication::translate("Cybele", "Circunferencia Cefalica", Q_NULLPTR));
+        lbl_MusloIzq_right->setText(QApplication::translate("Cybele", "Circunferencia Muslo Izquierdo", Q_NULLPTR));
+        lbl_DiamMuneca_right->setText(QApplication::translate("Cybele", "Circunferencia Mu\303\261eca", Q_NULLPTR));
+        lbl_CircunCintura_right->setText(QApplication::translate("Cybele", "Circunferencia Cintura", Q_NULLPTR));
+        lbl_DiamFemur_right->setText(QApplication::translate("Cybele", "Femur", Q_NULLPTR));
+        saveButton_right->setText(QApplication::translate("Cybele", "Guardar", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("Cybele", "&File", Q_NULLPTR));
+        menuEdit->setTitle(QApplication::translate("Cybele", "&Edit", Q_NULLPTR));
+        menuOperations->setTitle(QApplication::translate("Cybele", "&Operations", Q_NULLPTR));
+        menuSubdivision->setTitle(QApplication::translate("Cybele", "&Subdivision", Q_NULLPTR));
+        menu_Boolean_operations->setTitle(QApplication::translate("Cybele", "&Boolean operations", Q_NULLPTR));
+        menuParameterization->setTitle(QApplication::translate("Cybele", "Parameterization", Q_NULLPTR));
+        menuPCA->setTitle(QApplication::translate("Cybele", "PCA", Q_NULLPTR));
+        menuView->setTitle(QApplication::translate("Cybele", "&View", Q_NULLPTR));
+        menuDockWindows->setTitle(QApplication::translate("Cybele", "&Dock windows", Q_NULLPTR));
+        menuCamera->setTitle(QApplication::translate("Cybele", "Ca&mera", Q_NULLPTR));
         consoleDockWidget->setWindowTitle(QString());
-        lineEdit->setPlaceholderText(QApplication::translate("Cybele", "Buscar...", 0));
-        lineEdit_2->setPlaceholderText(QApplication::translate("Cybele", "Nombre", 0));
-        lineEdit_3->setPlaceholderText(QApplication::translate("Cybele", "Apellido", 0));
-        lineEdit_4->setPlaceholderText(QApplication::translate("Cybele", "Edad", 0));
-        lineEdit_5->setPlaceholderText(QApplication::translate("Cybele", "C.I", 0));
-        lbl_talla->setText(QApplication::translate("Cybele", "Talla", 0));
-        lbl_CircunCefalica->setText(QApplication::translate("Cybele", "Circunferencia Cefalica", 0));
-        lbl_CircunBrazoIzq->setText(QApplication::translate("Cybele", "Circunferencia Brazo Izquierdo", 0));
-        lbl_CircunCintura->setText(QApplication::translate("Cybele", "Circunferencia Cintura", 0));
-        lbl_CircunCadera->setText(QApplication::translate("Cybele", "Circunferencia Cadera", 0));
-        lbl_MusloIzq->setText(QApplication::translate("Cybele", "Circunferencia Muslo Izquierdo", 0));
-        lbl_DiamMuneca->setText(QApplication::translate("Cybele", "Circunferencia Mu\303\261eca", 0));
-        lbl_DiamFemur->setText(QApplication::translate("Cybele", "Femur", 0));
-        pushButton->setText(QApplication::translate("Cybele", "Guardar", 0));
+        lineEdit->setPlaceholderText(QApplication::translate("Cybele", "Buscar...", Q_NULLPTR));
+        nombre->setPlaceholderText(QApplication::translate("Cybele", "Nombre", Q_NULLPTR));
+        apellido->setPlaceholderText(QApplication::translate("Cybele", "Apellido", Q_NULLPTR));
+        fecha_nacimiento->setPlaceholderText(QApplication::translate("Cybele", "Edad", Q_NULLPTR));
+        cedula->setPlaceholderText(QApplication::translate("Cybele", "C.I", Q_NULLPTR));
+        savePatient->setText(QApplication::translate("Cybele", "Guardar", Q_NULLPTR));
+        btn_historial->setText(QApplication::translate("Cybele", "Historial", Q_NULLPTR));
         displayLabel->setText(QString());
     } // retranslateUi
 

@@ -1,15 +1,17 @@
 #include "config.h"
 #include "cybele.h"
 #include <CGAL/IO/OFF_reader.h>
+
 #include <vector>
 #ifdef QT_SCRIPT_LIB
-#  include <QScriptEngine>
-#  include <QScriptValue>
+#include <QScriptEngine>
+#include <QScriptValue>
 #include <QOpenGLContext>
+#include <QStandardItemModel>
+#include <QStandardItem>
 
-QScriptValue
-myScene_itemToScriptValue(QScriptEngine *engine,
-Scene_item* const &in)
+
+QScriptValue myScene_itemToScriptValue(QScriptEngine *engine, Scene_item* const &in)
 {
 	return engine->newQObject(in);
 }
@@ -104,86 +106,86 @@ QScriptValue myPrintFunction(QScriptContext *context, QScriptEngine *engine)
 	return engine->undefinedValue();
 }
 
-void Cybele::setupViewer_2(){
+void Cybele::setupRightViewer(){
 	
 	// Save some pointers from ui, for latter use.
-	sceneView_2 = ui->sceneView_2;
-	viewer_2 = ui->viewer_2;
+	sceneView_right = ui->sceneView_right;
+	viewer_right = ui->viewer_right;
 
 	// setup scene
-	scene_2 = new Scene(this);
-	viewer_2->setScene(scene_2);
+	scene_right = new Scene(this);
+	viewer_right->setScene(scene_right);
 	
 	proxyModel_2 = new QSortFilterProxyModel(this);
-	proxyModel_2->setSourceModel(scene_2);
+	proxyModel_2->setSourceModel(scene_right);
 
-	sceneView_2->setModel(proxyModel_2);
+	sceneView_right->setModel(proxyModel_2);
 	// setup the sceneview: delegation and columns sizing...
-	sceneView_2->setItemDelegate(new SceneDelegate(this));
-	sceneView_2->header()->setStretchLastSection(false);
-	sceneView_2->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
-	sceneView_2->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
-	sceneView_2->header()->setSectionResizeMode(Scene::ColorColumn, QHeaderView::ResizeToContents);
-	sceneView_2->header()->setSectionResizeMode(Scene::RenderingModeColumn, QHeaderView::Fixed);
-	sceneView_2->header()->setSectionResizeMode(Scene::ABColumn, QHeaderView::Fixed);
-	sceneView_2->header()->setSectionResizeMode(Scene::VisibleColumn, QHeaderView::Fixed);
-	sceneView_2->resizeColumnToContents(Scene::ColorColumn);
-	sceneView_2->resizeColumnToContents(Scene::RenderingModeColumn);
-	sceneView_2->resizeColumnToContents(Scene::ABColumn);
-	sceneView_2->resizeColumnToContents(Scene::VisibleColumn);
+	sceneView_right->setItemDelegate(new SceneDelegate(this));
+	sceneView_right->header()->setStretchLastSection(false);
+	sceneView_right->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
+	sceneView_right->header()->setSectionResizeMode(Scene::NameColumn, QHeaderView::Stretch);
+	sceneView_right->header()->setSectionResizeMode(Scene::ColorColumn, QHeaderView::ResizeToContents);
+	sceneView_right->header()->setSectionResizeMode(Scene::RenderingModeColumn, QHeaderView::Fixed);
+	sceneView_right->header()->setSectionResizeMode(Scene::ABColumn, QHeaderView::Fixed);
+	sceneView_right->header()->setSectionResizeMode(Scene::VisibleColumn, QHeaderView::Fixed);
+	sceneView_right->resizeColumnToContents(Scene::ColorColumn);
+	sceneView_right->resizeColumnToContents(Scene::RenderingModeColumn);
+	sceneView_right->resizeColumnToContents(Scene::ABColumn);
+	sceneView_right->resizeColumnToContents(Scene::VisibleColumn);
 
 	// setup connections
-	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+	connect(scene_right, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
 		this, SLOT(updateInfo_2()));
 
-	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+	connect(scene_right, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
 		this, SLOT(updateDisplayInfo_2()));
 
-	connect(scene_2, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
-		viewer_2, SLOT(updateGL()));
+	connect(scene_right, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		viewer_right, SLOT(updateGL()));
 
-	connect(scene_2, SIGNAL(updated()),
-		viewer_2, SLOT(updateGL()));
+	connect(scene_right, SIGNAL(updated()),
+		viewer_right, SLOT(updateGL()));
 
-	connect(scene_2, SIGNAL(updated()),
+	connect(scene_right, SIGNAL(updated()),
 		this, SLOT(selectionChanged()));
 
-	connect(scene_2, SIGNAL(itemAboutToBeDestroyed(Scene_item*)),
+	connect(scene_right, SIGNAL(itemAboutToBeDestroyed(Scene_item*)),
 		this, SLOT(removeManipulatedFrame_2(Scene_item*)));
 
-	connect(scene_2, SIGNAL(updated_bbox()),
+	connect(scene_right, SIGNAL(updated_bbox()),
 		this, SLOT(updateViewerBBox_2()));
 
-	connect(scene_2, SIGNAL(selectionChanged(int)),
+	connect(scene_right, SIGNAL(selectionChanged(int)),
 		this, SLOT(selectSceneItem_2(int)));
 
-	connect(sceneView_2->selectionModel(),
+	connect(sceneView_right->selectionModel(),
 		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
 		this, SLOT(updateInfo_2()));
 
-	connect(sceneView_2->selectionModel(),
+	connect(sceneView_right->selectionModel(),
 		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
 		this, SLOT(updateDisplayInfo_2()));
 
-	connect(sceneView_2->selectionModel(),
+	connect(sceneView_right->selectionModel(),
 		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
 		this, SLOT(selectionChanged_2()));
 
-	sceneView_2->setContextMenuPolicy(Qt::CustomContextMenu);
-	connect(sceneView_2, SIGNAL(customContextMenuRequested(const QPoint &)),
+	sceneView_right->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(sceneView_right, SIGNAL(customContextMenuRequested(const QPoint &)),
 		this, SLOT(showSceneContextMenu_2(const QPoint &)));
 
-	connect(viewer_2, SIGNAL(selected(int)),
+	connect(viewer_right, SIGNAL(selected(int)),
 		this, SLOT(selectSceneItem_2(int)));
-	connect(viewer_2, SIGNAL(selectedPoint(double, double, double)),
+	connect(viewer_right, SIGNAL(selectedPoint(double, double, double)),
 		this, SLOT(showSelectedPoint(double, double, double)));
 
-	connect(viewer_2, SIGNAL(selectionRay(double, double, double,
+	connect(viewer_right, SIGNAL(selectionRay(double, double, double,
 		double, double, double)),
-		scene_2, SIGNAL(selectionRay(double, double, double,
+		scene_right, SIGNAL(selectionRay(double, double, double,
 		double, double, double)));
 
-	connect(viewer_2, SIGNAL(requestContextMenu(QPoint)),
+	connect(viewer_right, SIGNAL(requestContextMenu(QPoint)),
 		this, SLOT(contextMenuRequested(QPoint)));
 
 	// The contextMenuPolicy of infoLabel is now the default one, so that one
@@ -192,17 +194,19 @@ void Cybele::setupViewer_2(){
 	//         this, SLOT(showSceneContextMenu(const QPoint &)));
 
 	connect(ui->actionRecenterScene, SIGNAL(triggered()),
-		viewer_2, SLOT(update()));
+		viewer_right, SLOT(update()));
 
 	connect(ui->actionAntiAliasing, SIGNAL(toggled(bool)),
-		viewer_2, SLOT(setAntiAliasing(bool)));
+		viewer_right, SLOT(setAntiAliasing(bool)));
 
 	connect(ui->actionDraw_two_sides, SIGNAL(toggled(bool)),
-		viewer_2, SLOT(setTwoSides(bool)));
+		viewer_right, SLOT(setTwoSides(bool)));
 
 	// add the "About CGAL..." and "About demo..." entries
 	//this->addAboutCGAL();
 	//this->addAboutDemo(":/cgal/Polyhedron_3/about.html");
+
+	//connect(ui->btn_historial, SIGNAL(click()), this, SLOT(drawChart2()));
 
 	// Connect the button "addButton" with actionLoad
 	ui->addButton->setDefaultAction(ui->actionLoad);
@@ -229,7 +233,8 @@ Cybele::Cybele(QWidget *parent) :
 	CGAL::Qt::DemosMainWindow(parent),
 	edges_item(0),
 	outside_edges_item(0),
-    inside_edges_item(0)
+    inside_edges_item(0),
+	found_edges_item(0)
 {
 		ui = new Ui::Cybele;
         ui->setupUi(this);
@@ -377,8 +382,7 @@ Cybele::Cybele(QWidget *parent) :
 #  ifdef QT_SCRIPTTOOLS_LIB
 	QScriptEngineDebugger* debugger = new QScriptEngineDebugger(this);
 	debugger->setObjectName("qt script debugger");
-	QAction* debuggerMenuAction =
-		menuBar()->addMenu(debugger->createStandardMenu());
+	QAction* debuggerMenuAction = menuBar()->addMenu(debugger->createStandardMenu());
 	debuggerMenuAction->setText(tr("Qt Script &debug"));
 	for (unsigned int i = 0; i < 9; ++i)
 	{
@@ -418,7 +422,8 @@ Cybele::Cybele(QWidget *parent) :
 #endif
 
 	readSettings(); // Among other things, the column widths are stored.
-
+	d_CircunCefalica_right = d_CircunBrazoIzq_right = d_CircunCintura_right = d_CircunCadera_right = d_CircunMusloIzq_right = d_DiamMuneca_right = d_DiamFemur_right = d_talla_right = 0;
+	d_CircunCefalica = d_CircunBrazoIzq = d_CircunCintura = d_CircunCadera = d_CircunMusloIzq = d_DiamMuneca = d_DiamFemur = d_talla = 0;
 	// Load plugins, and re-enable actions that need it.
 	loadPlugins();
 
@@ -445,8 +450,10 @@ Cybele::Cybele(QWidget *parent) :
 		, this, SLOT(filterOperations()));
 	
 	// Right viewer
-	setupViewer_2();
-	
+	setupRightViewer();
+	const char* driverName = "QPSQL";
+	qSQLDbHelper = new QSQLDbHelper(driverName);
+	db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
 }
 
 Cybele::~Cybele()
@@ -456,34 +463,34 @@ Cybele::~Cybele()
 
 void Cybele::selectionChanged_2()
 {
-	scene_2->setSelectedItemIndex(getSelectedSceneItemIndex_2());
-	scene_2->setSelectedItemsList(getSelectedSceneItemIndices_2());
-	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
+	scene_right->setSelectedItemIndex(getSelectedSceneItemIndex_2());
+	scene_right->setSelectedItemsList(getSelectedSceneItemIndices_2());
+	Scene_item* item = scene_right->item(getSelectedSceneItemIndex_2());
 	if (item != NULL && item->manipulatable()) {
-		viewer_2->setManipulatedFrame(item->manipulatedFrame());
+		viewer_right->setManipulatedFrame(item->manipulatedFrame());
 	}
 	else {
-		viewer_2->setManipulatedFrame(0);
+		viewer_right->setManipulatedFrame(0);
 	}
-	if (viewer_2->manipulatedFrame() == 0) {
-		Q_FOREACH(Scene_item* item, scene_2->entries()) {
+	if (viewer_right->manipulatedFrame() == 0) {
+		Q_FOREACH(Scene_item* item, scene_right->entries()) {
 			if (item->manipulatable() && item->manipulatedFrame() != 0) {
-				if (viewer_2->manipulatedFrame() != 0) {
+				if (viewer_right->manipulatedFrame() != 0) {
 					// there are at least two possible frames
-					viewer_2->setManipulatedFrame(0);
+					viewer_right->setManipulatedFrame(0);
 					break;
 				}
 				else {
-					viewer_2->setManipulatedFrame(item->manipulatedFrame());
+					viewer_right->setManipulatedFrame(item->manipulatedFrame());
 				}
 			}
 		}
 	}
-	if (viewer_2->manipulatedFrame() != 0) {
-		connect(viewer_2->manipulatedFrame(), SIGNAL(modified()),
+	if (viewer_right->manipulatedFrame() != 0) {
+		connect(viewer_right->manipulatedFrame(), SIGNAL(modified()),
 			this, SLOT(updateInfo_2()));
 	}
-	viewer_2->updateGL();
+	viewer_right->updateGL();
 } 
 
 void Cybele::selectionChanged()
@@ -529,7 +536,7 @@ QList<int> Cybele::getSelectedSceneItemIndices() const
 }
 QList<int> Cybele::getSelectedSceneItemIndices_2() const
 {
-	QModelIndexList selectedRows = sceneView_2->selectionModel()->selectedRows();
+	QModelIndexList selectedRows = sceneView_right->selectionModel()->selectedRows();
 	QList<int> result;
 	Q_FOREACH(QModelIndex index, selectedRows) {
 		result << proxyModel_2->mapToSource(index).row();
@@ -698,17 +705,17 @@ void Cybele::addSceneItemInSelection(int i)
 void Cybele::removeSceneItemFromSelection_2(int i)
 {
 	QItemSelection s =
-		proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
-	sceneView_2->selectionModel()->select(s,
+		proxyModel_2->mapSelectionFromSource(scene_right->createSelection(i));
+	sceneView_right->selectionModel()->select(s,
 		QItemSelectionModel::Deselect);
-	scene_2->itemChanged(i);
+	scene_right->itemChanged(i);
 }
 void Cybele::addSceneItemInSelection_2(int i)
 {
 	QItemSelection s =
-		proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
-	sceneView_2->selectionModel()->select(s, QItemSelectionModel::Select);
-	scene_2->itemChanged(i);
+		proxyModel_2->mapSelectionFromSource(scene_right->createSelection(i));
+	sceneView_right->selectionModel()->select(s, QItemSelectionModel::Select);
+	scene_right->itemChanged(i);
 }
 void Cybele::unSelectSceneItem(int i)
 {
@@ -757,7 +764,7 @@ void Cybele::showSceneContextMenu(int selectedItemIndex,
 void Cybele::showSceneContextMenu_2(int selectedItemIndex,
 	const QPoint& global_pos)
 {
-	Scene_item* item = scene_2->item(selectedItemIndex);
+	Scene_item* item = scene_right->item(selectedItemIndex);
 	if (!item) return;
 
 	const char* prop_name = "Menu modified by MainWindow.";
@@ -903,14 +910,6 @@ double Cybele::getCircumference(){
 		}
 
 		total_squared_x_voxel_size = total_squared * voxel_size;
-
-		//std::cout << "Total Perimeter (Sorted): " << total_squared << std::endl;
-		//std::cout << "Total Perimeter Scaled (Sorted): " << total_squared_scaled << std::endl;
-		//std::cout << "Total Perimeter * Voxel Size (Sorted): " << total_squared_x_voxel_size << std::endl;
-
-		//information(QString("Total Perimeter (Sorted): %1").arg(total_squared, 0, 'g', 10));
-		//information(QString("Total Perimeter Scaled (Sorted): %1").arg(total_squared_scaled, 0, 'g', 10));
-		//information(QString("Total Perimeter * Voxel Size (	Sorted): %1").arg(total_squared_x_voxel_size, 0, 'g', 10));
 	}
 
 	Scene_polylines_item* lPtr = dynamic_cast<Scene_polylines_item*>(item);
@@ -992,6 +991,7 @@ double Cybele::getCircumference(){
 		for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_item->edges.begin(); vi != edges_item->edges.end(); ++vi){
 			total_squared += vi->squared_length();
 		}
+	
 	}
 
 	Scene_bbox_item* height = dynamic_cast<Scene_bbox_item*>(item);
@@ -1033,14 +1033,14 @@ void Cybele::showSceneContextMenu_2(const QPoint& p) {
 	if (!sender) return;
 
 	int index = -1;
-	if (sender == sceneView_2) {
-		QModelIndex modelIndex = sceneView_2->indexAt(p);
+	if (sender == sceneView_right) {
+		QModelIndex modelIndex = sceneView_right->indexAt(p);
 		if (!modelIndex.isValid()) return;
 
 		index = proxyModel_2->mapToSource(modelIndex).row();
 	}
 	else{
-		index = scene_2->mainSelectionIndex();
+		index = scene_right->mainSelectionIndex();
 	}
 
 	showSceneContextMenu_2(index, sender->mapToGlobal(p));
@@ -1097,8 +1097,8 @@ void Cybele::removeManipulatedFrame(Scene_item* item)
 void Cybele::removeManipulatedFrame_2(Scene_item* item)
 {
 	if (item->manipulatable() &&
-		item->manipulatedFrame() == viewer_2->manipulatedFrame()) {
-		viewer_2->setManipulatedFrame(0);
+		item->manipulatedFrame() == viewer_right->manipulatedFrame()) {
+		viewer_right->setManipulatedFrame(0);
 	}
 }
 void Cybele::readSettings()
@@ -1230,35 +1230,35 @@ void Cybele::viewerShow_2(float xmin,
 		min_(xmin, ymin, zmin),
 		max_(xmax, ymax, zmax);
 #if QGLVIEWER_VERSION >= 0x020502
-	viewer_2->camera()->setPivotPoint((min_ + max_)*0.5);
+	viewer_right->camera()->setPivotPoint((min_ + max_)*0.5);
 #else
-	viewer_2->camera()->setRevolveAroundPoint((min_ + max_)*0.5);
+	viewer_right->camera()->setRevolveAroundPoint((min_ + max_)*0.5);
 #endif
 
-	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_2->camera()->frame());
-	viewer_2->camera()->fitBoundingBox(min_, max_);
-	qglviewer::ManipulatedCameraFrame new_frame(*viewer_2->camera()->frame());
-	*viewer_2->camera()->frame() = backup_frame;
-	viewer_2->camera()->interpolateTo(new_frame, 1.f);
-	viewer_2->setVisualHintsMask(1);
+	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_right->camera()->frame());
+	viewer_right->camera()->fitBoundingBox(min_, max_);
+	qglviewer::ManipulatedCameraFrame new_frame(*viewer_right->camera()->frame());
+	*viewer_right->camera()->frame() = backup_frame;
+	viewer_right->camera()->interpolateTo(new_frame, 1.f);
+	viewer_right->setVisualHintsMask(1);
 
 }
 
 void Cybele::viewerShow_2(float x, float y, float z) {
 #if QGLVIEWER_VERSION >= 0x020502
-	viewer_2->camera()->setPivotPoint(qglviewer::Vec(x, y, z));
+	viewer_right->camera()->setPivotPoint(qglviewer::Vec(x, y, z));
 #else
-	viewer_2->camera()->setRevolveAroundPoint(qglviewer::Vec(x, y, z));
+	viewer_right->camera()->setRevolveAroundPoint(qglviewer::Vec(x, y, z));
 #endif
 	// viewer->camera()->lookAt(qglviewer::Vec(x, y, z));
 
-	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_2->camera()->frame());
-	viewer_2->camera()->fitSphere(qglviewer::Vec(x, y, z),
-		viewer_2->camera()->sceneRadius() / 100);
-	qglviewer::ManipulatedCameraFrame new_frame(*viewer_2->camera()->frame());
-	*viewer_2->camera()->frame() = backup_frame;
-	viewer_2->camera()->interpolateTo(new_frame, 1.f);
-	viewer_2->setVisualHintsMask(1);
+	qglviewer::ManipulatedCameraFrame backup_frame(*viewer_right->camera()->frame());
+	viewer_right->camera()->fitSphere(qglviewer::Vec(x, y, z),
+		viewer_right->camera()->sceneRadius() / 100);
+	qglviewer::ManipulatedCameraFrame new_frame(*viewer_right->camera()->frame());
+	*viewer_right->camera()->frame() = backup_frame;
+	viewer_right->camera()->interpolateTo(new_frame, 1.f);
+	viewer_right->setVisualHintsMask(1);
 
 }
 
@@ -1270,7 +1270,7 @@ void Cybele::viewerShowObject_2()
 		index = sender_action->data().toInt();
 	}
 	if (index >= 0) {
-		const Scene::Bbox bbox = scene_2->item(index)->bbox();
+		const Scene::Bbox bbox = scene_right->item(index)->bbox();
 		viewerShow_2((float)bbox.xmin, (float)bbox.ymin, (float)bbox.zmin,
 			(float)bbox.xmax, (float)bbox.ymax, (float)bbox.zmax);
 	}
@@ -1365,8 +1365,6 @@ void Cybele::calculatePointSetNormals(const char* filename_in, const char* filen
 	if (!out || !CGAL::write_off_points_and_normals(out, points.begin(), points.end(), CGAL::First_of_pair_property_map<PointVectorPair>(), CGAL::Second_of_pair_property_map<PointVectorPair>()))
 		std::cerr << "Error: cannot write .off file" << std::endl;
 
-	
-
 }
 void Cybele::PoissonReconstruction(const char* filename_in, const char* filename_out){
 	PointList points;
@@ -1377,18 +1375,20 @@ void Cybele::PoissonReconstruction(const char* filename_in, const char* filename
 	// Poisson options
 	FT sm_angle = 20.0; // Min triangle angle in degrees.
 	FT sm_radius = 30; // Max triangle size w.r.t. point set average spacing.
-	FT sm_distance = 0.275; // Surface Approximation error w.r.t. point set average spacing.
+	FT sm_distance = 0.375; // Surface Approximation error w.r.t. point set average spacing.
 	std::cerr << "Poisson reconstruction...." << std::endl;
 	// Creates implicit function from the read points using the default solver.
 	// Note: this method requires an iterator over points
 	// + property maps to access each point's position and normal.
-	// The position property map can be omitted here as we use iterators over Point_3 elements.
+	// The position property map can be omitted here as we use iterators over Point_3 elements.	
 	Poisson_reconstruction_function function(points.begin(), points.end(), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type()));
 
 	// Computes the Poisson indicator function f()
 	// at each vertex of the triangulation.
 	if (!function.compute_implicit_function())
 		std::cerr << "compute_implicit_function - Failed" << std::endl;
+	else
+		std::cerr << "compute_implicit_function - Done" << std::endl;
 	// Computes average spacing
 	FT average_spacing = CGAL::compute_average_spacing(points.begin(), points.end(), 6 /* knn = 1 ring */);
 	// Gets one point inside the implicit surface and computes implicit function bounding sphere radius.
@@ -1413,31 +1413,172 @@ void Cybele::PoissonReconstruction(const char* filename_in, const char* filename
 		CGAL::Manifold_with_boundary_tag());  // require manifold mesh
 	if (tr.number_of_vertices() == 0)
 		std::cerr << "ERROR - Number of vertices equals zero " << std::endl;
-	
-	std::cerr << "Finishing...." << std::endl;
+
+	std::cerr << "Saving Reconstruction..." << std::endl;
 	// saves reconstructed surface mesh
 	std::ofstream out(filename_out);
 	Polyhedron_K output_mesh;
 	CGAL::output_surface_facets_to_polyhedron(c2t3, output_mesh);
 	out << output_mesh;
 }
+void Cybele::advancing_front_reconstruction(const char* filename_in, const char* filename_out){
+	std::ifstream in(filename_in);
+	PointList points;
+	//std::vector<Point> points;
+	if (!in || !CGAL::read_off_points_and_normals(in, std::back_inserter(points), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())))
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+	std::cerr << "Reconstruction..." << std::endl;
+	std::vector<Facet> facets;
+	Surface_mesh m;
+	std::copy(std::istream_iterator<Point>(in),
+		std::istream_iterator<Point>(),
+		std::back_inserter(points));
+	Construct construct(m, points.begin(), points.end());
+	CGAL::advancing_front_surface_reconstruction(points.begin(),
+		points.end(),
+		construct);
+	std::ofstream out(filename_out);
+	out << m << std::endl;
 
+}
+
+void Cybele::reconstruction_class(const char* filename_in, const char* filename_out){
+	std::ifstream in(filename_in);
+	std::istream_iterator<Point> begin(in);
+	std::istream_iterator<Point> end;
+	Triangulation_3 dt(begin, end);
+	C_Reconstruction reconstruction(dt);
+	reconstruction.run();
+	const TDS_2& tds = reconstruction.triangulation_data_structure_2();
+	std::ofstream out(filename_out);
+	out << "solid produced with CGAL::Advancing_front_surface_reconstruction\n";
+	for (TDS_2::Face_iterator fit = tds.faces_begin();
+		fit != tds.faces_end();
+		++fit){
+		if (reconstruction.has_on_surface(fit)){
+			Triangulation_3::Facet f = fit->facet();
+			Triangulation_3::Cell_handle ch = f.first;
+			int ci = f.second;
+			Point points[3];
+			for (int i = 0, j = 0; i < 4; i++){
+				if (ci != i){
+					points[j] = ch->vertex(i)->point();
+					j++;
+				}
+			}
+			out << "  facet normal "
+				<< CGAL::unit_normal(points[0], points[1], points[2]) << "\n"
+				<< "  outer loop\n"
+				<< "    vertex " << points[0] << "\n"
+				<< "    vertex " << points[1] << "\n"
+				<< "    vertex " << points[2] << "\n"
+				<< "  endloop\n"
+				<< "  endfacet\n";
+		}
+	}
+	out << "endsolid" << std::endl;
+}
+
+void Cybele::reconstruction_outliers_boundaries(const char* filename_in, const char* filename_out){
+	std::ifstream in(filename_in);
+	PointList points;
+	//std::vector<Point> points;
+	if (!in || !CGAL::read_off_points_and_normals(in, std::back_inserter(points), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())))
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+	std::istream_iterator<Point> begin(in);
+	std::istream_iterator<Point> end;
+	Perimeter perimeter(0.5);
+	Triangulation_3 dt(begin, end);
+	Reconstruction reconstruction(dt, perimeter);
+	reconstruction.run();
+	std::cout << reconstruction.number_of_outliers() << " outliers:\n" << std::endl;
+	BOOST_FOREACH(const Point& p, reconstruction.outliers()){
+		std::cout << p << std::endl;
+	}
+	std::cout << "Boundaries:" << std::endl;
+	BOOST_FOREACH(const Vertex_on_boundary_range & vobr, reconstruction.boundaries()){
+		std::cout << "boundary\n";
+		// As we use BOOST_FOREACH we do not use the type Boundary_range
+		BOOST_FOREACH(R_Vertex_handle v, vobr){
+			std::cout << v->point() << std::endl;
+		}
+	}
+	std::ofstream out(filename_out);
+	out << dt << std::endl;
+}
+
+void Cybele::delaunay_triangulation(const char* filename_in, const char* filename_out){
+	std::list<Point> points;
+	std::ifstream stream(filename_in);
+	if (!stream || !CGAL::read_off_points(stream, std::back_inserter(points)));
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+
+	std::cerr << "Delaunay...." << std::endl;
+	Triangulation T(points.begin(),points.end());
+	Triangulation::size_type n = T.number_of_vertices();
+	Triangulation::size_type f = T.number_of_facets();
+
+	std::ofstream out(filename_out);
+	out << T << std::endl;
+}
+
+bool Cybele::upsample_point_set(const char* filename_in, const char* filename_out){
+	std::list<PointVectorPair> points;
+	std::ifstream stream(filename_in);
+	//if (!stream || !CGAL::read_off_points_and_normals(stream, std::back_inserter(points), CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())))
+		std::cerr << "Error: cannot read file " << filename_in << std::endl;
+	//Algorithm parameters
+	const double sharpness_angle = 25;   // control sharpness of the result.
+	const double edge_sensitivity = 0;    // higher values will sample more points near the edges          
+	const double neighbor_radius = 0.25;  // initial size of neighborhood.
+	const unsigned int number_of_output_points = points.size() * 4;
+	//Run algorithm 
+	CGAL::edge_aware_upsample_point_set(
+		points.begin(),
+		points.end(),
+		std::back_inserter(points),
+		CGAL::First_of_pair_property_map<PointVectorPair>(),
+		CGAL::Second_of_pair_property_map<PointVectorPair>(),
+		sharpness_angle,
+		edge_sensitivity,
+		neighbor_radius,
+		number_of_output_points);
+	// Saves point set.
+	std::ofstream out(filename_out);
+
+	//if (!out || !CGAL::write_off_points_and_normals(out, points.begin(), points.end(), CGAL::First_of_pair_property_map<PointVectorPair>(),	CGAL::Second_of_pair_property_map<PointVectorPair>()))
+		return false;
+
+	return true;
+	}
 Scene_item* Cybele::load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_interface* loader) {
 	Scene_item* item = NULL;
 	if (!fileinfo.isFile() || !fileinfo.isReadable()) {
 		throw std::invalid_argument(QString("File %1 is not a readable file.")
 			.arg(fileinfo.absoluteFilePath()).toStdString());
 	}
-	//SAVE FILE WITH NORMALS
 	QString str_file = fileinfo.absoluteFilePath().section(".", 0, 0);
-	QByteArray ba_file, ba_normal_file, ba_poisson_file;
-	ba_file = str_file.toLatin1()+".off";
+	QByteArray ba_file, ba_normal_file, ba_poisson_file, ba_delaunay_file, ba_stl_file;
+	ba_file = str_file.toLatin1() + ".off";
 	ba_normal_file = str_file.toLatin1() + "-normals.off";
 	ba_poisson_file = str_file.toLatin1() + "-poisson.off";
+	ba_delaunay_file = str_file.toLatin1() + "-delaunay.off";
+	ba_stl_file = str_file.toLatin1() + ".stl";
+
+	//delaunay_triangulation(ba_file, ba_delaunay_file);
+	//reconstruction_class(ba_delaunay_file, ba_stl_file);
 	
+	//reconstruction_outliers_boundaries(ba_file, ba_delaunay_file);
 	calculatePointSetNormals(ba_file, ba_normal_file);
-	PoissonReconstruction(ba_normal_file.data(), ba_poisson_file.data());
-	fileinfo.setFile(ba_poisson_file.data());
+	advancing_front_reconstruction(ba_normal_file, ba_delaunay_file);
+	//PoissonReconstruction(ba_delaunay_file, ba_poisson_file);
+	fileinfo.setFile(ba_delaunay_file.data());
+	//fileinfo.setFile(ba_delaunay_file.data());
+	//calculatePointSetNormals(ba_delaunay_file, ba_normal_file);
+	//PoissonReconstruction(ba_normal_file, ba_poisson_file);
+	//fileinfo.setFile(ba_stl_file.data());
+
+	std::cerr << "...Loading Mesh..." << std::endl;
 	item = loader->load(fileinfo);
 
 	QApplication::restoreOverrideCursor();
@@ -1468,15 +1609,15 @@ void Cybele::selectSceneItem(int i)
 }
 void Cybele::selectSceneItem_2(int i)
 {
-	if (i < 0 || i >= scene_2->numberOfEntries()) {
-		sceneView_2->selectionModel()->clearSelection();
+	if (i < 0 || i >= scene_right->numberOfEntries()) {
+		sceneView_right->selectionModel()->clearSelection();
 		updateInfo_2();
 		updateDisplayInfo_2();
 	}
 	else {
 		QItemSelection s =
-			proxyModel_2->mapSelectionFromSource(scene_2->createSelection(i));
-		sceneView_2->selectionModel()->select(s,
+			proxyModel_2->mapSelectionFromSource(scene_right->createSelection(i));
+		sceneView_right->selectionModel()->select(s,
 			QItemSelectionModel::ClearAndSelect);
 	}
 }
@@ -1495,7 +1636,7 @@ void Cybele::updateInfo() {
 		ui->infoLabel->clear();
 }
 void Cybele::updateInfo_2() {
-	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
+	Scene_item* item = scene_right->item(getSelectedSceneItemIndex_2());
 	if (item) {
 
 		QString item_text = item->toolTip();
@@ -1516,7 +1657,7 @@ void Cybele::updateDisplayInfo() {
 		ui->displayLabel->clear();
 }
 void Cybele::updateDisplayInfo_2() {
-	Scene_item* item = scene_2->item(getSelectedSceneItemIndex_2());
+	Scene_item* item = scene_right->item(getSelectedSceneItemIndex_2());
 	if (item)
 		ui->displayLabel->setPixmap(item->graphicalToolTip());
 	else
@@ -1535,7 +1676,7 @@ int Cybele::getSelectedSceneItemIndex() const
 }
 int Cybele::getSelectedSceneItemIndex_2() const
 {
-	QModelIndexList selectedRows = sceneView_2->selectionModel()->selectedRows();
+	QModelIndexList selectedRows = sceneView_right->selectionModel()->selectedRows();
 	if (selectedRows.size() != 1)
 		return -1;
 	else {
@@ -1559,7 +1700,7 @@ void Cybele::loadPlugins()
 	QList<QDir> plugins_directories;
 	static QString plugins_folder = "C://Program Files//CGAL-4.7//build//demo//Polyhedron//Debug";
 	plugins_directories << qApp->applicationDirPath();
-	qDebug("### Real app path \"%s\".", qPrintable(qApp->applicationDirPath()));
+	//qDebug("### Real app path \"%s\".", qPrintable(qApp->applicationDirPath()));
 	QString env_path = qgetenv("POLYHEDRON_DEMO_PLUGINS_PATH");
 	if (!env_path.isEmpty()) {
 		Q_FOREACH(QString pluginsDir,
@@ -1693,10 +1834,10 @@ void Cybele::evaluate_script_quiet(QString script,
 
 void Cybele::on_actionLoad_triggered()
 {
-	openFile(scene, viewer);
+	model_filename = openFile(scene, viewer);
 }
 
-void Cybele::openFile(Scene *scene, Viewer *viewer){
+QString Cybele::openFile(Scene *scene, Viewer *viewer){
 
 	QStringList filters;
 	// we need to special case our way out of this
@@ -1731,7 +1872,7 @@ void Cybele::openFile(Scene *scene, Viewer *viewer){
 	dialog.setNameFilters(filters);
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 
-	if (dialog.exec() != QDialog::Accepted) { return; }
+	if (dialog.exec() != QDialog::Accepted) { return ""; }
 
 	FilterPluginMap::iterator it =
 		filterPluginMap.find(dialog.selectedNameFilter());
@@ -1755,7 +1896,9 @@ void Cybele::openFile(Scene *scene, Viewer *viewer){
 		else {
 			open(filename, scene, viewer);
 		}
+		return filename;
 	}
+	return "error openfile";
 }
 
 void Cybele::open(QString filename, Scene *scene, Viewer *viewer)
@@ -1956,7 +2099,7 @@ void Cybele::open(QString filename)
 		this->addToRecentFiles(fileinfo.absoluteFilePath());
 	}
 
-	viewer_2->makeCurrent();
+	viewer_right->makeCurrent();
 	QString str_file = "C:\\Users\\kaptain eesikord\\Documents\\Meshes\\fandisk.off";
 	QByteArray ba_file = str_file.toLatin1();
 	fileinfo.setFile(ba_file.data());
@@ -1964,7 +2107,7 @@ void Cybele::open(QString filename)
 	Scene_item* scene_item_2 = 0;
 	scene_item_2 = load_item(fileinfo, find_loader(load_pair.first));
 
-	selectSceneItem_2(scene_2->addItem(scene_item_2));
+	selectSceneItem_2(scene_right->addItem(scene_item_2));
 }
 bool Cybele::load_script(QString filename)
 {
@@ -2116,7 +2259,7 @@ void Cybele::updateViewerBBox()
 }
 void Cybele::updateViewerBBox_2()
 {
-	const Scene::Bbox bbox = scene_2->bbox();
+	const Scene::Bbox bbox = scene_right->bbox();
 	const double xmin = bbox.xmin;
 	const double ymin = bbox.ymin;
 	const double zmin = bbox.zmin;
@@ -2128,9 +2271,9 @@ void Cybele::updateViewerBBox_2()
 	qglviewer::Vec
 		vec_min(xmin, ymin, zmin),
 		vec_max(xmax, ymax, zmax);
-	viewer_2->setSceneBoundingBox(vec_min,
+	viewer_right->setSceneBoundingBox(vec_min,
 		vec_max);
-	viewer_2->camera()->showEntireScene();
+	viewer_right->camera()->showEntireScene();
 }
 QString Cybele::camera_string() const
 {
@@ -2220,7 +2363,7 @@ Scene_points_with_normal_item* Cybele::createMeasureItem(QString measure){
 		information("Error: there is no selected polyhedron selection item!");
 		return 0;
 	}
-	if (selection_item->selected_vertices.empty()) {
+	if (selection_item->selected_vertices.empty()) {	
 		information("Error: there is no selected vertex in polyhedron selection item!");
 		return 0;
 	}
@@ -2304,6 +2447,37 @@ Scene_plane_item* Cybele::createCutPlane(QString measure, Scene_points_with_norm
 	
 }
 
+struct Intersector{
+	typedef CGAL::cpp11::result_of<Epic_kernel::Intersect_3(Segment_3, Segment_3)>::type result_type;
+	const Segment_3& s;
+	Epic_kernel::Intersect_3 intersect;
+	Intersector(const Segment_3& seg) : s(seg) {}
+	result_type
+		operator() (const Segment_3& other) const
+	{
+		return intersect(s, other);
+	}
+};
+
+void Cybele::intersectarium(Scene_edges_item* inside_edges_item, Scene_edges_item* edges_item, Scene_edges_item* outside_edges_item){
+	std::vector<Segment_3> input;
+	std::cout << "Size Before Intersector: " << edges_item->edges.size() << std::endl;
+	// splitting results with Dispatch_output_iterator
+	std::vector<Point_3> points;
+	std::vector<Segment_3> segments;
+	typedef CGAL::Dispatch_output_iterator<
+		CGAL::cpp11::tuple<Point_3, Segment_3>, CGAL::cpp0x::tuple< std::back_insert_iterator<std::vector<Point_3> >,
+		std::back_insert_iterator<std::vector<Segment_3> > > >
+		Dispatcher;
+	Dispatcher disp = CGAL::dispatch_output<Point_3, Segment_3>(std::back_inserter(points),
+		std::back_inserter(edges_item->edges));
+	// intersects the first segment of input with all other segments
+	// The resulting points or segments are written in the vectors with the same names
+	std::transform(inside_edges_item->edges.begin(), inside_edges_item->edges.end(), disp,
+		Intersector(inside_edges_item->edges.front()));
+	std::cout << "Point intersections: " << points.size() << std::endl;
+	std::cout << "After Segment intersections: " << edges_item->edges.size() << std::endl;
+}
 void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_with_normal_item* points, Scene_edges_item** edges_item) {
 	
 	QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -2316,7 +2490,7 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 	(*edges_item)->startTimer(0);
 	connect((*edges_item), SIGNAL(destroyed()),
 		this, SLOT(reset_edges()));
-
+	scene->addItem((*edges_item));
 	// outside_edges is a control variable that holds the non-intersecting edges with the mesh
 	c.setRgb(238, 17, 17);
 	outside_edges_item = new Scene_edges_item;
@@ -2325,6 +2499,7 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 	outside_edges_item->startTimer(0);
 	connect(outside_edges_item, SIGNAL(destroyed()),
 		this, SLOT(reset_edges()));
+	scene->addItem(outside_edges_item);
 
 		// outside_edges is a control variable that holds the intersecting edges with the mesh inside the bounding box
 	c.setRgb(126, 56, 120);
@@ -2334,7 +2509,17 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 	inside_edges_item->startTimer(0);
 	connect(inside_edges_item, SIGNAL(destroyed()),
 		this, SLOT(reset_edges()));
-	
+	scene->addItem(inside_edges_item);
+
+	c.setRgb(187, 126, 220);
+	found_edges_item = new Scene_edges_item;
+	found_edges_item->setName(QString("Found edges").arg(measure));
+	found_edges_item->setColor(c);
+	found_edges_item->startTimer(0);
+	connect(found_edges_item, SIGNAL(destroyed()),
+		this, SLOT(reset_edges()));
+	scene->addItem(found_edges_item);
+
 	if ((*edges_item)->top)
 	{
 		//const qglviewer::Vec& pos = plane_item->manipulatedFrame()->position();
@@ -2346,7 +2531,7 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 		(*edges_item)->edges.clear();
 		outside_edges_item->edges.clear();
 		inside_edges_item->edges.clear();
-
+		found_edges_item->edges.clear();
 		QTime time;
 		time.start();
 		for (int i = 0, end = scene->numberOfEntries(); i < end; ++i) {
@@ -2388,7 +2573,7 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 				const Epic_kernel::Segment_3 last_seg;
 
 				if (NULL != inter_seg){
-					if (CGAL::do_intersect(box_3, *inter_seg)){
+					if (CGAL::do_intersect(box_3, *inter_seg) ){
 						inside_edges_item->edges.push_back(*inter_seg);
 						(*edges_item)->edges.push_back(*inter_seg);
 						count++;
@@ -2406,7 +2591,53 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 			Epic_kernel::Point_3 target;
 			//source = inside_edges_item->edges.begin()->source();
 			//target = inside_edges_item->edges.begin()->target();
-			// RECORRE LOS SEGMENTOS DENTRO DEL BOUNDING BOX DE LOS PUNTOS SELECCIONADOS
+			//// RECORRE LOS SEGMENTOS DENTRO DEL BOUNDING BOX DE LOS PUNTOS SELECCIONADOS
+			//CGAL::Cartesian<Epic_kernel>::Point_3 p1, p2, q1, q2;
+			//count = 0;
+			//std::vector<Point_3> points;
+			//std::cout << "Size Before Intersector: " << inside_edges_item->edges.size() << std::endl;
+			
+			//intersectarium(inside_edges_item, edges_item, outside_edges_item);
+			//for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
+			//	intersector(outside_edges_item->edges);
+			//}
+			//std::cout << "Point intersections: " << points.size() << std::endl;
+			//std::cout << "After Segment intersections: " << inside_edges_item->edges.size() << std::endl;
+
+			CGAL::cpp11::result_of<Intersect_3(Segment_3, Segment_3)>::type point_intersect;
+			CGAL::cpp11::result_of<Intersect_3(Segment_3, Segment_3)>::type result_qwerty;
+			for (std::vector<Epic_kernel::Segment_3>::iterator i_inside = inside_edges_item->edges.begin(); i_inside != inside_edges_item->edges.end(); ++i_inside){
+				for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
+						
+					if (!previouslyAdded(*i_outside, found_edges_item)){
+						segmentFound = false;
+						for (std::vector<Epic_kernel::Segment_3>::iterator vi = found_edges_item->edges.begin(); vi != found_edges_item->edges.end(); ++vi){
+							if (CGAL::do_intersect(i_outside->supporting_line(), vi->bbox()) || CGAL::do_intersect(i_outside->bbox(), vi->supporting_line()) || CGAL::do_intersect(i_outside->bbox(), vi->bbox()))
+								segmentFound = true;
+						}
+						if (CGAL::do_intersect(i_outside->supporting_line(), i_inside->bbox()) || CGAL::do_intersect(i_outside->bbox(), i_inside->supporting_line()) || CGAL::do_intersect(i_outside->bbox(), i_inside->bbox()) || segmentFound){
+							found_edges_item->edges.push_back(*i_outside);
+							(*edges_item)->edges.push_back(*i_outside);
+							for (int i = 0; i <= count_outside; i++){
+								if (i_outside != outside_edges_item->edges.begin())
+									--i_outside;
+							}
+							for (int i = 0; i <= count_inside; i++){
+								if (i_inside != inside_edges_item->edges.begin())
+									--i_inside;
+							}
+							count++;
+							count_outside = 0;
+							count_inside = 0;
+							std::cout << "**** Segment Found: " << count << std::endl;
+						}
+					}
+					count_outside++;
+				}
+				count_inside++;
+			}
+			std::cout << "**** Total Found Segments: " << count << std::endl;
+			/*
 			for (std::vector<Epic_kernel::Segment_3>::iterator i_inside = inside_edges_item->edges.begin(); i_inside != inside_edges_item->edges.end(); ++i_inside){
 				if (!segmentFound){
 					source = i_inside->target();
@@ -2458,7 +2689,7 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 
 				//std::cout << "Inside i =: " << count_inside << std::endl;
 				count_inside++;
-			}
+			}*/
 			//std::cout << "Total inside segments iterated: " << count_inside << std::endl;
 			count_inside = 0;
 			//std::cout << "Total segments found: " << count << std::endl;
@@ -2473,28 +2704,28 @@ void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_wit
 		item->setName(QString("%1-bbox").arg(measure));
 		item->setColor(Qt::black);
 		item->setRenderingMode(Wireframe);
-		//scene->addItem(item);
+		scene->addItem(item);
 		
 		//actionBbox->setEnabled(false);
 		
 		information(QString("cut (%1 ms). %2 edges. (new edges)").arg(time.elapsed()).arg((*edges_item)->edges.size()));
 		(*edges_item)->invalidate_buffers();
-		//scene->itemChanged(edges_item);
+		scene->itemChanged((*edges_item));
 
 		information(QString("cut (%1 ms). %2 edges. (outside)").arg(time.elapsed()).arg(outside_edges_item->edges.size()));
 		outside_edges_item->invalidate_buffers();
-		//scene->itemChanged(outside_edges_item);
+		scene->itemChanged(outside_edges_item);
 
 		information(QString("cut (%1 ms). %2 edges. (inside)").arg(time.elapsed()).arg(inside_edges_item->edges.size()));
 		inside_edges_item->invalidate_buffers();
-		//scene->itemChanged(inside_edges_item);
+		scene->itemChanged(inside_edges_item);
 	}
 	
 	QApplication::restoreOverrideCursor();
 	outside_edges_item->top = false;
 	(*edges_item)->top = false;
 	inside_edges_item->top = false;
-	
+	found_edges_item->top = false;
 	//return edges_item;
 }
 
@@ -2528,9 +2759,9 @@ void Cybele::setBboxLines(Scene_bbox_item* item, CGAL::Bbox_3 box_3){
 	item->lines.push_back(box_3.xmax()); item->lines.push_back(box_3.ymax()); item->lines.push_back(box_3.zmax());
 	item->lines.push_back(box_3.xmax()); item->lines.push_back(box_3.ymax()); item->lines.push_back(box_3.zmin());
 }
-bool Cybele::findSegment(Epic_kernel::Segment_3 inter_seg, Scene_edges_item* edges_item){
+bool Cybele::previouslyAdded(Epic_kernel::Segment_3 inter_seg, Scene_edges_item* f_edges){
 	
-	for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_item->edges.begin(); vi != edges_item->edges.end(); ++vi){
+	for (std::vector<Epic_kernel::Segment_3>::iterator vi = f_edges->edges.begin(); vi != f_edges->edges.end(); ++vi){
 		if (inter_seg == *vi)
 			return true;
 	}
@@ -2545,7 +2776,7 @@ void Cybele::searchSegment(Scene_edges_item* edges_item, Scene_edges_item* outsi
 	for (std::vector<Epic_kernel::Segment_3>::iterator vi = outside_edges_item->edges.begin(); vi != outside_edges_item->edges.end(); ++vi){
 		s = vi->source();
 		t = vi->target();
-		if (!findSegment(*vi, edges_item)){
+		if (!previouslyAdded(*vi, edges_item)){
 			//if (checkSources(target, t, s) || checkTargets(source, s, t))
 			//	edges_item->edges.push_back(*vi);
 		}
@@ -2569,27 +2800,46 @@ bool Cybele::checkSources(Epic_kernel::Point_3 source, Epic_kernel::Point_3 s, E
 void Cybele::on_btn_CircunCefalica_clicked()
 {
 	double value;
-	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica, points_CircunCefalica, edges_CircunCefalica);
+	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica, points_CircunCefalica, &edges_CircunCefalica, d_CircunCefalica);
 	QString measure = "Circunferencia Cefálica: " + valueAsString + " cm.";
 	ui->lbl_CircunCefalica->setText(measure); 
 	
 }
 void Cybele::on_btn_CircunCintura_clicked()
 {
-	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura, points_CircunCintura, edges_CircunCintura);
+	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura, points_CircunCintura, &edges_CircunCintura, d_CircunCintura);
 	QString measure = "Circunferencia Cintura: " + valueAsString + " cm.";
 	ui->lbl_CircunCintura->setText(measure);
+
+	Scene_polylines_item* new_polylines_item = new Scene_polylines_item();
+	std::list<std::vector<Epic_kernel::Point_3>> polylines;
+	std::vector<Epic_kernel::Point_3> poly;
+	for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_CircunCintura->edges.begin(); vi != edges_CircunCintura->edges.end(); ++vi){
+		Epic_kernel::Point_3 p1 = vi->source();
+		Epic_kernel::Point_3 p2 = vi->target();
+		poly.push_back(p1);
+		polylines.push_back(poly);
+	}
+	int counter = 0;
+	//for (std::list<std::vector<Epic_kernel::Point_3> >::iterator it = polylines.begin(); it != polylines.end(); ++it, ++counter)
+	new_polylines_item->polylines = polylines;
+	new_polylines_item->setName(QString("%1 with %2 cuts %3").
+		arg(edges_CircunCintura->name()).arg(edges_CircunCintura->edges.size()).arg(counter));
+	new_polylines_item->setColor(Qt::green);
+	new_polylines_item->setRenderingMode(Wireframe);
+	scene->addItem(new_polylines_item);
+	new_polylines_item->invalidate_buffers();
 }
 void Cybele::on_btn_CircunBrazoIzq_clicked()
 {
-	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq, points_CircunBrazoIzq, edges_CircunBrazoIzq);
+	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq, points_CircunBrazoIzq, &edges_CircunBrazoIzq, d_CircunBrazoIzq);
 	QString measure = "Circunferencia Brazo Izquierdo: " + valueAsString + " cm.";
 	ui->lbl_CircunBrazoIzq->setText(measure);
 }
 
 void Cybele::on_btn_CircunCadera_clicked()
 {
-	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera, points_CircunCadera, edges_CircunCadera);
+	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera, points_CircunCadera, &edges_CircunCadera, d_CircunCadera);
 	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
 	ui->lbl_CircunCadera->setText(measure);
 }
@@ -2626,9 +2876,9 @@ void Cybele::on_btn_Talla_clicked()
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
 	Scene_polyhedron_item* height = dynamic_cast<Scene_polyhedron_item*>(item);
 	
-	float total_squared = height->bbox().height();
+	d_talla = height->bbox().height();
 	
-	QString valueAsString = QString::number(total_squared);
+	QString valueAsString = QString::number(d_talla);
 	QString measure = "Talla: " + valueAsString + " cm.";
 	ui->lbl_talla->setText(measure);
 }
@@ -2666,20 +2916,12 @@ double Cybele::computeMeasure(Scene_edges_item* cut){
 	edge_length = distance = 0;
 	CGAL::Point_3<CGAL::Epick> p, q;
 		for (std::vector<Epic_kernel::Segment_3>::iterator vi = cut->edges.begin(); vi != cut->edges.end(); ++vi){
-			q = vi->vertex(0);
-			p = vi->vertex(1);
-			// First point
-			x1 = abs(q.x());
-			y1 = abs(q.y());
-			z1 = abs(q.z());
-			// Second Point
-			x2 = abs(p.x());
-			y2 = abs(p.y());
-			z2 = abs(p.z());
+			q = vi->vertex(0); // first point
+			p = vi->vertex(1); // second point	
 
-			dx = x2 - x1;
-			dy = y2 - y1;
-			dz = z2 - z1;
+			dx = abs(p.x()) - abs(q.x());
+			dy = abs(p.y()) - abs(q.y());
+			dz = abs(p.z()) - abs(q.z());
 
 			segment_length = pow(dx, 2) + pow(dy, 2) + pow(dz, 2);
 			edge_length += sqrt(segment_length);
@@ -2687,15 +2929,15 @@ double Cybele::computeMeasure(Scene_edges_item* cut){
 		return edge_length*100;
 }
 
-QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item, Scene_points_with_normal_item* points_item, Scene_edges_item* edges_item){
+QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item, Scene_points_with_normal_item* points_item, Scene_edges_item** edges_item, double& value){
 	
 	points_item = createMeasureItem(measureName); // ITEM THAT HOLDS THE SELECTED POINTS
 	if (points_item != NULL){
 		plane_item = createCutPlane(measureName, points_item); // CUTTING PLANE TROUGH SELECTED POINTS 
-		cut(measureName, plane_item, points_item, &edges_item); // INTERSECTING EDGES WITH THE CUTTING PLANE
-		double value = computeMeasure(edges_item);
-		//scene->addItem(plane_item);
-		scene->addItem(edges_item);
+		cut(measureName, plane_item, points_item, edges_item); // INTERSECTING EDGES WITH THE CUTTING PLANE
+		value = computeMeasure(*edges_item);
+		scene->addItem(plane_item);
+		//scene->addItem(edges_item);
 		QString valueAsString = QString::number(value);
 		return valueAsString;
 	}
@@ -2704,10 +2946,381 @@ QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item
 }
 void Cybele::on_addButtonRight_clicked()
 {
-	openFile(scene_2, viewer_2);
+	model_right_filename = openFile(scene_right, viewer_right);
 }
 
 void Cybele::on_removeButtonRight_clicked()
 {
 
+}
+
+void Cybele::on_btn_selection_right_clicked()
+{
+	try {
+		int index = getSelectedSceneItemIndex_2();
+		Scene_polyhedron_item* poly_item;
+		// Code that could throw an exception  
+		Scene_item* item = scene->item(index);
+		poly_item = dynamic_cast<Scene_polyhedron_item*>(item);
+		if (!poly_item) {
+			information("Error: there is no selected polyhedron item!");
+			//print_message("Error: there is no selected polyhedron item!");
+			return;
+		}
+		// all other arrangements (putting inside selection_item_map), setting names etc,
+		// other params (e.g. k_ring) will be set inside new_item_created
+		Scene_polyhedron_selection_item* new_item = new Scene_polyhedron_selection_item(poly_item, this);
+		int item_id = scene->addItem(new_item);
+		QObject* scene_ptr = dynamic_cast<QObject*>(scene);
+		if (scene_ptr)
+			connect(new_item, SIGNAL(simplicesSelected(Scene_item*)), scene_ptr, SLOT(setSelectedItem(Scene_item*)));
+		scene->setSelectedItem(item_id);
+	}
+	catch (const std::bad_cast& e) {
+		information("Error: Dynamic cast failed ");
+	}
+}
+
+void Cybele::on_btn_CircunCadera_right_clicked()
+{
+	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera_right, points_CircunCadera_right, &edges_CircunCadera_right, d_CircunCadera_right);
+	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
+	ui->lbl_CircunCadera_right->setText(measure);
+	
+}
+
+void Cybele::on_btn_CircunBrazoIzq_right_clicked()
+{
+	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq_right, points_CircunBrazoIzq_right, &edges_CircunBrazoIzq_right, d_CircunBrazoIzq_right);
+	QString measure = "Circunferencia Brazo Izquierdo: " + valueAsString + " cm.";
+	ui->lbl_CircunBrazoIzq_right->setText(measure);
+}
+
+void Cybele::on_btn_DiamFemur_right_clicked()
+{
+	QString valueAsString = extractMeasure("DiamFemur", plane_DiamFemur_right, points_DiamFemur_right, &edges_DiamFemur_right, d_DiamFemur_right);
+	QString measure = "Diametro Femur: " + valueAsString + " cm.";
+	ui->lbl_DiamFemur_right->setText(measure);
+}
+
+void Cybele::on_btn_CircunCintura_right_clicked()
+{
+	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura_right, points_CircunCintura_right, &edges_CircunCintura_right, d_CircunCintura_right);
+	ui->lbl_CircunCintura_right->setText("Circunferencia Cintura: " + valueAsString + " cm.");
+}
+
+void Cybele::on_btn_CircunCefalica_right_clicked()
+{
+	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica_right, points_CircunCefalica_right, &edges_CircunCefalica_right, d_CircunCefalica_right);
+	ui->lbl_CircunCefalica_right->setText("Circunferencia Cefalica: " + valueAsString + " cm.");
+}
+
+void Cybele::on_btn_Talla_right_clicked()
+{
+	int index = getSelectedSceneItemIndex_2();
+	Scene_item* item = scene->item(getSelectedSceneItemIndex_2());
+	Scene_polyhedron_item* height = dynamic_cast<Scene_polyhedron_item*>(item);
+
+	d_talla_right = height->bbox().height();
+
+	QString valueAsString = QString::number(d_talla_right);
+	QString measure = "Talla: " + valueAsString + " cm.";
+	ui->lbl_talla_right->setText(measure);
+
+}
+
+void Cybele::on_savePatient_clicked()
+{
+	  //qDebug() << "Compiled with Qt Version = " << QT_VERSION_STR;
+
+	  const char* driverName = "QPSQL";
+	  QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	  QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	  
+	  if (db->open()) {
+
+		  QSqlQuery* query = new QSqlQuery(*db);
+		  query->setForwardOnly(true);
+
+		  if (!query->prepare(
+			  QString("INSERT INTO pacientes( nombre, apellido, fecha_nacimiento, cedula) VALUES ( ?, ?, ?, ?)")))
+		  {
+			  qDebug() << "Error = " << db->lastError().text();
+			  exit;
+		  }
+		  else
+		  {
+			  query->addBindValue(ui->nombre->text());
+			  query->addBindValue(ui->apellido->text());
+			  query->addBindValue(ui->fecha_nacimiento->text());
+			  query->addBindValue(ui->cedula->text());
+		  }
+
+		  bool result = qSQLDbHelper->executeInsert(query);
+		  if (result)
+			  qDebug() << "Successful insert";
+		  else
+			  qDebug() << "Insert failed";
+
+	  }
+}
+
+void Cybele::on_saveButton_clicked()
+{
+	bool ok;
+	QString scan_date = QInputDialog::getText(this, tr("QInputDialog::getText()"),
+		tr("Fecha de Captura:"), QLineEdit::Normal,
+		"1/1/1983", &ok);
+	if (ok && !scan_date.isEmpty()){
+		int id_model;
+		bool model_ok =saveModel(model_filename, scan_date, id_model);
+		bool measures_ok =  saveMeasures(id_model, d_CircunCintura, d_CircunCadera, d_DiamFemur, d_CircunBrazoIzq, d_CircunCefalica, d_talla);
+
+		QMessageBox msgBox;
+		if (model_ok && measures_ok)
+			msgBox.setText("Las medidas fueron almacenadas correctamente.");
+		else
+			msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
+
+		msgBox.exec();
+		
+	}
+}
+
+void Cybele::on_saveButton_right_clicked()
+{
+	bool ok;
+	QString scan_date = QInputDialog::getText(this, tr("QInputDialog::getText()"),
+		tr("Fecha de Captura:"), QLineEdit::Normal,
+		"2/2/2017", &ok);
+	if (ok && !scan_date.isEmpty()){
+		int id_model;
+		bool model_ok = saveModel(model_right_filename, scan_date, id_model);
+		bool measures_ok = saveMeasures(id_model, d_CircunCintura_right, d_CircunCadera_right, d_DiamFemur_right, d_CircunBrazoIzq_right, d_CircunCefalica_right, d_talla);
+		
+		QMessageBox msgBox;
+		if (model_ok && measures_ok)
+			msgBox.setText("Las medidas fueron almacenadas correctamente.");
+		else
+			msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
+		
+		msgBox.exec();
+	}
+}
+
+bool Cybele::saveModel(QString filename, QString scan_date, int& id){
+
+	bool result;
+
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("INSERT INTO modelos(fecha_captura, nombre_archivo) VALUES ( ?, ?)")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(scan_date);
+			query->addBindValue(filename);
+		}
+
+		result = qSQLDbHelper->executeInsert(query);
+		if (result)
+			id = qSQLDbHelper->lastInsertID;
+		else
+			qDebug() << "Insert failed";
+
+	}
+	return result;
+}
+
+bool Cybele::saveMeasures(int id_model, double CircunCintura, double CircunCadera, double DiamFemur, double CircunBrazoIzq, double CircunCefalica, double talla){
+
+	bool result;
+
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("INSERT INTO medidas(id_modelo, talla, craneo, cintura, cadera, brazo, femur) VALUES (?,?,?,?,?,?,?)")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id_model);
+			query->addBindValue(talla);
+			query->addBindValue(CircunCefalica);
+			query->addBindValue(CircunCintura);
+			query->addBindValue(CircunCadera);
+			query->addBindValue(CircunBrazoIzq);
+			query->addBindValue(DiamFemur);
+		}
+
+		result = qSQLDbHelper->executeInsert(query);
+		if (result)
+			qDebug() << "Insert OK";
+		else
+			qDebug() << "Insert failed";
+
+	}
+	return result;
+}
+
+void Cybele::drawChart(){
+	//![1]
+	QSplineSeries *series = new QSplineSeries();
+	series->setName("spline");
+	//![1]	
+
+	//![2]
+	series->append(0, 6);
+	series->append(2, 4);
+	series->append(3, 8);
+	series->append(7, 4);
+	series->append(10, 5);
+	*series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+	//![2]
+
+	//![3]
+	QChart *chart = new QChart();
+	chart->legend()->hide();
+	chart->addSeries(series);
+	chart->setTitle("");
+	chart->createDefaultAxes();
+	chart->axisY()->setRange(0, 10);
+	//![3]
+
+	//![4]
+	QChartView *chartView = new QChartView(chart);
+	chartView->setRenderHint(QPainter::Antialiasing);
+	//![4]
+
+	//![5]
+	QMainWindow *window = new QMainWindow(this);
+	window->setCentralWidget(chartView);
+	window->resize(400, 300);
+	window->show();
+	//![5]
+}
+
+void Cybele::drawChart2(){
+
+	QString measures[] = { "talla", "craneo", "cintura", "cadera", "brazo", "femur"};
+	QChart *chart = new QChart();
+	//![1]
+	for (size_t i = 0; i < measures->size(); i++)
+	{
+		
+		if (db->open()) {
+
+			QSqlQuery* query = new QSqlQuery(*db);
+			query->setForwardOnly(true);
+
+			if (!query->prepare(
+				QString("SELECT " + measures[i] + ", fecha_captura from medidas INNER JOIN modelos on medidas.id_modelo = modelos.id where id_paciente = ? order by fecha_captura")))
+			{
+				qDebug() << "Error = " << db->lastError().text();
+				exit;
+			}
+			else
+			{
+				query->addBindValue(2);
+			}
+			
+			query->exec();
+			QLineSeries *series = new QLineSeries();
+			while (query->next()) {
+				double m = query->value(0).toDouble();
+			
+				QDate scan_date = query->value(1).toDate();
+
+				qDebug() << measures[i] + " = " << m << ", Fecha: " << scan_date;
+				QDateTime momentInTime;
+				momentInTime.setDate(scan_date);
+				series->append(momentInTime.toMSecsSinceEpoch(), m);
+			}
+			series->setName(measures[i]);
+			chart->addSeries(series);
+		}
+		
+	}
+	chart->legend()->setAlignment(Qt::AlignRight);
+	chart->setTitle("Evolucion Antropometrica");
+	//![3]
+
+	//![4]
+	QDateTimeAxis *axisX = new QDateTimeAxis;
+	axisX->setTickCount(10);
+	axisX->setFormat("MMM yyyy");
+	axisX->setTitleText("Fechas de Control");
+	chart->addAxis(axisX, Qt::AlignBottom);
+	for each (QLineSeries* var in chart->series())
+		var->attachAxis(axisX);
+
+	QValueAxis *axisY = new QValueAxis;
+	axisY->setRange(45, 200);
+	axisY->setTickCount(10);
+	axisY->setLabelFormat("%i");
+	axisY->setTitleText("Mediciones");
+	chart->addAxis(axisY, Qt::AlignLeft);
+	for each (QLineSeries* var in chart->series())
+		var->attachAxis(axisY);
+	//![4]
+
+	//![5]
+	QChartView *chartView = new QChartView(chart);
+	chartView->setRenderHint(QPainter::Antialiasing);
+	//![5]
+
+	//![6]
+	QMainWindow *window = new QMainWindow(this);
+	window->setCentralWidget(chartView);
+	window->resize(800, 600);
+	window->show();
+	//![6]
+
+}
+void Cybele::on_btn_historial_clicked()
+{
+	drawChart2();
+}
+
+QLineSeries* Cybele::setSerie(QString measure){
+
+	QLineSeries* series = new QLineSeries();
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT " + measure + ", fecha_captura from medidas INNER JOIN modelos on medidas.id_modelo = modelos.id where id_paciente = ?")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(2);
+		}
+
+		query->exec();
+		while (query->next()) {
+			double m = query->value(0).toDouble();
+			QDate scan_date = query->value(1).toDate();
+			QDateTime momentInTime;
+			momentInTime.setDate(scan_date);
+			series->append(momentInTime.toMSecsSinceEpoch(), m);
+		}
+	}
+	return series;
 }

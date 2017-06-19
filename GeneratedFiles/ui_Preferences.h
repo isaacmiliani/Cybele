@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'Preferences.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -65,8 +65,8 @@ public:
 
     void retranslateUi(QDialog *PreferencesDialog)
     {
-        PreferencesDialog->setWindowTitle(QApplication::translate("PreferencesDialog", "Dialog", 0));
-        label->setText(QApplication::translate("PreferencesDialog", "Tick plugins you don't want to load at start up", 0));
+        PreferencesDialog->setWindowTitle(QApplication::translate("PreferencesDialog", "Dialog", Q_NULLPTR));
+        label->setText(QApplication::translate("PreferencesDialog", "Tick plugins you don't want to load at start up", Q_NULLPTR));
     } // retranslateUi
 
 };

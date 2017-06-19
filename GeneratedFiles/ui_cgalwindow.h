@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'cgalwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -239,20 +239,20 @@ public:
 
     void retranslateUi(QMainWindow *CGALWindow)
     {
-        CGALWindow->setWindowTitle(QApplication::translate("CGALWindow", "MainWindow", 0));
-        actionLoad->setText(QApplication::translate("CGALWindow", "Load", 0));
-        infoDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Infos", 0));
+        CGALWindow->setWindowTitle(QApplication::translate("CGALWindow", "MainWindow", Q_NULLPTR));
+        actionLoad->setText(QApplication::translate("CGALWindow", "Load", Q_NULLPTR));
+        infoDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Infos", Q_NULLPTR));
         displayLabel->setText(QString());
-        sceneDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Geometric Objects", 0));
-        addButton->setText(QApplication::translate("CGALWindow", "+", 0));
-        removeButton->setText(QApplication::translate("CGALWindow", "-", 0));
-        duplicateButton->setText(QApplication::translate("CGALWindow", "...", 0));
-        searchEdit->setPlaceholderText(QApplication::translate("CGALWindow", "Quick filter... <Alt+Q>", 0));
-        consoleDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Console", 0));
-        menuFile->setTitle(QApplication::translate("CGALWindow", "File", 0));
-        menuMesh->setTitle(QApplication::translate("CGALWindow", "Mesh", 0));
-        menuModel_Geometry->setTitle(QApplication::translate("CGALWindow", "Model Geometry", 0));
-        menuPCL->setTitle(QApplication::translate("CGALWindow", "PCL", 0));
+        sceneDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Geometric Objects", Q_NULLPTR));
+        addButton->setText(QApplication::translate("CGALWindow", "+", Q_NULLPTR));
+        removeButton->setText(QApplication::translate("CGALWindow", "-", Q_NULLPTR));
+        duplicateButton->setText(QApplication::translate("CGALWindow", "...", Q_NULLPTR));
+        searchEdit->setPlaceholderText(QApplication::translate("CGALWindow", "Quick filter... <Alt+Q>", Q_NULLPTR));
+        consoleDockWidget->setWindowTitle(QApplication::translate("CGALWindow", "Console", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("CGALWindow", "File", Q_NULLPTR));
+        menuMesh->setTitle(QApplication::translate("CGALWindow", "Mesh", Q_NULLPTR));
+        menuModel_Geometry->setTitle(QApplication::translate("CGALWindow", "Model Geometry", Q_NULLPTR));
+        menuPCL->setTitle(QApplication::translate("CGALWindow", "PCL", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'FileLoaderDialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -90,8 +90,8 @@ public:
 
     void retranslateUi(QDialog *FileLoaderDialog)
     {
-        FileLoaderDialog->setWindowTitle(QApplication::translate("FileLoaderDialog", "Select a loader", 0));
-        label->setText(QApplication::translate("FileLoaderDialog", "TextLabel", 0));
+        FileLoaderDialog->setWindowTitle(QApplication::translate("FileLoaderDialog", "Select a loader", Q_NULLPTR));
+        label->setText(QApplication::translate("FileLoaderDialog", "TextLabel", Q_NULLPTR));
 #ifndef QT_NO_STATUSTIP
         pluginBox->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP

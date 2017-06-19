@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1730</width>
-    <height>940</height>
+    <height>1092</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,34 +49,6 @@ background-color: rgb(239, 244, 255);
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QLabel" name="infoLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>830</y>
-      <width>1511</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
-    </property>
-    <property name="lineWidth">
-     <number>0</number>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -159,8 +131,8 @@ background-color: rgb(239, 244, 255);
      <rect>
       <x>10</x>
       <y>730</y>
-      <width>581</width>
-      <height>81</height>
+      <width>341</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -190,8 +162,8 @@ background-color: rgb(239, 244, 255);
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>731</width>
-      <height>691</height>
+      <width>740</width>
+      <height>690</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -208,16 +180,16 @@ background-color: rgb(239, 244, 255);
 </string>
     </property>
    </widget>
-   <widget class="QTreeView" name="sceneView_2">
+   <widget class="QTreeView" name="sceneView_right">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>820</x>
       <y>730</y>
-      <width>741</width>
-      <height>71</height>
+      <width>361</width>
+      <height>161</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -245,7 +217,7 @@ background-color: rgb(239, 244, 255);
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>190</x>
       <y>0</y>
       <width>337</width>
       <height>52</height>
@@ -253,13 +225,73 @@ background-color: rgb(239, 244, 255);
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>Light</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(159, 0, 167);
+font: 87 12pt &quot;Segoe UI Black&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>G</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_7">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>Light</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(159, 0, 167);
+font: 87 12pt &quot;Segoe UI Black&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>A</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_4">
        <property name="minimumSize">
         <size>
          <width>50</width>
@@ -278,11 +310,43 @@ background-color: rgb(239, 244, 255);
        <property name="styleSheet">
         <string notr="true">background-color: rgb(185, 29, 71);
 font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);
-alternate-background-color: rgb(185, 29, 71);</string>
+color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
-        <string>W</string>
+        <string>S</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>Light</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(159, 0, 167);
+font: 87 12pt &quot;Segoe UI Black&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>L</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -326,7 +390,13 @@ color: rgb(255, 255, 255);</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>50</width>
@@ -345,109 +415,11 @@ color: rgb(255, 255, 255);</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(185, 29, 71);
 font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+alternate-background-color: rgb(185, 29, 71);</string>
        </property>
        <property name="text">
-        <string>S</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>A</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>L</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>G</string>
+        <string>W</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -456,13 +428,13 @@ color: rgb(255, 255, 255);</string>
      </item>
     </layout>
    </widget>
-   <widget class="Viewer" name="viewer_2">
+   <widget class="Viewer" name="viewer_right">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>820</x>
       <y>0</y>
-      <width>741</width>
-      <height>691</height>
+      <width>740</width>
+      <height>690</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -481,7 +453,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>820</x>
       <y>700</y>
       <width>176</width>
       <height>25</height>
@@ -555,7 +527,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>970</x>
+      <x>1030</x>
       <y>0</y>
       <width>337</width>
       <height>52</height>
@@ -771,7 +743,7 @@ color: rgb(255, 255, 255);</string>
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>160</width>
+      <width>111</width>
       <height>464</height>
      </rect>
     </property>
@@ -818,8 +790,7 @@ color: rgb(255, 255, 255);
 font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-CINTURA</string>
+        <string>CINTURA</string>
        </property>
        <property name="checkable">
         <bool>false</bool>
@@ -894,8 +865,7 @@ color: rgb(255, 255, 255);
 font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-BRAZO</string>
+        <string>BRAZO</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -919,8 +889,7 @@ color: rgb(255, 255, 255);
 font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-CEFALICA</string>
+        <string>CEFALICA</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -956,15 +925,15 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>1360</x>
+      <x>1460</x>
       <y>0</y>
-      <width>160</width>
+      <width>95</width>
       <height>464</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QPushButton" name="btn_selection_2">
+      <widget class="QPushButton" name="btn_selection_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -989,7 +958,7 @@ PUNTOS</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunCadera_2">
+      <widget class="QPushButton" name="btn_CircunCadera_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1013,7 +982,7 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunBrazoIzq_2">
+      <widget class="QPushButton" name="btn_CircunBrazoIzq_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1029,8 +998,7 @@ color: rgb(255, 255, 255);
 font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-BRAZO</string>
+        <string>BRAZO</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -1038,7 +1006,7 @@ BRAZO</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_DiamFemur_2">
+      <widget class="QPushButton" name="btn_DiamFemur_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1062,7 +1030,7 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunCintura_2">
+      <widget class="QPushButton" name="btn_CircunCintura_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1078,8 +1046,7 @@ color: rgb(255, 255, 255);
 font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-CINTURA</string>
+        <string>CINTURA</string>
        </property>
        <property name="checkable">
         <bool>false</bool>
@@ -1090,7 +1057,7 @@ CINTURA</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunCefalica_2">
+      <widget class="QPushButton" name="btn_CircunCefalica_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1106,8 +1073,7 @@ color: rgb(255, 255, 255);
 font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
        <property name="text">
-        <string>CIRCUNFERENCIA 
-CEFALICA</string>
+        <string>CEFALICA</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -1115,7 +1081,7 @@ CEFALICA</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_Talla_2">
+      <widget class="QPushButton" name="btn_Talla_right">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1140,17 +1106,250 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>720</y>
+      <width>419</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="6" column="0">
+      <widget class="QLabel" name="lbl_CircunCadera">
+       <property name="text">
+        <string>Circunferencia Cadera</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="lbl_DiamFemur">
+       <property name="text">
+        <string>Femur</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lbl_talla">
+       <property name="text">
+        <string>Talla</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLabel" name="lbl_CircunCintura">
+       <property name="text">
+        <string>Circunferencia Cintura</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lbl_CircunCefalica">
+       <property name="text">
+        <string>Circunferencia Cefalica</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lbl_CircunBrazoIzq">
+       <property name="text">
+        <string>Circunferencia Brazo Izquierdo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="lbl_DiamMuneca">
+       <property name="text">
+        <string>Circunferencia Muñeca</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="lbl_MusloIzq">
+       <property name="text">
+        <string>Circunferencia Muslo Izquierdo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QPushButton" name="saveButton">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Guardar</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>720</y>
+      <width>368</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="4" column="0">
+      <widget class="QLabel" name="lbl_CircunCadera_right">
+       <property name="text">
+        <string>Circunferencia Cadera</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lbl_talla_right">
+       <property name="text">
+        <string>Talla</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lbl_CircunBrazoIzq_right">
+       <property name="text">
+        <string>Circunferencia Brazo Izquierdo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lbl_CircunCefalica_right">
+       <property name="text">
+        <string>Circunferencia Cefalica</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="lbl_MusloIzq_right">
+       <property name="text">
+        <string>Circunferencia Muslo Izquierdo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="lbl_DiamMuneca_right">
+       <property name="text">
+        <string>Circunferencia Muñeca</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="lbl_CircunCintura_right">
+       <property name="text">
+        <string>Circunferencia Cintura</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="lbl_DiamFemur_right">
+       <property name="text">
+        <string>Femur</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="saveButton_right">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Guardar</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="infoLabel">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>890</y>
+      <width>781</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infoLabel_right">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>900</y>
+      <width>751</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
    <zorder>viewer</zorder>
-   <zorder>viewer_2</zorder>
-   <zorder>infoLabel</zorder>
+   <zorder>viewer_right</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>sceneView</zorder>
-   <zorder>sceneView_2</zorder>
+   <zorder>sceneView_right</zorder>
    <zorder>gridLayoutWidget</zorder>
    <zorder>layoutWidget_2</zorder>
    <zorder>gridLayoutWidget_2</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget_3</zorder>
+   <zorder>infoLabel</zorder>
+   <zorder>infoLabel_right</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1341,13 +1540,13 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
    </property>
    <property name="minimumSize">
     <size>
-     <width>200</width>
+     <width>117</width>
      <height>787</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>200</width>
+     <width>150</width>
      <height>524287</height>
     </size>
    </property>
@@ -1375,128 +1574,60 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="0" column="0">
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="placeholderText">
-          <string>Buscar...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="Line" name="line_2">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="placeholderText">
+        <string>Buscar...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="lineEdit_2">
+       <item>
+        <widget class="QLineEdit" name="nombre">
          <property name="placeholderText">
           <string>Nombre</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLineEdit" name="lineEdit_3">
+       <item>
+        <widget class="QLineEdit" name="apellido">
          <property name="placeholderText">
           <string>Apellido</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
+       <item>
+        <widget class="QLineEdit" name="fecha_nacimiento">
          <property name="placeholderText">
           <string>Edad</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLineEdit" name="lineEdit_5">
+       <item>
+        <widget class="QLineEdit" name="cedula">
          <property name="placeholderText">
           <string>C.I</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="lbl_talla">
-         <property name="text">
-          <string>Talla</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="lbl_CircunCefalica">
-         <property name="text">
-          <string>Circunferencia Cefalica</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="lbl_CircunBrazoIzq">
-         <property name="text">
-          <string>Circunferencia Brazo Izquierdo</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="lbl_CircunCintura">
-         <property name="text">
-          <string>Circunferencia Cintura</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="lbl_CircunCadera">
-         <property name="text">
-          <string>Circunferencia Cadera</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="lbl_MusloIzq">
-         <property name="text">
-          <string>Circunferencia Muslo Izquierdo</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="lbl_DiamMuneca">
-         <property name="text">
-          <string>Circunferencia Muñeca</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="lbl_DiamFemur">
-         <property name="text">
-          <string>Femur</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QPushButton" name="pushButton">
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(227, 162, 26);
-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-         </property>
+       <item>
+        <widget class="QPushButton" name="savePatient">
          <property name="text">
           <string>Guardar</string>
          </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
         </widget>
        </item>
-       <item row="16" column="0">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item>
+        <widget class="QPushButton" name="btn_historial">
+         <property name="text">
+          <string>Historial</string>
          </property>
         </widget>
        </item>
@@ -1506,13 +1637,6 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
       <widget class="QLabel" name="displayLabel">
        <property name="text">
         <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>

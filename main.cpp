@@ -4,7 +4,6 @@
 #include <QApplication>
 #include "cybele.h"
 //#include "cgalwindow.h"
-#include "piechart.h"
 //#include "MainWindow.h"
 #include <QtQuick/QQuickView>
 #include <QGuiApplication>
