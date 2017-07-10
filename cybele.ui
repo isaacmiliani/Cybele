@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1730</width>
-    <height>1092</height>
+    <height>1073</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,55 +49,522 @@ background-color: rgb(239, 244, 255);
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="Viewer" name="viewer">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>20</y>
+      <width>661</width>
+      <height>811</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(239, 244, 255,0);
+</string>
+    </property>
+   </widget>
+   <widget class="Viewer" name="viewer_right">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>20</y>
+      <width>651</width>
+      <height>811</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>700</y>
-      <width>176</width>
-      <height>25</height>
+      <y>20</y>
+      <width>171</width>
+      <height>414</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QToolButton" name="addButton">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="searchEditRight">
+         <property name="placeholderText">
+          <string>Quick filter... &lt;Alt+Q&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_nombre">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_apellido">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_fecha_nacimiento">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cbo_modelos">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbl_talla">
+         <property name="text">
+          <string>Talla</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="lbl_CircunCintura">
+         <property name="text">
+          <string>C.Cintura</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="lbl_CircunCadera">
+         <property name="text">
+          <string>C.Cadera</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="lbl_CircunCefalica">
+         <property name="text">
+          <string>C. Cefalica</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbl_MusloIzq">
+         <property name="text">
+          <string>C.Muslo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="lbl_CircunBrazoIzq">
+         <property name="text">
+          <string>C. Brazo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="cadera_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="lbl_fecha_captura">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="talla_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="muslo_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="cefalica_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="cintura_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="brazo_l">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbl_fecha">
+         <property name="text">
+          <string>Fecha:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">border:0px;</string>
+        <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>+</string>
+        <string>Guardar</string>
        </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/plus</normaloff>:/cgal/icons/plus</iconset>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1520</x>
+      <y>20</y>
+      <width>201</width>
+      <height>438</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QToolButton" name="removeButton">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLineEdit" name="searchEditRight_2">
+         <property name="placeholderText">
+          <string>Quick filter... &lt;Alt+Q&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_nombre_2">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_apellido_2">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_fecha_nacimiento_2">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cbo_modelos_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="3" column="0">
+        <widget class="QLabel" name="lbl_MusloIzq_right">
+         <property name="text">
+          <string>C. Muslo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="lbl_CircunCintura_right">
+         <property name="text">
+          <string>C. Cintura</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="lbl_CircunCefalica_right">
+         <property name="text">
+          <string>C.Cefalica</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbl_talla_right">
+         <property name="text">
+          <string>Talla</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="lbl_CircunBrazoIzq_right">
+         <property name="text">
+          <string>C. Brazo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="dif_talla">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="lbl_CircunCadera_right">
+         <property name="text">
+          <string>C. Cadera</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="dif_cintura">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="dif_muslo">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="dif_cadera">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLabel" name="dif_brazo">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLabel" name="dif_cefalica">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbl_fecha_captura_r">
+         <property name="text">
+          <string>Fecha:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="muslo_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="brazo_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="cefalica_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="cadera_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="talla_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="cintura_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Comparacion</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="fecha_captura_r">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="compare_btn">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">border:0px;</string>
+        <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>-</string>
+        <string>Comparar</string>
        </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/minus</normaloff>:/cgal/icons/minus</iconset>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="displayLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>1290</x>
+      <y>840</y>
+      <width>251</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infoLabel">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>840</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>550</y>
+      <width>151</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <widget class="QToolButton" name="duplicateButton">
+      <widget class="QPushButton" name="btn_selection">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">border:0px;</string>
+        <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>...</string>
+        <string>SELECCIONAR PUNTOS</string>
        </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/duplicate</normaloff>:/cgal/icons/duplicate</iconset>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -115,745 +582,11 @@ background-color: rgb(239, 244, 255);
       </spacer>
      </item>
      <item>
-      <widget class="QLineEdit" name="searchEdit">
-       <property name="placeholderText">
-        <string>Quick filter... &lt;Alt+Q&gt;</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QTreeView" name="sceneView">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>730</y>
-      <width>341</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Panel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>0</number>
-    </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-    </property>
-    <property name="alternatingRowColors">
-     <bool>false</bool>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::ExtendedSelection</enum>
-    </property>
-    <property name="indentation">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="Viewer" name="viewer">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>740</width>
-      <height>690</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(239, 244, 255,0);
-</string>
-    </property>
-   </widget>
-   <widget class="QTreeView" name="sceneView_right">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>820</x>
-      <y>730</y>
-      <width>361</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Panel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>0</number>
-    </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-    </property>
-    <property name="alternatingRowColors">
-     <bool>false</bool>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::ExtendedSelection</enum>
-    </property>
-    <property name="indentation">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>0</y>
-      <width>337</width>
-      <height>52</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>G</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>A</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>S</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>L</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>P</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);
-alternate-background-color: rgb(185, 29, 71);</string>
-       </property>
-       <property name="text">
-        <string>W</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="Viewer" name="viewer_right">
-    <property name="geometry">
-     <rect>
-      <x>820</x>
-      <y>0</y>
-      <width>740</width>
-      <height>690</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-   </widget>
-   <widget class="QWidget" name="layoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>820</x>
-      <y>700</y>
-      <width>176</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QToolButton" name="addButtonRight">
-       <property name="styleSheet">
-        <string notr="true">border:0px;</string>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/plus</normaloff>:/cgal/icons/plus</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="removeButtonRight">
-       <property name="styleSheet">
-        <string notr="true">border:0px;</string>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/minus</normaloff>:/cgal/icons/minus</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="duplicateButtonRight">
-       <property name="styleSheet">
-        <string notr="true">border:0px;</string>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset resource="Polyhedron_3.qrc">
-         <normaloff>:/cgal/icons/duplicate</normaloff>:/cgal/icons/duplicate</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="searchEditRight">
-       <property name="placeholderText">
-        <string>Quick filter... &lt;Alt+Q&gt;</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>1030</x>
-      <y>0</y>
-      <width>337</width>
-      <height>52</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QPushButton" name="pushButton_8">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);
-alternate-background-color: rgb(185, 29, 71);</string>
-       </property>
-       <property name="text">
-        <string>W</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>P</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_10">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(185, 29, 71);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>S</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_11">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>A</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_12">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>L</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_13">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>Light</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(159, 0, 167);
-font: 87 12pt &quot;Segoe UI Black&quot;;
-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="text">
-        <string>G</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>111</width>
-      <height>464</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="btn_selection">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(227, 162, 26);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>SELECCIONAR 
-PUNTOS</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_CircunCintura">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>CINTURA</string>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_CircunCadera">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>CADERA</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_DiamFemur">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string> FEMUR</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="btn_CircunBrazoIzq">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>60</height>
+         <height>0</height>
         </size>
        </property>
        <property name="autoFillBackground">
@@ -862,34 +595,10 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(0, 171, 169);
 color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
         <string>BRAZO</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_CircunCefalica">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
-       </property>
-       <property name="text">
-        <string>CEFALICA</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -901,7 +610,7 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>60</height>
+         <height>0</height>
         </size>
        </property>
        <property name="autoFillBackground">
@@ -910,7 +619,7 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(0, 171, 169);
 color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
         <string>TALLA</string>
@@ -920,49 +629,12 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
       </widget>
      </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>1460</x>
-      <y>0</y>
-      <width>95</width>
-      <height>464</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QPushButton" name="btn_selection_right">
+      <widget class="QPushButton" name="btn_CircunCadera">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(227, 162, 26);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>SELECCIONAR 
-PUNTOS</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_CircunCadera_right">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
+         <height>0</height>
         </size>
        </property>
        <property name="autoFillBackground">
@@ -982,59 +654,11 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunBrazoIzq_right">
+      <widget class="QPushButton" name="btn_CircunCintura">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
-       </property>
-       <property name="text">
-        <string>BRAZO</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_DiamFemur_right">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string> FEMUR</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_CircunCintura_right">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
+         <height>0</height>
         </size>
        </property>
        <property name="autoFillBackground">
@@ -1057,11 +681,11 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_CircunCefalica_right">
+      <widget class="QPushButton" name="btn_DiamFemur">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>60</height>
+         <height>0</height>
         </size>
        </property>
        <property name="autoFillBackground">
@@ -1070,7 +694,31 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(0, 171, 169);
 color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
+       </property>
+       <property name="text">
+        <string>MUSLO</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_CircunCefalica">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 171, 169);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
        </property>
        <property name="text">
         <string>CEFALICA</string>
@@ -1080,276 +728,143 @@ font: 75 8pt &quot;Segoe UI&quot;;</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="btn_Talla_right">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>60</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 171, 169);
-color: rgb(255, 255, 255);
-font: 75 8pt &quot;Segoe UI&quot;;</string>
-       </property>
-       <property name="text">
-        <string>TALLA</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QTreeView" name="sceneView">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>720</y>
-      <width>419</width>
-      <height>161</height>
+      <x>190</x>
+      <y>840</y>
+      <width>391</width>
+      <height>131</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="6" column="0">
-      <widget class="QLabel" name="lbl_CircunCadera">
-       <property name="text">
-        <string>Circunferencia Cadera</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="lbl_DiamFemur">
-       <property name="text">
-        <string>Femur</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="lbl_talla">
-       <property name="text">
-        <string>Talla</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="lbl_CircunCintura">
-       <property name="text">
-        <string>Circunferencia Cintura</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lbl_CircunCefalica">
-       <property name="text">
-        <string>Circunferencia Cefalica</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="lbl_CircunBrazoIzq">
-       <property name="text">
-        <string>Circunferencia Brazo Izquierdo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="lbl_DiamMuneca">
-       <property name="text">
-        <string>Circunferencia Muñeca</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="lbl_MusloIzq">
-       <property name="text">
-        <string>Circunferencia Muslo Izquierdo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QPushButton" name="saveButton">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(227, 162, 26);
-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>Guardar</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>1190</x>
-      <y>720</y>
-      <width>368</width>
-      <height>161</height>
-     </rect>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
     </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="4" column="0">
-      <widget class="QLabel" name="lbl_CircunCadera_right">
-       <property name="text">
-        <string>Circunferencia Cadera</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="lbl_talla_right">
-       <property name="text">
-        <string>Talla</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lbl_CircunBrazoIzq_right">
-       <property name="text">
-        <string>Circunferencia Brazo Izquierdo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lbl_CircunCefalica_right">
-       <property name="text">
-        <string>Circunferencia Cefalica</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="lbl_MusloIzq_right">
-       <property name="text">
-        <string>Circunferencia Muslo Izquierdo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="lbl_DiamMuneca_right">
-       <property name="text">
-        <string>Circunferencia Muñeca</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="lbl_CircunCintura_right">
-       <property name="text">
-        <string>Circunferencia Cintura</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="lbl_DiamFemur_right">
-       <property name="text">
-        <string>Femur</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QPushButton" name="saveButton_right">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(227, 162, 26);
-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
-       </property>
-       <property name="text">
-        <string>Guardar</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QLabel" name="infoLabel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>890</y>
-      <width>781</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
      <number>0</number>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    <property name="editTriggers">
+     <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
     </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+    <property name="indentation">
+     <number>0</number>
     </property>
    </widget>
-   <widget class="QLabel" name="infoLabel_right">
+   <widget class="QTreeView" name="sceneView_right">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>900</y>
-      <width>751</width>
-      <height>141</height>
+      <x>870</x>
+      <y>840</y>
+      <width>441</width>
+      <height>131</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
     </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
      <number>0</number>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    <property name="editTriggers">
+     <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
     </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+    <property name="indentation">
+     <number>0</number>
     </property>
    </widget>
+   <widget class="QPushButton" name="historial_btn">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>960</y>
+      <width>149</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Historial</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="historial_btn_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1400</x>
+      <y>960</y>
+      <width>149</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(227, 162, 26);
+color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Historial</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <zorder>infoLabel</zorder>
    <zorder>viewer</zorder>
+   <zorder>displayLabel_2</zorder>
    <zorder>viewer_right</zorder>
+   <zorder>widget</zorder>
+   <zorder>widget_2</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>sceneView</zorder>
    <zorder>sceneView_right</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>layoutWidget_2</zorder>
-   <zorder>gridLayoutWidget_2</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>verticalLayoutWidget_2</zorder>
-   <zorder>layoutWidget</zorder>
-   <zorder>layoutWidget_3</zorder>
-   <zorder>infoLabel</zorder>
-   <zorder>infoLabel_right</zorder>
+   <zorder>historial_btn</zorder>
+   <zorder>historial_btn_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1528,137 +1043,6 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
    <addaction name="menuOperations"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="consoleDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>117</width>
-     <height>787</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>150</width>
-     <height>524287</height>
-    </size>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::NoContextMenu</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="floating">
-    <bool>false</bool>
-   </property>
-   <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
-   </property>
-   <property name="windowTitle">
-    <string/>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="placeholderText">
-        <string>Buscar...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="nombre">
-         <property name="placeholderText">
-          <string>Nombre</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="apellido">
-         <property name="placeholderText">
-          <string>Apellido</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="fecha_nacimiento">
-         <property name="placeholderText">
-          <string>Edad</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="cedula">
-         <property name="placeholderText">
-          <string>C.I</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="savePatient">
-         <property name="text">
-          <string>Guardar</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_historial">
-         <property name="text">
-          <string>Historial</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="displayLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTextEdit" name="consoleTextEdit">
-       <property name="frameShape">
-        <enum>QFrame::Panel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth">
-        <number>0</number>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
@@ -1973,7 +1357,6 @@ font: 63 8pt &quot;Segoe UI Semibold&quot;;</string>
     <string>&amp;Preferences</string>
    </property>
   </action>
-  <zorder>consoleDockWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

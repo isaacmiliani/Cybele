@@ -145,7 +145,11 @@
     <ClCompile Include="..\..\Libraries\CGAL\demo\Polyhedron\Scene_item.cpp" />
     <ClCompile Include="..\..\Libraries\CGAL\demo\Polyhedron\Viewer.cpp" />
     <ClCompile Include="cybele.cpp" />
+    <ClCompile Include="dialogpatient.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_cybele.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialogpatient.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_File_loader_dialog.cpp">
@@ -170,6 +174,9 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_cybele.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialogpatient.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_File_loader_dialog.cpp">
@@ -251,6 +258,17 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_item_EXPORTS -Dscene_EXPORTS -Dviewerqgl_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SQL_LIB -DUSE_FORWARD_DECL -DWITH_ASSIMP -DQML -DQUICK -DQT_DLL "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\include" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\CGAL_demo" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\GlSplat" "-IC:\Users\IDMT\Libraries\CGAL\build\demo\Polyhedron" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtScriptTools" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtQuick" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtQml" "-I$(QTDIR)\include\QtOpenGL" "-IC:\Users\IDMT\Libraries\CGAL\include" "-I$(QTDIR)\include\QtSql" "-IC:\Users\IDMT\Libraries\CGAL\auxiliary\gmp\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Users\IDMT\Libraries\glew-2.0.0\include" "-IC:\Users\IDMT\Libraries\freeglut\include" "-IC:\Users\IDMT\Libraries\libQGLViewer-2.6.4" "-I.\GeneratedFiles" "-I$(NOINHERIT)\."</Command>
     </CustomBuild>
+    <CustomBuild Include="dialogpatient.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing dialogpatient.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_item_EXPORTS -Dscene_EXPORTS -Dviewerqgl_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SQL_LIB -DQT_CHARTS -DUSE_FORWARD_DECL -DQML -DQUICK -DQT_DLL "-IC:\Users\IDMT\Sources\Cybele\resources" "-IC:\Users\IDMT\Libraries\boost_1_57_0" "-IC:\Users\IDMT\Libraries\eigen-3-3" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtCore" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtWidgets" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtXml" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtScriptTools" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtScript" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtANGLE" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtQuick" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtCharts" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtGui" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtQml" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtOpenGL" "-IC:\Qt\Qt5.8.0\5.8\msvc2013_64\include\QtSql" "-IC:\Users\IDMT\Libraries\glew-2.0.0\include" "-IC:\Users\IDMT\Libraries\freeglut-3.0.0\include" "-IC:\Users\IDMT\Libraries\libQGLViewer-2.6.4" "-IC:\Users\IDMT\Libraries\CGAL\auxiliary\gmp\include" "-IC:\Users\IDMT\Libraries\CGAL\include" "-IC:\Users\IDMT\Libraries\CGAL\build\include" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\include" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\CGAL_demo" "-I.\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing dialogpatient.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -DUNICODE -DWIN32 -DWIN64 -DQT_SCRIPT_LIB -DQT_SCRIPTTOOLS_LIB -DCGAL_EIGEN3_ENABLED -Dscene_item_EXPORTS -Dscene_EXPORTS -Dviewerqgl_EXPORTS -Dviewer_EXPORTS -Dgl_splat_EXPORTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SQL_LIB -DUSE_FORWARD_DECL -DWITH_ASSIMP -DQML -DQUICK -DQT_DLL "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\include" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\CGAL_demo" "-IC:\Users\IDMT\Libraries\CGAL\demo\Polyhedron\GlSplat" "-IC:\Users\IDMT\Libraries\CGAL\build\demo\Polyhedron" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtScriptTools" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtQuick" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtQml" "-I$(QTDIR)\include\QtOpenGL" "-IC:\Users\IDMT\Libraries\CGAL\include" "-I$(QTDIR)\include\QtSql" "-IC:\Users\IDMT\Libraries\CGAL\auxiliary\gmp\include" "-IC:\Program Files\PCL 1.7.2\3rdParty\Boost\include\boost-1_57" "-IC:\Program Files\PCL 1.7.2\3rdParty\Eigen\eigen3" "-IC:\Users\IDMT\Libraries\glew-2.0.0\include" "-IC:\Users\IDMT\Libraries\freeglut\include" "-IC:\Users\IDMT\Libraries\libQGLViewer-2.6.4" "-I.\GeneratedFiles" "-I$(NOINHERIT)\."</Command>
+    </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_dialogpatient.h" />
     <ClInclude Include="QSQLDbHelper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +345,16 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Rcc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+    </CustomBuild>
+    <CustomBuild Include="dialogpatient.ui">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
     <None Include="resources\about.html">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

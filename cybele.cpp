@@ -9,8 +9,9 @@
 #include <QOpenGLContext>
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QDirIterator>
 
-
+#include <CGAL/Polygon_mesh_slicer.h>
 QScriptValue myScene_itemToScriptValue(QScriptEngine *engine, Scene_item* const &in)
 {
 	return engine->newQObject(in);
@@ -148,7 +149,7 @@ void Cybele::setupRightViewer(){
 		viewer_right, SLOT(updateGL()));
 
 	connect(scene_right, SIGNAL(updated()),
-		this, SLOT(selectionChanged()));
+		this, SLOT(selectionChanged_2()));
 
 	connect(scene_right, SIGNAL(itemAboutToBeDestroyed(Scene_item*)),
 		this, SLOT(removeManipulatedFrame_2(Scene_item*)));
@@ -156,8 +157,8 @@ void Cybele::setupRightViewer(){
 	connect(scene_right, SIGNAL(updated_bbox()),
 		this, SLOT(updateViewerBBox_2()));
 
-	connect(scene_right, SIGNAL(selectionChanged(int)),
-		this, SLOT(selectSceneItem_2(int)));
+	connect(scene_right, SIGNAL(selectionChanged_2(int)),
+		this, SLOT(selectSceneItem(int)));
 
 	connect(sceneView_right->selectionModel(),
 		SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
@@ -176,7 +177,7 @@ void Cybele::setupRightViewer(){
 		this, SLOT(showSceneContextMenu_2(const QPoint &)));
 
 	connect(viewer_right, SIGNAL(selected(int)),
-		this, SLOT(selectSceneItem_2(int)));
+		this, SLOT(selectSceneItem(int)));
 	connect(viewer_right, SIGNAL(selectedPoint(double, double, double)),
 		this, SLOT(showSelectedPoint(double, double, double)));
 
@@ -202,6 +203,7 @@ void Cybele::setupRightViewer(){
 	connect(ui->actionDraw_two_sides, SIGNAL(toggled(bool)),
 		viewer_right, SLOT(setTwoSides(bool)));
 
+	viewer_right->setTwoSides(true);
 	// add the "About CGAL..." and "About demo..." entries
 	//this->addAboutCGAL();
 	//this->addAboutDemo(":/cgal/Polyhedron_3/about.html");
@@ -209,10 +211,10 @@ void Cybele::setupRightViewer(){
 	//connect(ui->btn_historial, SIGNAL(click()), this, SLOT(drawChart2()));
 
 	// Connect the button "addButton" with actionLoad
-	ui->addButton->setDefaultAction(ui->actionLoad);
+	//ui->addButton->setDefaultAction(ui->actionLoad);
 	// Same with "removeButton" and "duplicateButton"
-	ui->removeButton->setDefaultAction(ui->actionErase);
-	ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
+	//ui->removeButton->setDefaultAction(ui->actionErase);
+	//ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
 
 	// Connect actionQuit (Ctrl+Q) and qApp->quit()
 	//connect(ui->actionQuit, SIGNAL(triggered()),
@@ -225,7 +227,7 @@ void Cybele::setupRightViewer(){
 	// Recent files menu
 	this->addRecentFiles(ui->menuFile, ui->actionQuit);
 	connect(this, SIGNAL(openRecentFile(QString)),
-		this, SLOT(open(QString)));
+		this, SLOT(open(QString, Scene*, Viewer*, bool)));
 
 }
 
@@ -346,15 +348,16 @@ Cybele::Cybele(QWidget *parent) :
 	connect(ui->actionDraw_two_sides, SIGNAL(toggled(bool)),
 		viewer, SLOT(setTwoSides(bool)));
 
+	viewer->setTwoSides(true);
 	// add the "About CGAL..." and "About demo..." entries
 	this->addAboutCGAL();
 	this->addAboutDemo(":/cgal/Polyhedron_3/about.html");
 
 	// Connect the button "addButton" with actionLoad
-	ui->addButton->setDefaultAction(ui->actionLoad);
+	//ui->addButton->setDefaultAction(ui->actionLoad);
 	// Same with "removeButton" and "duplicateButton"
-	ui->removeButton->setDefaultAction(ui->actionErase);
-	ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
+	//ui->removeButton->setDefaultAction(ui->actionErase);
+	//ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
 
 	// Connect actionQuit (Ctrl+Q) and qApp->quit()
 	connect(ui->actionQuit, SIGNAL(triggered()),
@@ -367,10 +370,12 @@ Cybele::Cybele(QWidget *parent) :
 	// Recent files menu
 	this->addRecentFiles(ui->menuFile, ui->actionQuit);
 	connect(this, SIGNAL(openRecentFile(QString)),
-		this, SLOT(open(QString)));
+		this, SLOT(open(QString, scene, viewer, true)));
 
 	// Reset the "Operation menu"
 	clearMenu(ui->menuOperations);
+	patient_id = 0;
+	model_id_left = model_id_right = -1;
 
 
 #ifdef QT_SCRIPT_LIB
@@ -386,11 +391,11 @@ Cybele::Cybele(QWidget *parent) :
 	debuggerMenuAction->setText(tr("Qt Script &debug"));
 	for (unsigned int i = 0; i < 9; ++i)
 	{
-		QDockWidget* dock = new QDockWidget(debug_widgets_names[i], this);
-		dock->setObjectName(debug_widgets_names[i]);
-		dock->setWidget(debugger->widget(debug_widgets[i]));
-		this->addDockWidget(Qt::BottomDockWidgetArea, dock);
-		dock->hide();
+//		QDockWidget* dock = new QDockWidget(debug_widgets_names[i], this);
+//		dock->setObjectName(debug_widgets_names[i]);
+//		dock->setWidget(debugger->widget(debug_widgets[i]));
+//		this->addDockWidget(Qt::BottomDockWidgetArea, dock);
+//		dock->hide();
 	}
 	debugger->setAutoShowStandardWindow(false);
 	debugger->attachTo(script_engine);
@@ -429,7 +434,7 @@ Cybele::Cybele(QWidget *parent) :
 
 	// Setup the submenu of the View menu that can toggle the dockwidgets
 	Q_FOREACH(QDockWidget* widget, findChildren<QDockWidget*>()) {
-		ui->menuDockWindows->addAction(widget->toggleViewAction());
+//		ui->menuDockWindows->addAction(widget->toggleViewAction());
 	}
 	ui->menuDockWindows->removeAction(ui->dummyAction);
 
@@ -463,6 +468,8 @@ Cybele::~Cybele()
 
 void Cybele::selectionChanged_2()
 {
+	viewer_right->makeCurrent();
+	
 	scene_right->setSelectedItemIndex(getSelectedSceneItemIndex_2());
 	scene_right->setSelectedItemsList(getSelectedSceneItemIndices_2());
 	Scene_item* item = scene_right->item(getSelectedSceneItemIndex_2());
@@ -495,6 +502,7 @@ void Cybele::selectionChanged_2()
 
 void Cybele::selectionChanged()
 {
+	viewer->makeCurrent();
 	scene->setSelectedItemIndex(getSelectedSceneItemIndex());
 	scene->setSelectedItemsList(getSelectedSceneItemIndices());
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
@@ -527,6 +535,7 @@ void Cybele::selectionChanged()
 
 QList<int> Cybele::getSelectedSceneItemIndices() const
 {
+	viewer->makeCurrent();
 	QModelIndexList selectedRows = sceneView->selectionModel()->selectedRows();
 	QList<int> result;
 	Q_FOREACH(QModelIndex index, selectedRows) {
@@ -536,6 +545,7 @@ QList<int> Cybele::getSelectedSceneItemIndices() const
 }
 QList<int> Cybele::getSelectedSceneItemIndices_2() const
 {
+	viewer_right->makeCurrent();
 	QModelIndexList selectedRows = sceneView_right->selectionModel()->selectedRows();
 	QList<int> result;
 	Q_FOREACH(QModelIndex index, selectedRows) {
@@ -566,8 +576,34 @@ void Cybele::on_actionSetPolyhedronA_triggered()
 	int i = getSelectedSceneItemIndex();
 	scene->setItemA(i);
 }
-void Cybele::on_actionSaveAs_triggered()
-{
+
+void Cybele::save_polylines(QString filepath){
+	for (int i = 0, end = scene->numberOfEntries(); i < end; ++i) {
+		Scene_item* item = scene->item(i);
+
+		Scene_polylines_item* poly_item = qobject_cast<Scene_polylines_item*>(item);
+		if (!poly_item) continue;
+
+		QVector<Polyhedron_demo_io_plugin_interface*> canSavePlugins;
+		QStringList filters;
+		Q_FOREACH(Polyhedron_demo_io_plugin_interface* plugin, io_plugins) {
+			if (plugin->canSave(item)) {
+				canSavePlugins << plugin;
+				filters += plugin->nameFilters();
+			}
+		}
+		QFileInfo fileinfo(filepath);
+		QString dir = fileinfo.absolutePath();
+		QString base = fileinfo.baseName();
+
+		QDir(dir).mkdir(base);
+		if (!canSavePlugins.isEmpty()) {
+			QString poly_file = dir + "/" + base + "/" + item->name() + ".cgal";
+			save(poly_file, item);
+		}
+	}
+}
+QString Cybele::save_mesh(){
 	int index = -1;
 	QAction* sender_action = qobject_cast<QAction*>(sender());
 	if (sender_action && !sender_action->data().isNull()) {
@@ -577,13 +613,13 @@ void Cybele::on_actionSaveAs_triggered()
 	if (index < 0) {
 		QModelIndexList selectedRows = sceneView->selectionModel()->selectedRows();
 		if (selectedRows.size() != 1)
-			return;
+			return "";
 		index = getSelectedSceneItemIndex();
 	}
 	Scene_item* item = scene->item(index);
 
 	if (!item)
-		return;
+		return "";
 
 	QVector<Polyhedron_demo_io_plugin_interface*> canSavePlugins;
 	QStringList filters;
@@ -600,16 +636,19 @@ void Cybele::on_actionSaveAs_triggered()
 			tr("Cannot save"),
 			tr("The selected object %1 cannot be saved.")
 			.arg(item->name()));
-		return;
+		return "";
 	}
 
 	QString caption = tr("Save %1 to File...").arg(item->name());
-	QString filename =
-		QFileDialog::getSaveFileName(this,
-		caption,
-		QString(),
-		filters.join(";;"));
-	save(filename, item);
+	QString filename = item->name();
+	//save(filename, item);
+
+
+	return filename;
+}
+void Cybele::on_actionSaveAs_triggered()
+{
+	save_mesh();
 }
 
 void Cybele::on_actionPreferences_triggered()
@@ -1569,16 +1608,15 @@ Scene_item* Cybele::load_item(QFileInfo fileinfo, Polyhedron_demo_io_plugin_inte
 	//reconstruction_class(ba_delaunay_file, ba_stl_file);
 	
 	//reconstruction_outliers_boundaries(ba_file, ba_delaunay_file);
-	calculatePointSetNormals(ba_file, ba_normal_file);
-	advancing_front_reconstruction(ba_normal_file, ba_delaunay_file);
-	//PoissonReconstruction(ba_delaunay_file, ba_poisson_file);
-	fileinfo.setFile(ba_delaunay_file.data());
-	//fileinfo.setFile(ba_delaunay_file.data());
-	//calculatePointSetNormals(ba_delaunay_file, ba_normal_file);
-	//PoissonReconstruction(ba_normal_file, ba_poisson_file);
-	//fileinfo.setFile(ba_stl_file.data());
+	QString ext = fileinfo.suffix();
+	QString q = "off";
+	if (ext == q){
+		calculatePointSetNormals(ba_file, ba_normal_file);
+		advancing_front_reconstruction(ba_normal_file, ba_delaunay_file);
+		fileinfo.setFile(ba_delaunay_file.data());
+	}
 
-	std::cerr << "...Loading Mesh..." << std::endl;
+	std::cerr << "Loading Mesh..." << std::endl;
 	item = loader->load(fileinfo);
 
 	QApplication::restoreOverrideCursor();
@@ -1652,16 +1690,16 @@ void Cybele::updateInfo_2() {
 void Cybele::updateDisplayInfo() {
 	Scene_item* item = scene->item(getSelectedSceneItemIndex());
 	if (item)
-		ui->displayLabel->setPixmap(item->graphicalToolTip());
+		ui->displayLabel_2->setPixmap(item->graphicalToolTip());
 	else
-		ui->displayLabel->clear();
+		ui->displayLabel_2->clear();
 }
 void Cybele::updateDisplayInfo_2() {
 	Scene_item* item = scene_right->item(getSelectedSceneItemIndex_2());
 	if (item)
-		ui->displayLabel->setPixmap(item->graphicalToolTip());
+		ui->displayLabel_2->setPixmap(item->graphicalToolTip());
 	else
-		ui->displayLabel->clear();
+		ui->displayLabel_2->clear();
 }
 
 int Cybele::getSelectedSceneItemIndex() const
@@ -1834,10 +1872,10 @@ void Cybele::evaluate_script_quiet(QString script,
 
 void Cybele::on_actionLoad_triggered()
 {
-	model_filename = openFile(scene, viewer);
+	model_filename = openFile(scene, viewer, true);
 }
 
-QString Cybele::openFile(Scene *scene, Viewer *viewer){
+QString Cybele::openFile(Scene *scene, Viewer *viewer, bool isLeftViewer){
 
 	QStringList filters;
 	// we need to special case our way out of this
@@ -1890,24 +1928,110 @@ QString Cybele::openFile(Scene *scene, Viewer *viewer){
 			QFileInfo info(filename);
 			item = load_item(info, selectedPlugin);
 			Scene::Item_id index = scene->addItem(item);
-			selectSceneItem(index);
+			selectSceneItem_2(index);
 			this->addToRecentFiles(filename);
 		}
 		else {
-			open(filename, scene, viewer);
+			open(filename, scene, viewer, isLeftViewer);
+			QFileInfo info(filename);
+			qDebug() << info.absolutePath(); 
+			QString f = info.absolutePath() + "/" + info.baseName();
+			QDir dir(f);
+			QStringList filters;
+			filters << "*.cgal";
+			dir.setNameFilters(filters);
+			QFileInfoList list = dir.entryInfoList();
+			for (int i = 0; i < list.size(); ++i) {
+				QFileInfo fileInfo = list.at(i);
+				qDebug() << fileInfo.absoluteFilePath();
+				open(fileInfo.absoluteFilePath(), scene, viewer, isLeftViewer);
+			}
+
 		}
 		return filename;
 	}
 	return "error openfile";
 }
 
-void Cybele::open(QString filename, Scene *scene, Viewer *viewer)
+void Cybele::load_measures_left(int id_modelo){
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+			if (!query->prepare(
+				QString("SELECT id, id_modelo, talla, craneo, cintura, cadera, brazo, femur, id_paciente FROM public.medidas where id_modelo = ? ")))
+			{
+				qDebug() << "Error = " << db->lastError().text();
+				exit;
+			}
+			else
+			{
+				query->addBindValue(id_modelo);
+			}
+
+			bool queryRes = query->exec();
+
+			if (queryRes)
+				while (query->next())
+				{
+					ui->talla_l->setText(QString::number(query->value(2).toDouble(), 'f', 2));
+					ui->cefalica_l->setText(QString::number(query->value(3).toDouble(), 'f', 2));
+					ui->cintura_l->setText(QString::number(query->value(4).toDouble(), 'f', 2));
+					ui->cadera_l->setText(QString::number(query->value(5).toDouble(), 'f', 2));
+					ui->brazo_l->setText(QString::number(query->value(6).toDouble(), 'f', 2));
+					ui->muslo_l->setText(QString::number(query->value(7).toDouble(), 'f', 2));
+				}
+			else
+				qDebug() << "Load Measures failed";
+		}
+		else
+			qDebug() << "Couldn't open database";
+
+}
+
+void Cybele::load_measures_right(int id_modelo){
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+		if (!query->prepare(
+			QString("SELECT id, id_modelo, talla, craneo, cintura, cadera, brazo, femur, id_paciente FROM public.medidas where id_modelo = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id_modelo);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes)
+			while (query->next())
+			{
+				ui->talla_r->setText(QString::number(query->value(2).toDouble(), 'f', 2));
+				ui->cefalica_r->setText(QString::number(query->value(3).toDouble(), 'f', 2));
+				ui->cintura_r->setText(QString::number(query->value(4).toDouble(), 'f', 2));
+				ui->cadera_r->setText(QString::number(query->value(5).toDouble(), 'f', 2));
+				ui->brazo_r->setText(QString::number(query->value(6).toDouble(), 'f', 2));
+				ui->muslo_r->setText(QString::number(query->value(7).toDouble(), 'f', 2));
+			
+			}
+		else
+			qDebug() << "Load Measures failed";
+	}
+	else
+		qDebug() << "Couldn't open database";
+
+}
+void Cybele::open(QString filename, Scene *scene, Viewer *viewer, bool isLeftViewer)
 {
 	QFileInfo fileinfo(filename);
-
-	//centralWidget = new FormExtractor();
-	//setCentralWidget(centralWidget);
-	//setUnifiedTitleAndToolBarOnMac(true);
 
 	//centralWidget->show();
 #ifdef QT_SCRIPT_LIB
@@ -1992,123 +2116,29 @@ void Cybele::open(QString filename, Scene *scene, Viewer *viewer)
 	settings.setValue("OFF open directory",
 		fileinfo.absoluteDir().absolutePath());
 
+
 	viewer->makeCurrent();
 	Scene_item* scene_item = 0;
 	scene_item = load_item(fileinfo, find_loader(load_pair.first));
 	
-	selectSceneItem(scene->addItem(scene_item));
-	if (scene_item != 0) {
-		this->addToRecentFiles(fileinfo.absoluteFilePath());
+	if (isLeftViewer){
+		selectSceneItem(scene->addItem(scene_item));
+		if (scene_item != 0) {
+			this->addToRecentFiles(fileinfo.absoluteFilePath());
+		}
 	}
-	
+	else{
+		selectSceneItem_2(scene->addItem(scene_item));
+		if (scene_item != 0) {
+			this->addToRecentFiles(fileinfo.absoluteFilePath());
+		}
+	}
 	
 	
 }
-void Cybele::open(QString filename)
-{
-	QFileInfo fileinfo(filename);
 
-#ifdef QT_SCRIPT_LIB
-	// Handles the loading of script file from the command line arguments,
-	// and the special command line arguments that start with "javascript:"
-	// or "qtscript:"
-	QString program;
-	if (filename.startsWith("javascript:")) {
-		program = filename.right(filename.size() - 11);
-	}
-	if (filename.startsWith("qtscript:")) {
-		program = filename.right(filename.size() - 9);
-	}
-	if (filename.endsWith(".js")) {
-		load_script(fileinfo);
-		return;
-	}
-	if (!program.isEmpty())
-	{
-		{
-			QTextStream(stderr) << "Execution of script \""
-				<< filename << "\"\n";
-			// << filename << "\", with following content:\n"
-			// << program;
-		}
-		evaluate_script(program, filename);
-		return;
-	}
-#endif
+	
 
-	if (!fileinfo.exists()){
-		QMessageBox::warning(this,
-			tr("Cannot open file"),
-			tr("File %1 does not exist.")
-			.arg(filename));
-		return;
-	}
-
-	QStringList selected_items;
-	QStringList all_items;
-
-	QMap<QString, QString>::iterator dfs_it =
-		default_plugin_selection.find(fileinfo.completeSuffix());
-
-	if (dfs_it == default_plugin_selection.end())
-	{
-		// collect all io_plugins and offer them to load if the file extension match one name filter
-		// also collect all available plugin in case of a no extension match
-		Q_FOREACH(Polyhedron_demo_io_plugin_interface* io_plugin, io_plugins) {
-			if (!io_plugin->canLoad()) continue;
-			all_items << io_plugin->name();
-			if (file_matches_filter(io_plugin->nameFilters(), filename))
-				selected_items << io_plugin->name();
-		}
-	}
-	else
-		selected_items << *dfs_it;
-
-	bool ok;
-	std::pair<QString, bool> load_pair;
-
-	switch (selected_items.size())
-	{
-	case 1:
-		load_pair = std::make_pair(selected_items.first(), false);
-		ok = true;
-		break;
-	case 0:
-		load_pair = File_loader_dialog::getItem(fileinfo.fileName(), all_items, &ok);
-		break;
-	default:
-		load_pair = File_loader_dialog::getItem(fileinfo.fileName(), selected_items, &ok);
-	}
-
-	if (!ok || load_pair.first.isEmpty()) { return; }
-
-	if (load_pair.second)
-		default_plugin_selection[fileinfo.completeSuffix()] = load_pair.first;
-
-
-	QSettings settings;
-	settings.setValue("OFF open directory",
-		fileinfo.absoluteDir().absolutePath());
-
-
-	Scene_item* scene_item = 0;
-	scene_item = load_item(fileinfo, find_loader(load_pair.first));
-
-	selectSceneItem(scene->addItem(scene_item));
-	if (scene_item != 0) {
-		this->addToRecentFiles(fileinfo.absoluteFilePath());
-	}
-
-	viewer_right->makeCurrent();
-	QString str_file = "C:\\Users\\kaptain eesikord\\Documents\\Meshes\\fandisk.off";
-	QByteArray ba_file = str_file.toLatin1();
-	fileinfo.setFile(ba_file.data());
-
-	Scene_item* scene_item_2 = 0;
-	scene_item_2 = load_item(fileinfo, find_loader(load_pair.first));
-
-	selectSceneItem_2(scene_right->addItem(scene_item_2));
-}
 bool Cybele::load_script(QString filename)
 {
 	QFileInfo fileinfo(filename);
@@ -2478,256 +2508,101 @@ void Cybele::intersectarium(Scene_edges_item* inside_edges_item, Scene_edges_ite
 	std::cout << "Point intersections: " << points.size() << std::endl;
 	std::cout << "After Segment intersections: " << edges_item->edges.size() << std::endl;
 }
-void Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_with_normal_item* points, Scene_edges_item** edges_item) {
+double Cybele::cut(QString measure, Scene_plane_item* plane_item, Scene_points_with_normal_item* points, Scene_polylines_item** edges_item) {
 	
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	
-	// edges_item will hold the cutting edges of the mesh
-	QColor c(227, 162, 26);
-	(*edges_item) = new Scene_edges_item;
-	(*edges_item)->setName(QString("%1-edges").arg(measure));
-	(*edges_item)->setColor(c);
-	(*edges_item)->startTimer(0);
-	connect((*edges_item), SIGNAL(destroyed()),
-		this, SLOT(reset_edges()));
-	scene->addItem((*edges_item));
-	// outside_edges is a control variable that holds the non-intersecting edges with the mesh
-	c.setRgb(238, 17, 17);
-	outside_edges_item = new Scene_edges_item;
-	outside_edges_item->setName("Outside Edges of the cut");
-	outside_edges_item->setColor(c);
-	outside_edges_item->startTimer(0);
-	connect(outside_edges_item, SIGNAL(destroyed()),
-		this, SLOT(reset_edges()));
-	scene->addItem(outside_edges_item);
+	const CGAL::Bbox_3 box_3 = createBBox(points);
+	const Epic_kernel::Plane_3 plane = plane_item->plane();
 
-		// outside_edges is a control variable that holds the intersecting edges with the mesh inside the bounding box
-	c.setRgb(126, 56, 120);
-	inside_edges_item = new Scene_edges_item;
-	inside_edges_item->setName("Inside Edges of the cut");
-	inside_edges_item->setColor(c);
-	inside_edges_item->startTimer(0);
-	connect(inside_edges_item, SIGNAL(destroyed()),
-		this, SLOT(reset_edges()));
-	scene->addItem(inside_edges_item);
+	QTime time;
+	time.start();
+	for (int i = 0, end = scene->numberOfEntries(); i < end; ++i) {
+		Scene_item* item = scene->item(i);
 
-	c.setRgb(187, 126, 220);
-	found_edges_item = new Scene_edges_item;
-	found_edges_item->setName(QString("Found edges").arg(measure));
-	found_edges_item->setColor(c);
-	found_edges_item->startTimer(0);
-	connect(found_edges_item, SIGNAL(destroyed()),
-		this, SLOT(reset_edges()));
-	scene->addItem(found_edges_item);
-
-	if ((*edges_item)->top)
-	{
-		//const qglviewer::Vec& pos = plane_item->manipulatedFrame()->position();
-		//const qglviewer::Vec& n = plane_item->manipulatedFrame()->inverseTransformOf(qglviewer::Vec(2.f, 1.f, 1.f));
-
-		const CGAL::Bbox_3 box_3 = createBBox(points);
-		const Epic_kernel::Plane_3 plane = plane_item->plane();
-		//std::cerr << plane << std::endl;
-		(*edges_item)->edges.clear();
-		outside_edges_item->edges.clear();
-		inside_edges_item->edges.clear();
-		found_edges_item->edges.clear();
-		QTime time;
-		time.start();
-		for (int i = 0, end = scene->numberOfEntries(); i < end; ++i) {
-			Scene_item* item = scene->item(i);
-
-			Scene_polyhedron_item* poly_item = qobject_cast<Scene_polyhedron_item*>(item);
-			if (!poly_item) continue;
-			Trees::iterator it = trees.find(poly_item);
-			if (it == trees.end()) {
-				it = trees.insert(trees.begin(),std::make_pair(poly_item,
-					new AABB_tree(faces(*(poly_item->polyhedron())).first,
-					faces(*(poly_item->polyhedron())).second,
-					*poly_item->polyhedron())));
-				Scene_aabb_item* aabb_item = new Scene_aabb_item(*it->second);
-				aabb_item->setName(tr("AABB tree of %1").arg(poly_item->name()));
-				aabb_item->setRenderingMode(Wireframe);
-				aabb_item->setVisible(false);
-				//scene->addItem(aabb_item);
-				//std::cerr << "size: " << it->second->size() << std::endl;
-			}
-
-			if (!CGAL::do_intersect(plane, it->second->bbox()))
-				continue;
-
-
-			std::vector<AABB_tree::Object_and_primitive_id> intersections;
-			it->second->all_intersections(plane, std::back_inserter(intersections));
-
-			//CGAL::spatial_sort(intersections.begin(), intersections.end());
-			//std::sort(intersections.begin(), intersections.end());
-			int count = 0;
-			int count_inside = 0;
-			int count_outside = 0;
-			for (std::vector<AABB_tree::Object_and_primitive_id>::iterator it = intersections.begin(),
-				end = intersections.end(); it != end; ++it)
-			{
-				const Epic_kernel::Segment_3* inter_seg =
-					CGAL::object_cast<Epic_kernel::Segment_3>(&(it->first));
-				const Epic_kernel::Segment_3 last_seg;
-
-				if (NULL != inter_seg){
-					if (CGAL::do_intersect(box_3, *inter_seg) ){
-						inside_edges_item->edges.push_back(*inter_seg);
-						(*edges_item)->edges.push_back(*inter_seg);
-						count++;
-					}
-					else{
-						outside_edges_item->edges.push_back(*inter_seg);
-					}
-				}
-			}
-			//std::cout << "**** Total Inside Segments: " << inside_edges_item->edges.size() << std::endl;
-			//std::cout << "---- Total Outside Segments: " << outside_edges_item->edges.size() << std::endl;
-			count = 0;
-			bool segmentFound = false;
-			Epic_kernel::Point_3 source;
-			Epic_kernel::Point_3 target;
-			//source = inside_edges_item->edges.begin()->source();
-			//target = inside_edges_item->edges.begin()->target();
-			//// RECORRE LOS SEGMENTOS DENTRO DEL BOUNDING BOX DE LOS PUNTOS SELECCIONADOS
-			//CGAL::Cartesian<Epic_kernel>::Point_3 p1, p2, q1, q2;
-			//count = 0;
-			//std::vector<Point_3> points;
-			//std::cout << "Size Before Intersector: " << inside_edges_item->edges.size() << std::endl;
-			
-			//intersectarium(inside_edges_item, edges_item, outside_edges_item);
-			//for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
-			//	intersector(outside_edges_item->edges);
-			//}
-			//std::cout << "Point intersections: " << points.size() << std::endl;
-			//std::cout << "After Segment intersections: " << inside_edges_item->edges.size() << std::endl;
-
-			CGAL::cpp11::result_of<Intersect_3(Segment_3, Segment_3)>::type point_intersect;
-			CGAL::cpp11::result_of<Intersect_3(Segment_3, Segment_3)>::type result_qwerty;
-			for (std::vector<Epic_kernel::Segment_3>::iterator i_inside = inside_edges_item->edges.begin(); i_inside != inside_edges_item->edges.end(); ++i_inside){
-				for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
-						
-					if (!previouslyAdded(*i_outside, found_edges_item)){
-						segmentFound = false;
-						for (std::vector<Epic_kernel::Segment_3>::iterator vi = found_edges_item->edges.begin(); vi != found_edges_item->edges.end(); ++vi){
-							if (CGAL::do_intersect(i_outside->supporting_line(), vi->bbox()) || CGAL::do_intersect(i_outside->bbox(), vi->supporting_line()) || CGAL::do_intersect(i_outside->bbox(), vi->bbox()))
-								segmentFound = true;
-						}
-						if (CGAL::do_intersect(i_outside->supporting_line(), i_inside->bbox()) || CGAL::do_intersect(i_outside->bbox(), i_inside->supporting_line()) || CGAL::do_intersect(i_outside->bbox(), i_inside->bbox()) || segmentFound){
-							found_edges_item->edges.push_back(*i_outside);
-							(*edges_item)->edges.push_back(*i_outside);
-							for (int i = 0; i <= count_outside; i++){
-								if (i_outside != outside_edges_item->edges.begin())
-									--i_outside;
-							}
-							for (int i = 0; i <= count_inside; i++){
-								if (i_inside != inside_edges_item->edges.begin())
-									--i_inside;
-							}
-							count++;
-							count_outside = 0;
-							count_inside = 0;
-							std::cout << "**** Segment Found: " << count << std::endl;
-						}
-					}
-					count_outside++;
-				}
-				count_inside++;
-			}
-			std::cout << "**** Total Found Segments: " << count << std::endl;
-			/*
-			for (std::vector<Epic_kernel::Segment_3>::iterator i_inside = inside_edges_item->edges.begin(); i_inside != inside_edges_item->edges.end(); ++i_inside){
-				if (!segmentFound){
-					source = i_inside->target();
-					target = i_inside->source();
-				}
-
-				//std::cout << "** looking for source: " << source.x() << ", " << source.y() << ", " << source.z() << std::endl;
-				//std::cout << "++ looking for target: " << target.x() << ", " << target.y() << ", " << target.z() << std::endl;
-				// RECORRE LOS SEGMENTOS QUE INTERSECTAN EL PLANO PERO QUE NO ESTAN DENTRO DEL BOUNDING BOX
-				for (std::vector<Epic_kernel::Segment_3>::iterator i_outside = outside_edges_item->edges.begin(); i_outside != outside_edges_item->edges.end(); ++i_outside){
-					if (i_outside == outside_edges_item->edges.begin()){
-					//std::cout << "@@ First OUTSIDE Segment: " << i_outside->source().x() << ", " << i_outside->source().y() << ", " << i_outside->source().z() << std::endl;
-					}
-					// VERIFICA QUE PREVIAMENTE NO SE HAYA AGREGADO EL SEGMENTO 
-					if (!findSegment(*i_outside, (*edges_item))){
-						//std::cout << "@@ checking if: " << target << std::endl;
-						//std::cout << "     @@ equals: " << i_outside->source() << std::endl;
-
-						if (checkSources(source, i_outside->target(), i_outside->source()) || checkTargets(target, i_outside->source(), i_outside->target())){
-							//std::cout << "@@ Source: " << i_outside->source() << std::endl;
-							//std::cout << "@@ Target: " << i_outside->target() << std::endl;
-							// AGREGA EL SEGMENTO A LA LISTA 
-							(*edges_item)->edges.push_back(*i_outside);
-							//inside_edges_item->edges.push_back(*i_outside);
-
-							// ACTUALIZA LA NUEVA PUNTA DEL PROXIMO PUNTO
-							target = i_outside->target();
-							source = i_outside->source();
-			
-							//searchSegment(source,target);
-							//std::cout << "** new target: " << target.x() << ", " << target.y() << ", " << target.z() << std::endl;
-							// PARA DEBUG
-							count++;
-							segmentFound = true;
-							// REINICIA EL ITERADOR DE LOS SEGMENTOS FUERA DEL BOUNDING BOX
-							for (int i = 0; i < count_outside; i++){
-								if (i_outside != outside_edges_item->edges.begin())
-									--i_outside;
-							}
-							count_outside = 0;
-						}else
-							segmentFound = false;
-					}
-					//std::cout << "Outside i =: " << count_outside << std::endl;
-					count_outside++;
-				}
-				//std::cout << "Total outside segments iterated: " << count_outside << std::endl;
-				count_outside = 0;
-
-				//std::cout << "Inside i =: " << count_inside << std::endl;
-				count_inside++;
-			}*/
-			//std::cout << "Total inside segments iterated: " << count_inside << std::endl;
-			count_inside = 0;
-			//std::cout << "Total segments found: " << count << std::endl;
+		Scene_polyhedron_item* poly_item = qobject_cast<Scene_polyhedron_item*>(item);
+		if (!poly_item) continue;
+		Trees::iterator it = trees.find(poly_item);
+		if (it == trees.end()) {
+			it = trees.insert(trees.begin(), std::make_pair(poly_item,
+				new AABB_tree(faces(*(poly_item->polyhedron())).first,
+				faces(*(poly_item->polyhedron())).second,
+				*poly_item->polyhedron())));
+			Scene_aabb_item* aabb_item = new Scene_aabb_item(*it->second);
+			aabb_item->setName(tr("AABB tree of %1").arg(poly_item->name()));
+			aabb_item->setRenderingMode(Wireframe);
+			aabb_item->setVisible(false);
 		}
-		
-		Scene_bbox_item* item = new Scene_bbox_item(scene);
-		
-		setBboxLines(item, box_3);
-		connect(item, SIGNAL(destroyed()),
-			this, SLOT(enableAction()));
 
-		item->setName(QString("%1-bbox").arg(measure));
-		item->setColor(Qt::black);
-		item->setRenderingMode(Wireframe);
-		scene->addItem(item);
-		
-		//actionBbox->setEnabled(false);
-		
-		information(QString("cut (%1 ms). %2 edges. (new edges)").arg(time.elapsed()).arg((*edges_item)->edges.size()));
-		(*edges_item)->invalidate_buffers();
-		scene->itemChanged((*edges_item));
+		if (!CGAL::do_intersect(plane, it->second->bbox()))
+			continue;
 
-		information(QString("cut (%1 ms). %2 edges. (outside)").arg(time.elapsed()).arg(outside_edges_item->edges.size()));
-		outside_edges_item->invalidate_buffers();
-		scene->itemChanged(outside_edges_item);
+		std::vector<AABB_tree::Object_and_primitive_id> intersections;
 
-		information(QString("cut (%1 ms). %2 edges. (inside)").arg(time.elapsed()).arg(inside_edges_item->edges.size()));
-		inside_edges_item->invalidate_buffers();
-		scene->itemChanged(inside_edges_item);
+		it->second->all_intersections(plane, std::back_inserter(intersections));
+		std::list<std::vector<Epic_kernel::Point_3> > polylines;
+
+		// call algorithm and fill polylines in polylines_item
+		CGAL::Polygon_mesh_slicer<Polyhedron, Epic_kernel> slicer(*poly_item->polyhedron());
+		slicer(plane, std::front_inserter(polylines));
+		
+		CGAL::Point_3<CGAL::Cartesian<double>> p, q;
+		double segment_length = 0;
+		double x1, x2, y1, y2, z1, z2, dx, dy, dz, distance, edge_length;
+		int counter = 0;
+
+		for (std::list<std::vector<Epic_kernel::Point_3> >::iterator it = polylines.begin(); it != polylines.end(); ++it, ++counter) {
+			//std::sort(polylines.begin(), polylines.end());
+			for (std::vector<Epic_kernel::Point_3>::iterator pt = it->begin(); pt != it->end(); ++pt){
+				if (CGAL::do_intersect(box_3, pt->bbox())){
+					Scene_polylines_item* new_polylines_item = new Scene_polylines_item();
+					new_polylines_item->polylines.push_back(*it);
+
+					new_polylines_item->setName(measure);
+					new_polylines_item->setColor(Qt::green);
+					new_polylines_item->setRenderingMode(Wireframe);
+					scene->addItem(new_polylines_item);
+					new_polylines_item->invalidate_buffers();
+
+
+					typedef std::vector<Point_3> Polyline;
+					typedef std::list<Polyline> Polylines_container;
+
+					Polylines_container polylines = new_polylines_item->polylines;
+					Polylines_container::iterator bbb = polylines.begin();
+					std::size_t poly_size = polylines.size();
+
+					Point_3 a, b;
+					a = polylines.begin()->back();
+					while (!bbb->empty())
+					{
+						b = bbb->back();
+
+						q = CGAL::Point_3<CGAL::Cartesian<double>>(a.x(), a.y(), a.z());
+						p = CGAL::Point_3<CGAL::Cartesian<double>>(b.x(), b.y(), b.z());
+
+						dx = abs(p.x()) - abs(q.x());
+						dy = abs(p.y()) - abs(q.y());
+						dz = abs(p.z()) - abs(q.z());
+
+						segment_length = pow(dx, 2) + pow(dy, 2) + pow(dz, 2);
+						edge_length += sqrt(segment_length);
+
+						a = b;
+						bbb->pop_back();
+					}
+					edge_length *= 100;
+					std::cout << "Total Perimeter (cm): " << edge_length << std::endl;
+					QApplication::restoreOverrideCursor();
+					return edge_length;
+				}
+			}
+		}
 	}
 	
-	QApplication::restoreOverrideCursor();
-	outside_edges_item->top = false;
-	(*edges_item)->top = false;
-	inside_edges_item->top = false;
-	found_edges_item->top = false;
-	//return edges_item;
+
 }
+	
 
 void Cybele::setBboxLines(Scene_bbox_item* item, CGAL::Bbox_3 box_3){
 	item->lines.push_back(box_3.xmin()); item->lines.push_back(box_3.ymin()); item->lines.push_back(box_3.zmin());
@@ -2790,84 +2665,87 @@ CGAL::Bbox_3 Cybele::createBBox(Scene_points_with_normal_item* points){
 
 bool Cybele::checkTargets(Epic_kernel::Point_3 target, Epic_kernel::Point_3 t, Epic_kernel::Point_3 s){
 	return ((target.cartesian(0) == t.cartesian(0)) || target.cartesian(2) == t.cartesian(2)) || (target.cartesian(0) == s.cartesian(0) || target.cartesian(2) == s.cartesian(2));
-	//return (target == segment.vertex(0) || target == segment.vertex(1));
 }
 bool Cybele::checkSources(Epic_kernel::Point_3 source, Epic_kernel::Point_3 s, Epic_kernel::Point_3 t){
 	return ((source.cartesian(0) == s.cartesian(0)) || source.cartesian(2) == s.cartesian(2)) || (source.cartesian(0) == t.cartesian(0) || source.cartesian(2) == t.cartesian(2));
-	//return (source == segment.vertex(0) || source == segment.vertex(1));
 }
 
 void Cybele::on_btn_CircunCefalica_clicked()
 {
 	double value;
-	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica, points_CircunCefalica, &edges_CircunCefalica, d_CircunCefalica);
-	QString measure = "Circunferencia Cefálica: " + valueAsString + " cm.";
-	ui->lbl_CircunCefalica->setText(measure); 
+	QString valueAsString = extractMeasure("Cefalica", plane_CircunCefalica, points_CircunCefalica, &polyline_CircunCefalica, d_CircunCefalica);
+	QString measure = valueAsString + " cm.";
+	ui->cefalica_l->setText(measure); 
 	
 }
-void Cybele::on_btn_CircunCintura_clicked()
-{
-	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura, points_CircunCintura, &edges_CircunCintura, d_CircunCintura);
-	QString measure = "Circunferencia Cintura: " + valueAsString + " cm.";
-	ui->lbl_CircunCintura->setText(measure);
 
-	Scene_polylines_item* new_polylines_item = new Scene_polylines_item();
-	std::list<std::vector<Epic_kernel::Point_3>> polylines;
+void Cybele::create_polyline(Scene_polylines_item* new_polylines_item, Scene_edges_item* edges_item){
+	new_polylines_item = new Scene_polylines_item();
+	std::list<std::vector<Epic_kernel::Point_3>> polyline;
 	std::vector<Epic_kernel::Point_3> poly;
-	for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_CircunCintura->edges.begin(); vi != edges_CircunCintura->edges.end(); ++vi){
-		Epic_kernel::Point_3 p1 = vi->source();
-		Epic_kernel::Point_3 p2 = vi->target();
-		poly.push_back(p1);
-		polylines.push_back(poly);
+	Epic_kernel::Point_3 p1;
+	Epic_kernel::Point_3 p2;
+	p1 = edges_item->edges.begin()->source();
+	for (std::vector<Epic_kernel::Segment_3>::iterator vi = edges_item->edges.begin(); vi != edges_item->edges.end(); ++vi){
+		poly.clear();
+		poly.push_back(vi->source());
+		poly.push_back(vi->target());
+		polyline.push_back(poly);
 	}
-	int counter = 0;
-	//for (std::list<std::vector<Epic_kernel::Point_3> >::iterator it = polylines.begin(); it != polylines.end(); ++it, ++counter)
-	new_polylines_item->polylines = polylines;
-	new_polylines_item->setName(QString("%1 with %2 cuts %3").
-		arg(edges_CircunCintura->name()).arg(edges_CircunCintura->edges.size()).arg(counter));
-	new_polylines_item->setColor(Qt::green);
+	new_polylines_item->polylines = polyline;
+	new_polylines_item->setName(QString("%1").arg(edges_item->name()));
+	new_polylines_item->setColor(Qt::darkBlue);
 	new_polylines_item->setRenderingMode(Wireframe);
 	scene->addItem(new_polylines_item);
 	new_polylines_item->invalidate_buffers();
 }
+void Cybele::on_btn_CircunCintura_clicked()
+{
+	QString valueAsString = extractMeasure("Cintura", plane_CircunCintura, points_CircunCintura, &polyline_CircunCintura, d_CircunCintura);
+	//create_polyline(polyline_CircunCintura, edges_CircunCintura);
+	QString measure = valueAsString + " cm.";
+	ui->cintura_l->setText(measure);
+
+	
+}
 void Cybele::on_btn_CircunBrazoIzq_clicked()
 {
-	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq, points_CircunBrazoIzq, &edges_CircunBrazoIzq, d_CircunBrazoIzq);
-	QString measure = "Circunferencia Brazo Izquierdo: " + valueAsString + " cm.";
-	ui->lbl_CircunBrazoIzq->setText(measure);
+	QString valueAsString = extractMeasure("Brazo", plane_CircunBrazoIzq, points_CircunBrazoIzq, &polyline_CircunBrazoIzq, d_CircunBrazoIzq);
+	//create_polyline(polyline_CircunBrazoIzq, edges_CircunBrazoIzq);
+	QString measure = valueAsString + " cm.";
+	ui->brazo_l->setText(measure);
 }
 
 void Cybele::on_btn_CircunCadera_clicked()
 {
-	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera, points_CircunCadera, &edges_CircunCadera, d_CircunCadera);
-	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
-	ui->lbl_CircunCadera->setText(measure);
+	QString valueAsString = extractMeasure("Cadera", plane_CircunCadera, points_CircunCadera, &polyline_CircunCadera, d_CircunCadera);
+	//create_polyline(polyline_CircunCadera, edges_CircunCadera);
+	QString measure = valueAsString + " cm.";
+	ui->cadera_l->setText(measure);
 }
-/*
+
 void Cybele::on_btn_CircunMusloIzq_clicked()
 {
-	QString valueAsString = extractMeasure("CircunMusloIzq", plane_CircunMusloIzq, points_CircunMusloIzq, edges_CircunMusloIzq);
-	QString measure = "Circunferencia Muslo Izquierdo: " + valueAsString + " cm.";
-	ui->lbl_MusloIzq->setText(measure);
+	QString valueAsString = extractMeasure("Muslo", plane_CircunMusloIzq, points_CircunMusloIzq, &polyline_CircunMusloIzq, d_CircunMusloIzq);
+	//create_polyline(polyline_CircunMusloIzq, edges_CircunMusloIzq);
+	QString measure = valueAsString + " cm.";
+	ui->muslo_l->setText(measure);
 }
 
 void Cybele::on_btn_DiamMuneca_clicked()
 {
-	QString valueAsString = extractMeasure("DiamMuneca", plane_DiamMuneca, points_DiamMuneca, edges_DiamMuneca);
-	QString measure = "Diametro Muñeca: " + valueAsString + " cm.";
-	ui->lbl_DiamMuneca->setText(measure);
+	QString valueAsString = extractMeasure("Muñeca", plane_DiamMuneca, points_DiamMuneca, &polyline_DiamMuneca, d_DiamMuneca);
+	//create_polyline(polyline_DiamMuneca, edges_DiamMuneca);
+	QString measure = valueAsString + " cm.";
+	//ui->lbl_DiamMuneca->setText(measure);
 }
-*/
+
 void Cybele::on_btn_DiamFemur_clicked()
 {
-	QString measureName = "DiamFemur";
-	points_DiamFemur = createMeasureItem(measureName);
-	plane_DiamFemur = createCutPlane(measureName, points_DiamFemur);
-	cut(measureName, plane_DiamFemur, points_DiamFemur, &edges_DiamFemur);
-	double value = computeMeasure(edges_DiamFemur);
-	QString valueAsString = QString::number(value);
-	QString measure = "Diametro Femur: " + valueAsString + " cm.";
-	ui->lbl_DiamFemur->setText(measure);
+	QString valueAsString = extractMeasure("Muslo", plane_CircunMusloIzq, points_CircunMusloIzq, &polyline_CircunMusloIzq, d_CircunMusloIzq);
+	//create_polyline(polyline_CircunMusloIzq, edges_CircunMusloIzq);
+	QString measure = valueAsString + " cm.";
+	ui->muslo_l->setText(measure);
 }
 
 void Cybele::on_btn_Talla_clicked()
@@ -2879,12 +2757,13 @@ void Cybele::on_btn_Talla_clicked()
 	d_talla = height->bbox().height();
 	
 	QString valueAsString = QString::number(d_talla);
-	QString measure = "Talla: " + valueAsString + " cm.";
+	QString measure = valueAsString + " cm.";
 	ui->lbl_talla->setText(measure);
 }
 
 void Cybele::on_btn_selection_clicked()
 {
+	viewer->makeCurrent();
 	try {
 		int index = getSelectedSceneItemIndex();
 		Scene_polyhedron_item* poly_item;
@@ -2929,16 +2808,14 @@ double Cybele::computeMeasure(Scene_edges_item* cut){
 		return edge_length*100;
 }
 
-QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item, Scene_points_with_normal_item* points_item, Scene_edges_item** edges_item, double& value){
+QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item, Scene_points_with_normal_item* points_item, Scene_polylines_item** polyline_item, double& value){
 	
 	points_item = createMeasureItem(measureName); // ITEM THAT HOLDS THE SELECTED POINTS
 	if (points_item != NULL){
 		plane_item = createCutPlane(measureName, points_item); // CUTTING PLANE TROUGH SELECTED POINTS 
-		cut(measureName, plane_item, points_item, edges_item); // INTERSECTING EDGES WITH THE CUTTING PLANE
-		value = computeMeasure(*edges_item);
-		scene->addItem(plane_item);
-		//scene->addItem(edges_item);
-		QString valueAsString = QString::number(value);
+		value = cut(measureName, plane_item, points_item, polyline_item); // INTERSECTING EDGES WITH THE CUTTING PLANE
+		//value = computeMeasure(*polyline_item);
+		QString valueAsString = QString::number(value, 'f', 2);
 		return valueAsString;
 	}
 	else
@@ -2946,7 +2823,7 @@ QString Cybele::extractMeasure(QString measureName, Scene_plane_item* plane_item
 }
 void Cybele::on_addButtonRight_clicked()
 {
-	model_right_filename = openFile(scene_right, viewer_right);
+	model_right_filename = openFile(scene_right, viewer_right, false);
 }
 
 void Cybele::on_removeButtonRight_clicked()
@@ -2954,171 +2831,87 @@ void Cybele::on_removeButtonRight_clicked()
 
 }
 
-void Cybele::on_btn_selection_right_clicked()
-{
-	try {
-		int index = getSelectedSceneItemIndex_2();
-		Scene_polyhedron_item* poly_item;
-		// Code that could throw an exception  
-		Scene_item* item = scene->item(index);
-		poly_item = dynamic_cast<Scene_polyhedron_item*>(item);
-		if (!poly_item) {
-			information("Error: there is no selected polyhedron item!");
-			//print_message("Error: there is no selected polyhedron item!");
-			return;
-		}
-		// all other arrangements (putting inside selection_item_map), setting names etc,
-		// other params (e.g. k_ring) will be set inside new_item_created
-		Scene_polyhedron_selection_item* new_item = new Scene_polyhedron_selection_item(poly_item, this);
-		int item_id = scene->addItem(new_item);
-		QObject* scene_ptr = dynamic_cast<QObject*>(scene);
-		if (scene_ptr)
-			connect(new_item, SIGNAL(simplicesSelected(Scene_item*)), scene_ptr, SLOT(setSelectedItem(Scene_item*)));
-		scene->setSelectedItem(item_id);
-	}
-	catch (const std::bad_cast& e) {
-		information("Error: Dynamic cast failed ");
-	}
-}
-
-void Cybele::on_btn_CircunCadera_right_clicked()
-{
-	QString valueAsString = extractMeasure("CircunCadera", plane_CircunCadera_right, points_CircunCadera_right, &edges_CircunCadera_right, d_CircunCadera_right);
-	QString measure = "Circunferencia Cadera: " + valueAsString + " cm.";
-	ui->lbl_CircunCadera_right->setText(measure);
-	
-}
-
-void Cybele::on_btn_CircunBrazoIzq_right_clicked()
-{
-	QString valueAsString = extractMeasure("CircunBrazoIzq", plane_CircunBrazoIzq_right, points_CircunBrazoIzq_right, &edges_CircunBrazoIzq_right, d_CircunBrazoIzq_right);
-	QString measure = "Circunferencia Brazo Izquierdo: " + valueAsString + " cm.";
-	ui->lbl_CircunBrazoIzq_right->setText(measure);
-}
-
-void Cybele::on_btn_DiamFemur_right_clicked()
-{
-	QString valueAsString = extractMeasure("DiamFemur", plane_DiamFemur_right, points_DiamFemur_right, &edges_DiamFemur_right, d_DiamFemur_right);
-	QString measure = "Diametro Femur: " + valueAsString + " cm.";
-	ui->lbl_DiamFemur_right->setText(measure);
-}
-
-void Cybele::on_btn_CircunCintura_right_clicked()
-{
-	QString valueAsString = extractMeasure("CircunCintura", plane_CircunCintura_right, points_CircunCintura_right, &edges_CircunCintura_right, d_CircunCintura_right);
-	ui->lbl_CircunCintura_right->setText("Circunferencia Cintura: " + valueAsString + " cm.");
-}
-
-void Cybele::on_btn_CircunCefalica_right_clicked()
-{
-	QString valueAsString = extractMeasure("CircunCefalica", plane_CircunCefalica_right, points_CircunCefalica_right, &edges_CircunCefalica_right, d_CircunCefalica_right);
-	ui->lbl_CircunCefalica_right->setText("Circunferencia Cefalica: " + valueAsString + " cm.");
-}
-
-void Cybele::on_btn_Talla_right_clicked()
-{
-	int index = getSelectedSceneItemIndex_2();
-	Scene_item* item = scene->item(getSelectedSceneItemIndex_2());
-	Scene_polyhedron_item* height = dynamic_cast<Scene_polyhedron_item*>(item);
-
-	d_talla_right = height->bbox().height();
-
-	QString valueAsString = QString::number(d_talla_right);
-	QString measure = "Talla: " + valueAsString + " cm.";
-	ui->lbl_talla_right->setText(measure);
-
-}
-
 void Cybele::on_savePatient_clicked()
 {
-	  //qDebug() << "Compiled with Qt Version = " << QT_VERSION_STR;
 
-	  const char* driverName = "QPSQL";
-	  QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
-	  QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
-	  
-	  if (db->open()) {
 
-		  QSqlQuery* query = new QSqlQuery(*db);
-		  query->setForwardOnly(true);
-
-		  if (!query->prepare(
-			  QString("INSERT INTO pacientes( nombre, apellido, fecha_nacimiento, cedula) VALUES ( ?, ?, ?, ?)")))
-		  {
-			  qDebug() << "Error = " << db->lastError().text();
-			  exit;
-		  }
-		  else
-		  {
-			  query->addBindValue(ui->nombre->text());
-			  query->addBindValue(ui->apellido->text());
-			  query->addBindValue(ui->fecha_nacimiento->text());
-			  query->addBindValue(ui->cedula->text());
-		  }
-
-		  bool result = qSQLDbHelper->executeInsert(query);
-		  if (result)
-			  qDebug() << "Successful insert";
-		  else
-			  qDebug() << "Insert failed";
-
-	  }
 }
 
 void Cybele::on_saveButton_clicked()
 {
-	bool ok;
-	QString scan_date = QInputDialog::getText(this, tr("QInputDialog::getText()"),
-		tr("Fecha de Captura:"), QLineEdit::Normal,
-		"1/1/1983", &ok);
-	if (ok && !scan_date.isEmpty()){
-		int id_model;
-		bool model_ok =saveModel(model_filename, scan_date, id_model);
-		bool measures_ok =  saveMeasures(id_model, d_CircunCintura, d_CircunCadera, d_DiamFemur, d_CircunBrazoIzq, d_CircunCefalica, d_talla);
+	DialogPatient *form = new DialogPatient(this);
+	QString scan_date;
+	if (form->exec() ){
+		scan_date = form->fecha_captura_p;
+		ui->lbl_fecha_captura->setText(scan_date);
 
+		patient_id = form->id_paciente;
+	}
+	if (patient_id != 0){
+		if (!scan_date.isEmpty()){
+			int id_model;
+			QString filename = model_filename;
+			save_polylines(filename);
+			bool model_ok = saveModel(filename, scan_date, patient_id, id_model);
+			bool measures_ok = saveMeasures(id_model, d_CircunCintura, d_CircunCadera, d_DiamFemur, d_CircunBrazoIzq, d_CircunCefalica, d_talla, patient_id);
+
+			QMessageBox msgBox;
+			if (model_ok && measures_ok)
+				msgBox.setText("Las medidas fueron almacenadas correctamente.");
+			else
+				msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
+
+			msgBox.exec();
+
+		}
+	}
+	else{
 		QMessageBox msgBox;
-		if (model_ok && measures_ok)
-			msgBox.setText("Las medidas fueron almacenadas correctamente.");
-		else
-			msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
-
-		msgBox.exec();
-		
+		msgBox.setText("El paciente no ha sido guardado.");
 	}
 }
 
 void Cybele::on_saveButton_right_clicked()
 {
 	bool ok;
+	QString file = save_mesh();
+	if (patient_id != 0){
 	QString scan_date = QInputDialog::getText(this, tr("QInputDialog::getText()"),
 		tr("Fecha de Captura:"), QLineEdit::Normal,
 		"2/2/2017", &ok);
-	if (ok && !scan_date.isEmpty()){
-		int id_model;
-		bool model_ok = saveModel(model_right_filename, scan_date, id_model);
-		bool measures_ok = saveMeasures(id_model, d_CircunCintura_right, d_CircunCadera_right, d_DiamFemur_right, d_CircunBrazoIzq_right, d_CircunCefalica_right, d_talla);
+		if (ok && !scan_date.isEmpty()){
+			int id_model;
+			bool model_ok = saveModel(model_right_filename, scan_date, patient_id ,id_model);
+			bool measures_ok = saveMeasures(id_model, d_CircunCintura_right, d_CircunCadera_right, d_DiamFemur_right, d_CircunBrazoIzq_right, d_CircunCefalica_right, d_talla, patient_id);
 		
+			QMessageBox msgBox;
+			if (model_ok && measures_ok)
+				msgBox.setText("Las medidas fueron almacenadas correctamente.");
+			else
+				msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
+		
+			msgBox.exec();
+		}
+	}
+	else{
 		QMessageBox msgBox;
-		if (model_ok && measures_ok)
-			msgBox.setText("Las medidas fueron almacenadas correctamente.");
-		else
-			msgBox.setText("Ha ocurrido un error, las medidas no fueron almancenadas.");
-		
-		msgBox.exec();
+		msgBox.setText("El paciente no ha sido guardado.");
 	}
 }
 
-bool Cybele::saveModel(QString filename, QString scan_date, int& id){
+bool Cybele::saveModel(QString filename, QString scan_date, int id_paciente, int& id){
 
 	bool result;
-
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
 	if (db->open()) {
 
 		QSqlQuery* query = new QSqlQuery(*db);
 		query->setForwardOnly(true);
 
 		if (!query->prepare(
-			QString("INSERT INTO modelos(fecha_captura, nombre_archivo) VALUES ( ?, ?)")))
+			QString("INSERT INTO modelos(fecha_captura, id_paciente, nombre_archivo) VALUES ( ?, ?, ?)")))
 		{
 			qDebug() << "Error = " << db->lastError().text();
 			exit;
@@ -3126,6 +2919,7 @@ bool Cybele::saveModel(QString filename, QString scan_date, int& id){
 		else
 		{
 			query->addBindValue(scan_date);
+			query->addBindValue(id_paciente);
 			query->addBindValue(filename);
 		}
 
@@ -3134,22 +2928,23 @@ bool Cybele::saveModel(QString filename, QString scan_date, int& id){
 			id = qSQLDbHelper->lastInsertID;
 		else
 			qDebug() << "Insert failed";
-
 	}
 	return result;
 }
 
-bool Cybele::saveMeasures(int id_model, double CircunCintura, double CircunCadera, double DiamFemur, double CircunBrazoIzq, double CircunCefalica, double talla){
+bool Cybele::saveMeasures(int id_model, double CircunCintura, double CircunCadera, double DiamFemur, double CircunBrazoIzq, double CircunCefalica, double talla, int id_paciente){
 
 	bool result;
-
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
 	if (db->open()) {
 
 		QSqlQuery* query = new QSqlQuery(*db);
 		query->setForwardOnly(true);
 
 		if (!query->prepare(
-			QString("INSERT INTO medidas(id_modelo, talla, craneo, cintura, cadera, brazo, femur) VALUES (?,?,?,?,?,?,?)")))
+			QString("INSERT INTO medidas(id_modelo, talla, craneo, cintura, cadera, brazo, femur, id_paciente) VALUES (?,?,?,?,?,?,?,?)")))
 		{
 			qDebug() << "Error = " << db->lastError().text();
 			exit;
@@ -3163,6 +2958,7 @@ bool Cybele::saveMeasures(int id_model, double CircunCintura, double CircunCader
 			query->addBindValue(CircunCadera);
 			query->addBindValue(CircunBrazoIzq);
 			query->addBindValue(DiamFemur);
+			query->addBindValue(id_paciente);
 		}
 
 		result = qSQLDbHelper->executeInsert(query);
@@ -3174,73 +2970,37 @@ bool Cybele::saveMeasures(int id_model, double CircunCintura, double CircunCader
 	}
 	return result;
 }
+void Cybele::drawChart(int id_paciente){
 
-void Cybele::drawChart(){
-	//![1]
-	QSplineSeries *series = new QSplineSeries();
-	series->setName("spline");
-	//![1]	
-
-	//![2]
-	series->append(0, 6);
-	series->append(2, 4);
-	series->append(3, 8);
-	series->append(7, 4);
-	series->append(10, 5);
-	*series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
-	//![2]
-
-	//![3]
+	QString measures[] = { "talla", "craneo", "cintura", "cadera", "brazo", "femur" };
 	QChart *chart = new QChart();
-	chart->legend()->hide();
-	chart->addSeries(series);
-	chart->setTitle("");
-	chart->createDefaultAxes();
-	chart->axisY()->setRange(0, 10);
-	//![3]
-
-	//![4]
-	QChartView *chartView = new QChartView(chart);
-	chartView->setRenderHint(QPainter::Antialiasing);
-	//![4]
-
-	//![5]
-	QMainWindow *window = new QMainWindow(this);
-	window->setCentralWidget(chartView);
-	window->resize(400, 300);
-	window->show();
-	//![5]
-}
-
-void Cybele::drawChart2(){
-
-	QString measures[] = { "talla", "craneo", "cintura", "cadera", "brazo", "femur"};
-	QChart *chart = new QChart();
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
 	//![1]
 	for (size_t i = 0; i < measures->size(); i++)
 	{
-		
 		if (db->open()) {
 
 			QSqlQuery* query = new QSqlQuery(*db);
 			query->setForwardOnly(true);
 
 			if (!query->prepare(
-				QString("SELECT " + measures[i] + ", fecha_captura from medidas INNER JOIN modelos on medidas.id_modelo = modelos.id where id_paciente = ? order by fecha_captura")))
+				QString("SELECT " + measures[i] + ", fecha_captura from medidas INNER JOIN modelos on medidas.id_modelo = modelos.id where modelos.id_paciente = ? order by fecha_captura")))
 			{
 				qDebug() << "Error = " << db->lastError().text();
 				exit;
 			}
 			else
 			{
-				query->addBindValue(2);
+				query->addBindValue(id_paciente);
 			}
-			
+
 			query->exec();
 			QLineSeries *series = new QLineSeries();
 			while (query->next()) {
 				double m = query->value(0).toDouble();
-			
+
 				QDate scan_date = query->value(1).toDate();
 
 				qDebug() << measures[i] + " = " << m << ", Fecha: " << scan_date;
@@ -3251,10 +3011,10 @@ void Cybele::drawChart2(){
 			series->setName(measures[i]);
 			chart->addSeries(series);
 		}
-		
+
 	}
 	chart->legend()->setAlignment(Qt::AlignRight);
-	chart->setTitle("Evolucion Antropometrica");
+	chart->setTitle("Evolución Antropometrica");
 	//![3]
 
 	//![4]
@@ -3289,10 +3049,86 @@ void Cybele::drawChart2(){
 	//![6]
 
 }
-void Cybele::on_btn_historial_clicked()
-{
-	drawChart2();
+void Cybele::drawChart_2(int id_paciente){
+
+	QString measures[] = { "talla", "craneo", "cintura", "cadera", "brazo", "femur"};
+	QChart *chart = new QChart();
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	//![1]
+	for (size_t i = 0; i < measures->size(); i++)
+	{
+		if (db->open()) {
+
+			QSqlQuery* query = new QSqlQuery(*db);
+			query->setForwardOnly(true);
+
+			if (!query->prepare(
+				QString("SELECT " + measures[i] + ", fecha_captura from medidas INNER JOIN modelos on medidas.id_modelo = modelos.id where modelos.id_paciente = ? order by fecha_captura")))
+			{
+				qDebug() << "Error = " << db->lastError().text();
+				exit;
+			}
+			else
+			{
+				query->addBindValue(id_paciente);
+			}
+			
+			query->exec();
+			QLineSeries *series = new QLineSeries();
+			while (query->next()) {
+				double m = query->value(0).toDouble();
+			
+				QDate scan_date = query->value(1).toDate();
+
+				qDebug() << measures[i] + " = " << m << ", Fecha: " << scan_date;
+				QDateTime momentInTime;
+				momentInTime.setDate(scan_date);
+				series->append(momentInTime.toMSecsSinceEpoch(), m);
+			}
+			series->setName(measures[i]);
+			chart->addSeries(series);
+		}
+		
+	}
+	chart->legend()->setAlignment(Qt::AlignRight);
+	chart->setTitle("Evolución Antropometrica");
+	//![3]
+
+	//![4]
+	QDateTimeAxis *axisX = new QDateTimeAxis;
+	axisX->setTickCount(10);
+	axisX->setFormat("MMM yyyy");
+	axisX->setTitleText("Fechas de Control");
+	chart->addAxis(axisX, Qt::AlignBottom);
+	for each (QLineSeries* var in chart->series())
+		var->attachAxis(axisX);
+
+	QValueAxis *axisY = new QValueAxis;
+	axisY->setRange(45, 200);
+	axisY->setTickCount(10);
+	axisY->setLabelFormat("%i");
+	axisY->setTitleText("Mediciones");
+	chart->addAxis(axisY, Qt::AlignLeft);
+	for each (QLineSeries* var in chart->series())
+		var->attachAxis(axisY);
+	//![4]
+
+	//![5]
+	QChartView *chartView = new QChartView(chart);
+	chartView->setRenderHint(QPainter::Antialiasing);
+	//![5]
+
+	//![6]
+	QMainWindow *window = new QMainWindow(this);
+	window->setCentralWidget(chartView);
+	window->resize(800, 600);
+	window->show();
+	//![6]
+
 }
+
 
 QLineSeries* Cybele::setSerie(QString measure){
 
@@ -3323,4 +3159,334 @@ QLineSeries* Cybele::setSerie(QString measure){
 		}
 	}
 	return series;
+}
+
+void Cybele::compare_models(int id_model1, int id_model2){
+	int id_paciente = 0;
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT id, id_modelo, talla, craneo, cintura, cadera, brazo, femur, id_paciente FROM public.medidas where id_modelo = ? OR id_modelo = ?")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id_model1);
+			query->addBindValue(id_model2);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes)
+			while (query->next())
+			{
+				qDebug() << "Measures = " << query->value(0).toInt();
+				ui->lbl_nombre->setText(query->value(1).toString());
+				ui->lbl_apellido->setText(query->value(2).toString());
+				ui->lbl_fecha_nacimiento->setText(query->value(3).toString());
+			}
+	}
+	
+}
+
+int Cybele::searchPatient(QString cedula){
+	int id_paciente = 0;
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT id, nombre, apellido, fecha_nacimiento, cedula FROM public.pacientes where cedula = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(cedula);
+		}
+
+		bool queryRes = query->exec();
+
+		if(queryRes)
+			while (query->next())
+			{
+				id_paciente = query->value(0).toInt();
+				ui->lbl_nombre->setText(query->value(1).toString());
+				ui->lbl_apellido->setText(query->value(2).toString());
+				ui->lbl_fecha_nacimiento->setText(query->value(3).toString());
+			}
+	}
+	return id_paciente;
+}
+
+int Cybele::searchPatient_2(QString cedula){
+	int id_paciente = 0;
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT id, nombre, apellido, fecha_nacimiento, cedula FROM public.pacientes where cedula = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(cedula);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes)
+			while (query->next())
+			{
+				id_paciente = query->value(0).toInt();
+				ui->lbl_nombre_2->setText(query->value(1).toString());
+				ui->lbl_apellido_2->setText(query->value(2).toString());
+				ui->lbl_fecha_nacimiento_2->setText(query->value(3).toString());
+			}
+	}
+	return id_paciente;
+}
+
+void Cybele::searchModelsByPatient(int id_paciente){
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT id, fecha_captura, nombre_archivo FROM public.modelos where id_paciente = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id_paciente);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes){
+			ui->cbo_modelos->setEnabled(true);
+			ui->cbo_modelos->clear();
+			ui->cbo_modelos->addItem("Selecciona un modelo... ", QVariant("sin seleccion"));
+			while (query->next())
+			{
+				ui->cbo_modelos->addItem(query->value(1).toString(), QVariant(query->value(0).toString()));
+				qDebug() << "Archivo 1 : " << query->value(0).toString();
+				qDebug() << "Fecha de Captura : " << query->value(1).toString();
+			}
+		}
+		else
+			qDebug() << "No Models Found";
+
+	}
+	
+}
+
+void Cybele::searchModelsByPatient_2(int id_paciente){
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT id, fecha_captura, nombre_archivo FROM public.modelos where id_paciente = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id_paciente);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes){
+			ui->cbo_modelos_2->setEnabled(true);
+			ui->cbo_modelos_2->clear();
+			ui->cbo_modelos_2->addItem("Selecciona un modelo... ", QVariant("sin seleccion"));
+			while (query->next())
+			{
+				ui->cbo_modelos_2->addItem(query->value(1).toString(), QVariant(query->value(0).toInt()));
+				qDebug() << "Archivo 1 : " << query->value(0).toString();
+				qDebug() << "Fecha de Captura : " << query->value(1).toString();
+			}
+		}
+		else
+			qDebug() << "No Models Found";
+
+	}
+
+}
+QString Cybele::getFilenameByID(int id){
+	const char* driverName = "QPSQL";
+	QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+	QSqlDatabase* db = qSQLDbHelper->connect("localhost", "cybele", "postgres", "p4ssw0rd");
+	if (db->open()) {
+
+		QSqlQuery* query = new QSqlQuery(*db);
+		query->setForwardOnly(true);
+
+		if (!query->prepare(
+			QString("SELECT nombre_archivo FROM public.modelos where id = ? ")))
+		{
+			qDebug() << "Error = " << db->lastError().text();
+			exit;
+		}
+		else
+		{
+			query->addBindValue(id);
+		}
+
+		bool queryRes = query->exec();
+
+		if (queryRes){
+
+			while (query->next())
+			{
+				return query->value(0).toString();
+				qDebug() << "Archivo 1 : " << query->value(2).toString();
+				qDebug() << "Fecha de Captura : " << query->value(1).toString();
+			}
+		}
+		else
+			qDebug() << "No Models Found";
+
+	}
+}
+void Cybele::on_btn_buscarPaciente_clicked()
+{
+//	QString cedula = ui->lineEdit->text();
+}
+void Cybele::on_cbo_modelos_currentIndexChanged(int index)
+{
+	if (index > 0){
+		// LOAD MODEL
+		model_id_left = ui->cbo_modelos->itemData(index).toInt();
+		ui->lbl_fecha_captura->setText(ui->cbo_modelos->currentText());
+		QString fileName = getFilenameByID(model_id_left);
+		open(fileName, scene, viewer, true);
+		// LOAD MEASURES
+		QFileInfo info(fileName);
+		qDebug() << info.absolutePath();
+		QString f = info.absolutePath() + "/" + info.baseName();
+		QDir dir(f);
+		QStringList filters;
+		filters << "*.cgal";
+		dir.setNameFilters(filters);
+		QFileInfoList list = dir.entryInfoList();
+		for (int i = 0; i < list.size(); ++i) {
+			QFileInfo fileInfo = list.at(i);
+			qDebug() << fileInfo.absoluteFilePath();
+			open(fileInfo.absoluteFilePath(), scene, viewer, true);
+		}
+		QString cedula = ui->searchEditRight->text();
+		patient_id = searchPatient(cedula);
+		load_measures_left(model_id_left);
+	
+	}
+}
+
+void Cybele::on_searchEditRight_editingFinished()
+{
+	QString cedula = ui->searchEditRight->text();
+	patient_id = searchPatient(cedula);
+	searchModelsByPatient(patient_id);
+}
+
+void Cybele::on_cbo_modelos_2_currentIndexChanged(int index)
+{
+	if (index > 0){
+		// LOAD MODEL
+		model_id_right = ui->cbo_modelos_2->itemData(index).toInt();
+		ui->fecha_captura_r->setText(ui->cbo_modelos_2->currentText());
+		QString fileName = getFilenameByID(model_id_right);
+		open(fileName, scene_right, viewer_right, false);
+		// LOAD MEASURES
+		QFileInfo info(fileName);
+		qDebug() << info.absolutePath();
+		QString f = info.absolutePath() + "/" + info.baseName();
+		QDir dir(f);
+		QStringList filters;
+		filters << "*.cgal";
+		dir.setNameFilters(filters);
+		QFileInfoList list = dir.entryInfoList();
+		for (int i = 0; i < list.size(); ++i) {
+			QFileInfo fileInfo = list.at(i);
+			qDebug() << fileInfo.absoluteFilePath();
+			open(fileInfo.absoluteFilePath(), scene_right, viewer_right, false);
+		}
+		QString cedula = ui->searchEditRight_2->text();
+		patient_id = searchPatient_2(cedula);
+		load_measures_right(model_id_right);
+		//compare_models(model_id_left, model_id_right);
+	}
+}
+
+void Cybele::on_searchEditRight_2_editingFinished()
+{
+	QString cedula = ui->searchEditRight_2->text();
+	patient_id = searchPatient_2(cedula);
+	searchModelsByPatient_2(patient_id);
+}
+
+void Cybele::on_compare_btn_clicked()
+{
+	int talla, muslo, cintura, brazo, cefalica, cadera;
+	talla = ui->talla_l->text().toInt() - ui->talla_r->text().toInt();
+	muslo = ui->muslo_l->text().toInt() - ui->muslo_r->text().toInt();
+	cintura = ui->cintura_l->text().toInt() - ui->cintura_r->text().toInt();
+	brazo = ui->brazo_l->text().toInt() - ui->brazo_r->text().toInt();
+	cefalica = ui->cefalica_l->text().toInt() - ui->cefalica_r->text().toInt();
+	cadera = ui->cadera_l->text().toInt() - ui->cadera_r->text().toInt();
+
+	ui->dif_talla->setText("+" + QString::number(talla, 'f', 2));
+	ui->dif_muslo->setText("-" + QString::number(muslo, 'f', 2));
+	ui->dif_cintura->setText("+" + QString::number(cintura, 'f', 2));
+	ui->dif_brazo->setText("-" + QString::number(brazo, 'f', 2));
+	ui->dif_cefalica->setText(QString::number(cefalica, 'f', 2));
+	ui->dif_cadera->setText("-" + QString::number(cadera, 'f', 2));
+	
+}
+
+void Cybele::on_historial_btn_clicked()
+{
+	QString cedula = ui->searchEditRight->text();
+	patient_id = searchPatient(cedula);
+	drawChart(patient_id);
+}
+
+void Cybele::on_historial_btn_2_clicked()
+{
+	QString cedula = ui->searchEditRight_2->text();
+	patient_id = searchPatient_2(cedula);
+	drawChart_2(patient_id);
 }
