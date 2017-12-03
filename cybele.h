@@ -1,6 +1,13 @@
 #ifndef CYBELE_H
 #define CYBELE_H
 #include "config.h"
+#include <stdexcept>
+#include <utility>
+#include <fstream>
+#include <iostream>
+#include <algorithm> 
+#include <string>
+#include <list>
 
 #ifdef QT_SCRIPT_LIB
 #  include  <QScriptEngine>
@@ -36,24 +43,13 @@
 #include <QTreeView>
 #include <QSortFilterProxyModel>
 #include <QMap>
-
-#include <stdexcept>
-#include <utility>
-#include <fstream>
-#include <iostream>
-#include <algorithm> 
-#include <string>
-#include <list>
-
+#include <QTimer>
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptValue>
 #  ifdef QT_SCRIPTTOOLS_LIB
 #    include <QScriptEngineDebugger>
 #  endif
 #endif
-#include "Polyhedron_demo_plugin_interface.h"
-#include "Polyhedron_demo_io_plugin_interface.h"
-#include "Polyhedron_demo_plugin_helper.h"
 
 #include <CGAL/IO/read_off_points.h>
 #include <CGAL/IO/write_off_points.h>
@@ -88,7 +84,6 @@
 #include <CGAL/Polygon_mesh_processing/triangulate_hole.h>
 #include <CGAL/spatial_sort.h>
 #include <CGAL/Qt/debug.h>
-
 #include <CGAL/pca_estimate_normals.h>
 #include <CGAL/mst_orient_normals.h>
 #include <CGAL/property_map.h>
@@ -109,23 +104,6 @@
 // Advancing Front Surface Reconstruction
 #include <CGAL/Advancing_front_surface_reconstruction.h>
 #include <CGAL/tuple.h>
-
-#include "Scene_polylines_item.h"
-#include "ui_cybele.h"
-#include "ui_Preferences.h"
-#include "Scene_points_with_normal_item.h"
-#include "Show_point_dialog.h"
-#include <File_loader_dialog.h>
-#include <Scene.h>
-#include <Scene_item.h>
-#include "Scene_polyhedron_item.h"
-#include "Scene_polyhedron_selection_item.h"
-#include "Point_set_3.h"
-#include "Polyhedron_type.h"
-#include "Scene_plane_item.h"
-#include "Messages_interface.h"
-#include "dialogpatient.h"
-
 //#include "formextractor.h"
 
 #include <CGAL/boost/graph/graph_traits_Surface_mesh.h>
@@ -146,6 +124,45 @@
 #include <QtCharts/QValueAxis>
 
 #include "QSQLDbHelper.h"
+#include "Polyhedron_demo_plugin_interface.h"
+#include "Polyhedron_demo_io_plugin_interface.h"
+#include "Polyhedron_demo_plugin_helper.h"
+#include "Scene_polylines_item.h"
+#include "ui_Preferences.h"
+#include "Scene_points_with_normal_item.h"
+#include "Show_point_dialog.h"
+#include <File_loader_dialog.h>
+#include <Scene.h>
+#include <Scene_item.h>
+#include "Scene_polyhedron_item.h"
+#include "Scene_polyhedron_selection_item.h"
+#include "Point_set_3.h"
+#include "Polyhedron_type.h"
+#include "Scene_plane_item.h"
+#include "Messages_interface.h"
+#include "dialogpatient.h"
+
+// PCL
+
+#include <pcl/point_types.h>
+#include <pcl/common/common.h>
+#include <pcl/visualization/cloud_viewer.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/io/pcd_io.h>
+
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/bind.hpp>
+
+// Visualization Toolkit (VTK)
+#include <vtkRenderWindow.h>
+
+// VCG lib
+#include<vcg/complex/complex.h>
+#include<wrap/io_trimesh/import_ply.h>
+#include<wrap/io_trimesh/export_off.h>
+#include<wrap/ply/plylib.h>
 
 typedef Kernel::Point_3 Point_3;
 typedef Point_set_3<Kernel> Point_set;
@@ -175,7 +192,7 @@ typedef boost::graph_traits<PolyMesh>::vertex_descriptor vertex_descriptor;
 typedef boost::graph_traits<PolyMesh>::face_descriptor  face_descriptor;
 
 typedef Epic_kernel::FT FT;
-typedef Kernel::Sphere_3 Sphere;
+typedef Kernel::Sphere_3 Sphere_K;
 
 typedef CGAL::Polyhedron_3<Epic_kernel> Polyhedron_K;
 typedef CGAL::Poisson_reconstruction_function<Epic_kernel> Poisson_reconstruction_function;
@@ -201,16 +218,38 @@ typedef CGAL::Advancing_front_surface_reconstruction<> C_Reconstruction;
 typedef C_Reconstruction::Triangulation_3 Triangulation_3;
 typedef C_Reconstruction::Triangulation_data_structure_2 TDS_2;
 
-
 class QTreeView;
 class QMenu;
 class Polyhedron_demo_io_plugin_interface;
 class Polyhedron_demo_plugin_interface;
-
 class QSortFilterProxyModel;
+
+// USE BY VCG LIB TO IMPORT/EXPORT MESHES
+class MyVertex; class MyEdge; class MyFace;
+struct MyUsedTypes : public vcg::UsedTypes<vcg::Use<MyVertex>   ::AsVertexType,
+	vcg::Use<MyEdge>     ::AsEdgeType,
+	vcg::Use<MyFace>     ::AsFaceType>{};
+class MyVertex : public vcg::Vertex< MyUsedTypes, vcg::vertex::Coord3f, vcg::vertex::Color4b, vcg::vertex::CurvatureDirf,
+	vcg::vertex::Qualityf, vcg::vertex::Normal3f, vcg::vertex::BitFlags  >{};
+class MyFace : public vcg::Face<   MyUsedTypes, vcg::face::FFAdj, vcg::face::VertexRef, vcg::face::BitFlags > {};
+class MyEdge : public vcg::Edge<   MyUsedTypes> {};
+class MyMesh : public vcg::tri::TriMesh< std::vector<MyVertex>, std::vector<MyFace>, std::vector<MyEdge>  > {};
+
+class DialogOptionsWidget;
+QT_BEGIN_NAMESPACE
+class QLabel;
+QT_END_NAMESPACE
 
 using namespace QtCharts;
 
+typedef pcl::PointXYZRGB PointT;
+typedef pcl::PointCloud<PointT> PointCloudT;
+struct callback_args{
+	// structure used to pass arguments to the callback function
+	PointCloudT::Ptr clicked_points_3d;
+	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewerPtr;
+	pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud;
+};
 struct Construct{
 	Surface_mesh& mesh;
 	template < typename PointIterator>
@@ -632,6 +671,12 @@ public:
 	void drawChart(int id_paciente);
 	void drawChart_2(int id_paciente);
 	QLineSeries* setSerie(QString measure);
+	struct callback_args cb_args;
+	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_;
+	bool LoadModel();
+	bool CropBoxFilter();
+	pcl::PointXYZRGB min, max;
+	QString cloudFileName;
 public Q_SLOTS:
 	void updateViewerBBox();
 	void updateViewerBBox_2();
@@ -660,9 +705,8 @@ public Q_SLOTS:
 	void removeSceneItemFromSelection(int i); // same as unSelectSceneItem
 	void addSceneItemInSelection_2(int i);
 	void removeSceneItemFromSelection_2(int i); // same as unSelectSceneItem
-
+	void DisplayCloud();
 	void selectAll();
-	
 	
 	bool load_script(QString filename);
 	bool load_script(QFileInfo);
@@ -683,7 +727,10 @@ public Q_SLOTS:
 	/// index of the item to be reloaded as data attached to the action.
 	/// The index must identify a valid `Scene_item`.
 	void reload_item();
+	void createBox();
+	void updateBox();
 protected:
+	
 	void loadPlugins();
 	bool initPlugin(QObject*);
 	bool initIOPlugin(QObject*);
@@ -727,6 +774,7 @@ protected Q_SLOTS:
 	void on_actionEraseAll_triggered();
 	void on_actionLoad_triggered();
 	bool on_actionErase_triggered();
+	bool on_actionErase_right_triggered();
 	void on_actionDuplicate_triggered();
 	void on_actionLoad_Script_triggered();
 
@@ -749,12 +797,12 @@ protected Q_SLOTS:
 	void on_actionDumpCamera_triggered();
 	void on_action_Copy_camera_triggered();
 	void on_action_Paste_camera_triggered();
-
+	
 	void intersectarium(Scene_edges_item* inside_edges_item, Scene_edges_item* edges_item, Scene_edges_item* outside_edges_item);
 	void filterOperations();
 	Scene_plane_item* createCutPlane(QString, Scene_points_with_normal_item*);
 	CGAL::Bbox_3 createBBox(Scene_points_with_normal_item*);
-	double cut(QString, Scene_plane_item* plane_item, Scene_points_with_normal_item*, Scene_polylines_item**);
+	double cut(QString, Scene_plane_item* plane_item, Scene_points_with_normal_item*, Scene_polylines_item**, int*);
 	Scene_points_with_normal_item* createMeasureItem(QString);
 	bool previouslyAdded(Epic_kernel::Segment_3 inter_seg, Scene_edges_item*);
 	void searchSegment(Scene_edges_item*, Scene_edges_item*, Epic_kernel::Point_3 source, Epic_kernel::Point_3 target);
@@ -770,42 +818,46 @@ protected Q_SLOTS:
 	int searchPatient_2(QString cedula);
 	void searchModelsByPatient(int id_paciente);
 	void searchModelsByPatient_2(int id_paciente);
+	QString searchModelById(int id_model);
 	void save_polylines(QString filepath);
 	QString getFilenameByID(int id);
 	void load_measures_left(int);
 	void load_measures_right(int);
 	void compare_models(int id_model1, int id_model2);
+	void compare_models_2();
 	void on_actionRecenterScene_triggered();
-	void on_btn_CircunCefalica_clicked();
+	void StartProgressBar2();
+	void StartProgressBar();
+	void FinishProgressBar();
+	void FinishProgressBar2();
 	void on_btn_CircunBrazoIzq_clicked();
 	void on_btn_CircunCintura_clicked();
 	void on_btn_CircunCadera_clicked();
-	void on_btn_CircunMusloIzq_clicked();
-	void on_btn_DiamMuneca_clicked();
 	void on_btn_DiamFemur_clicked();
-	void on_btn_Talla_clicked();
+	
+
 private slots:
 
         void on_btn_selection_clicked();
-        void on_addButtonRight_clicked();
-        void on_removeButtonRight_clicked();
-
-        void on_savePatient_clicked();
-        void on_saveButton_clicked();
-
-        void on_saveButton_right_clicked();
        
-        void on_btn_buscarPaciente_clicked();
         void on_cbo_modelos_currentIndexChanged(int index);
         void on_searchEditRight_editingFinished();
         void on_cbo_modelos_2_currentIndexChanged(int index);
         void on_searchEditRight_2_editingFinished();
-
-        void on_compare_btn_clicked();
-
         void on_historial_btn_clicked();
+        void on_open_file_btn_clicked();
+        void on_btnExtraerMedidas_clicked();
+        void on_cmd_savemodel_clicked();
+        void on_cmd_buscarmodelo_1_clicked();
+        void on_dial_x_valueChanged(int value);
+        void on_dial_x_n_valueChanged(int value);
+        void on_dial_y_valueChanged(int value);
+        void on_dial_y_n_valueChanged(int value);
+        void on_dial_z_valueChanged(int value);
+		void on_dial_z_n_valueChanged(int value);
+		void on_crop_box_clicked();
 
-        void on_historial_btn_2_clicked();
+                void on_compare_btn_clicked();
 
 private:
     Ui::Cybele *ui;
@@ -817,6 +869,7 @@ private:
 	Scene* scene_right;
 	void setupRightViewer();
 	QString model_filename, model_right_filename;
+	
 	int patient_id;
 	int model_id_left, model_id_right;
 	// plugin blacklist
@@ -831,86 +884,73 @@ private:
 	QString strippedName(const QString &fullFileName);
 	typedef std::map<QObject*, AABB_tree*> Trees;
 	Trees trees;
+
+	DialogOptionsWidget *fileDialogOptionsWidget;
+	QLabel *saveFileNameLabel;
 	//FormExtractor *centralWidget;
-	Scene_edges_item* edges_item;
-	Scene_edges_item* outside_edges_item;
-	Scene_edges_item* inside_edges_item;
-	Scene_edges_item* found_edges_item;
 	// TALLA
 	Scene_plane_item* plane_talla; // plane_item
-	Scene_edges_item* edges_talla, oedges_talla, iedges_talla; // edges_item
+	
 	// Circunferencia Cefalica
 	Scene_points_with_normal_item* points_CircunCefalica;
 	Scene_plane_item* plane_CircunCefalica;
-	Scene_edges_item* edges_CircunCefalica;
+
 	Scene_polylines_item* polyline_CircunCefalica;
 
 	// Circunferencia brazo Izquierdo
 	Scene_plane_item* plane_CircunBrazoIzq;
-	Scene_edges_item* edges_CircunBrazoIzq;
+
 	Scene_points_with_normal_item* points_CircunBrazoIzq;
 	Scene_polylines_item* polyline_CircunBrazoIzq;
 
 	// Circunferencia Cintura
 	Scene_points_with_normal_item* points_CircunCintura;
 	Scene_plane_item* plane_CircunCintura;
-	Scene_edges_item* edges_CircunCintura;
 	Scene_polylines_item* polyline_CircunCintura;
 
 	Scene_points_with_normal_item* points_CircunCadera;
 	Scene_plane_item* plane_CircunCadera;
-	Scene_edges_item* edges_CircunCadera;
 	Scene_polylines_item* polyline_CircunCadera;
 
 	Scene_points_with_normal_item* points_CircunMusloIzq;
 	Scene_plane_item* plane_CircunMusloIzq;
-	Scene_edges_item* edges_CircunMusloIzq;
 	Scene_polylines_item* polyline_CircunMusloIzq;
 
 	Scene_points_with_normal_item* points_DiamMuneca;
 	Scene_plane_item* plane_DiamMuneca;
-	Scene_edges_item* edges_DiamMuneca;
 	Scene_polylines_item* polyline_DiamMuneca;
 
 	Scene_points_with_normal_item* points_DiamFemur;
 	Scene_plane_item* plane_DiamFemur;
-	Scene_edges_item* edges_DiamFemur;
 	Scene_polylines_item* polyline_DiamFemur;
 
 	double d_CircunCefalica, d_CircunBrazoIzq, d_CircunCintura, d_CircunCadera, d_CircunMusloIzq, d_DiamMuneca, d_DiamFemur, d_talla;
-	
+	QString talla_l, pecho_l, cintura_l, cadera_l, brazo_l, wrist_l;
+	QString talla_r, pecho_r, cintura_r, cadera_r, brazo_r, wrist_r;
 
 	// TALLA
 	Scene_plane_item* plane_talla_right; // plane_item
-	Scene_edges_item* edges_talla_right, oedges_talla_right, iedges_talla_right; // edges_item
 	// Circunferencia Cefalica
 	Scene_points_with_normal_item* points_CircunCefalica_right;
 	Scene_plane_item* plane_CircunCefalica_right;
-	Scene_edges_item* edges_CircunCefalica_right, oedges_CircunCefalica_right, iedges_CircunCefalica_right;
 	// Circunferencia brazo Izquierdo
 	Scene_plane_item* plane_CircunBrazoIzq_right;
-	Scene_edges_item* edges_CircunBrazoIzq_right, oedges_CircunBrazoIzq_right, iedges_CircunBrazoIzq_right;
 	Scene_points_with_normal_item* points_CircunBrazoIzq_right;
 	// Circunferencia Cintura
 	Scene_points_with_normal_item* points_CircunCintura_right;
 	Scene_plane_item* plane_CircunCintura_right;
-	Scene_edges_item* edges_CircunCintura_right, oedges_CircunCintura_right, iedges_CircunCintura_right;
 
 	Scene_points_with_normal_item* points_CircunCadera_right;
 	Scene_plane_item* plane_CircunCadera_right;
-	Scene_edges_item* edges_CircunCadera_right, oedges_CircunCadera_right, iedges_CircunCadera_right;
 
 	Scene_points_with_normal_item* points_CircunMusloIzq_right;
 	Scene_plane_item* plane_CircunMusloIzq_right;
-	Scene_edges_item* edges_CircunMusloIzq_right, oedges_CircunMusloIzq_right, iedges_CircunMusloIzq_right;
 
 	Scene_points_with_normal_item* points_DiamMuneca_right;
 	Scene_plane_item* plane_DiamMuneca_right;
-	Scene_edges_item* edges_DiamMuneca_right, oedges_DiamMuneca_right, iedges_DiamMuneca_right;
 
 	Scene_points_with_normal_item* points_DiamFemur_right;
 	Scene_plane_item* plane_DiamFemur_right;
-	Scene_edges_item* edges_DiamFemur_right, oedges_DiamFemur_right, iedges_DiamFemur_right;
 
 	double d_CircunCefalica_right, d_CircunBrazoIzq_right, d_CircunCintura_right, d_CircunCadera_right, d_CircunMusloIzq_right, d_DiamMuneca_right, d_DiamFemur_right, d_talla_right;
 	

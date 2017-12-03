@@ -6,24 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>298</width>
-    <height>196</height>
+    <width>357</width>
+    <height>330</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Datos Paciente</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 87 10pt &quot;Segoe UI&quot;;
+background-color: rgb(255, 255, 255);
+</string>
+  </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>50</y>
-     <width>81</width>
-     <height>101</height>
+     <x>20</x>
+     <y>240</y>
+     <width>281</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -32,51 +37,87 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>181</width>
-     <height>186</height>
+     <x>20</x>
+     <y>20</y>
+     <width>291</width>
+     <height>201</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
      <widget class="QLineEdit" name="cedula">
       <property name="placeholderText">
        <string>Ingresar CI</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item row="1" column="1">
      <widget class="QLineEdit" name="nombre">
       <property name="placeholderText">
        <string>Nombre</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="2" column="1">
      <widget class="QLineEdit" name="apellido">
       <property name="placeholderText">
        <string>Apellido</string>
       </property>
      </widget>
     </item>
+    <item row="3" column="1">
+     <widget class="QDateEdit" name="fecha_nacimiento"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDateEdit" name="fecha_captura"/>
+    </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label">
+      <property name="styleSheet">
+       <string notr="true">font: 87 9pt &quot;Segoe UI Black&quot;;</string>
+      </property>
       <property name="text">
        <string>Fecha de Captura</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QDateEdit" name="fecha_captura"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QDateEdit" name="fecha_nacimiento"/>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_2">
+      <property name="styleSheet">
+       <string notr="true">font: 87 9pt &quot;Segoe UI Black&quot;;</string>
+      </property>
       <property name="text">
        <string>Fecha Nacimiento</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="styleSheet">
+       <string notr="true">font: 87 9pt &quot;Segoe UI Black&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Apellido</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="styleSheet">
+       <string notr="true">font: 87 9pt &quot;Segoe UI Black&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Nombre</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="styleSheet">
+       <string notr="true">font: 87 9pt &quot;Segoe UI Black&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Cédula</string>
       </property>
      </widget>
     </item>

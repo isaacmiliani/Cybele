@@ -1,15 +1,11 @@
-
-
-#include <QtWidgets\qapplication.h>
 #include <QApplication>
-#include "cybele.h"
-//#include "cgalwindow.h"
-//#include "MainWindow.h"
+#include "Cybele.h"
 #include <QtQuick/QQuickView>
 #include <QGuiApplication>
 #include <QQmlEngine>
 #include <QCoreApplication>
 #include <QQmlApplicationEngine>
+#include <QtWidgets\qapplication.h>
 
 
 #define NO_ENTERPRISE

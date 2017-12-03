@@ -1,0 +1,67 @@
+﻿delaunay reconstruction
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   Cybele.pro.user.de52e47
+#	modified:   Cybele.rc
+#	modified:   Cybele.sln
+#	modified:   Cybele.vcxproj
+#	modified:   Cybele.vcxproj.filters
+#	new file:   Cybele1.rc
+#	new file:   GeneratedFiles.rar
+#	new file:   GeneratedFiles/qrc_Polyhedron_3.cpp
+#	modified:   GeneratedFiles/ui_FileLoaderDialog.h
+#	modified:   GeneratedFiles/ui_MainWindow.h
+#	modified:   GeneratedFiles/ui_Preferences.h
+#	modified:   GeneratedFiles/ui_cgalwindow.h
+#	modified:   GeneratedFiles/ui_cybele.h
+#	new file:   QSQLDbHelper.cpp
+#	new file:   QSQLDbHelper.h
+#	new file:   RCa07860
+#	modified:   cybele.cpp
+#	modified:   cybele.h
+#	modified:   cybele.ui
+#	new file:   formextractor.cpp
+#	new file:   formextractor.h
+#	new file:   formextractor.ui
+#	new file:   ingenue.polylines.txt
+#	modified:   main.cpp
+#	new file:   output
+#	deleted:    resource.h
+#	new file:   resourceede.h
+#	new file:   resources/phong.f
+#	new file:   resources/phong.v
+#	new file:   resources/resources/about.html
+#	new file:   resources/resources/boolean-diff.png
+#	new file:   resources/resources/boolean-intersection.png
+#	new file:   resources/resources/boolean-union.png
+#	new file:   resources/resources/cgal_logo.xpm
+#	new file:   resources/resources/check-off.png
+#	new file:   resources/resources/check-off.svg
+#	new file:   resources/resources/check-on.png
+#	new file:   resources/resources/check.svg
+#	new file:   resources/resources/convex-hull.png
+#	new file:   resources/resources/editcopy.png
+#	new file:   resources/resources/espalda.png
+#	new file:   resources/resources/kernel.png
+#	new file:   resources/resources/minus.png
+#	new file:   resources/resources/plus.png
+#	new file:   resources/resources/shader_instanced.v
+#	new file:   resources/resources/shader_with_light.f
+#	new file:   resources/resources/shader_with_light.v
+#	new file:   resources/resources/shader_with_texture.f
+#	new file:   resources/resources/shader_with_texture.v
+#	new file:   resources/resources/shader_with_textured_edges.f
+#	new file:   resources/resources/shader_with_textured_edges.v
+#	new file:   resources/resources/shader_without_light.f
+#	new file:   resources/resources/shader_without_light.v
+#	new file:   resources/resources/simplification.png
+#
+# Untracked files:
+#	olddllls/
+#	rxr2jujz.ppx.txt
+#
+
